@@ -6,20 +6,20 @@ using System.Text;
 
 namespace testyBD.CleverWorkTimeDatabase
 {
-    public class EmplyementInfo
+    public class EmployementInfo
     {
         [Key]
         public int id { get; set; }
-        public bool emplymentStatus { get; set; } 
+        public bool employmentStatus { get; set; } 
         public bool suspension { get; set; }
         public DateTime employedSince { get; set; }
         public DateTime contratExpirationDate { get; set; }
         public string position { get; set; }
         public string employmentFacility { get; set; }
 
-        public EmplyementInfo(bool emplymentStatus, bool suspension, DateTime employedSince, DateTime contratExpirationDate, string position, string employmentFacility)
+        public EmployementInfo(bool employmentStatus, bool suspension, DateTime employedSince, DateTime contratExpirationDate, string position, string employmentFacility)
         {
-            this.emplymentStatus = emplymentStatus;
+            this.employmentStatus = employmentStatus;
             this.suspension = suspension;
             this.employedSince = employedSince;
             this.contratExpirationDate = contratExpirationDate;
@@ -28,7 +28,7 @@ namespace testyBD.CleverWorkTimeDatabase
         }
 
         [Obsolete]
-        public EmplyementInfo()
+        public EmployementInfo()
         {
         }
     }

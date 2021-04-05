@@ -9,7 +9,7 @@ namespace testyBD.CleverWorkTimeDatabase
     {
         public DatabaseContext() : base(@"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = CleverWorkTimeDatabase;") { }
 
-        public DbSet<EmplyementInfo> emplyementInfo { get; set; }
+        public DbSet<EmployementInfo> employementInfo { get; set; }
         public DbSet<PersonalInfo> personalInfo { get; set; }
         public DbSet<PersonalProfileInfo> personalProfileInfo { get; set; }
         public DbSet<ScheduleHistory> legacyScheduleHistory { get; set; }

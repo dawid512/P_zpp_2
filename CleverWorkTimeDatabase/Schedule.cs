@@ -7,16 +7,16 @@ namespace testyBD.CleverWorkTimeDatabase
     {
         [Key]
         public int id { get; set; }
-        public object mychedule { get; set; }
+        public object myschedule { get; set; }
        
         [Obsolete]
         public Schedule()
         {
         }
 
-        public Schedule(object mychedule) 
+        public Schedule(object myschedule) 
         { 
-            this.mychedule = mychedule; 
+            this.myschedule = mychedule; 
         }
 
     }
