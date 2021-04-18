@@ -11,6 +11,8 @@ namespace P_zpp_2.Data
 {
     public class P_zpp_2DbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
         {
