@@ -49,9 +49,10 @@ namespace P_zpp_2.Areas.Identity.Pages.Account
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Haslo")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Zapamietaj mnie")]
             public bool RememberMe { get; set; }
         }
 
