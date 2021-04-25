@@ -9,8 +9,10 @@ using P_zpp_2.Areas.Identity.Data;
 
 namespace P_zpp_2.Data
 {
-    public class P_zpp_2DbContext : IdentityDbContext<ApplicationUser>
+    public class P_zpp_2DbContext : IdentityDbContext
     {
+        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<RequestLeave> RequestLeaves { get; set; }
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
         {

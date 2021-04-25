@@ -18,5 +18,12 @@ namespace P_zpp_2.Areas.Identity.Data
         [Column(TypeName = "nvarchar(100)")]
         public string LastName { get; set; }
 
+        [PersonalData]
+        [Column(TypeName = "nvarchar(100)")]
+        public string Rola { get; set; }
+
+
+        public virtual ICollection<RequestLeave> RequestLeaves { get; set; }
+
     }
 }
