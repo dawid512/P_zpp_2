@@ -8,7 +8,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class NursesMain
     {
-        /*public Task RunNUrsesScheduler(int NumberOfDaysToSchedule)
+        /*public void RunNUrsesScheduler(int NumberOfDaysToSchedule)
         {
             var PersonelList = new List<Nurse>();
             try
