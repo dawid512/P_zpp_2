@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P_zpp_2.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +9,13 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class NursesMain
     {
-        /*public void RunNUrsesScheduler(int NumberOfDaysToSchedule)
+        /*
+         * public void RunNUrsesScheduler(int NumberOfDaysToSchedule)
         {
             var PersonelList = new List<Nurse>();
             try
             {
-                using (var db = new *//*databasename*//*)
+                using (var db = new P_zpp_2DbContext)
                 {
                     var personelFromFatabase = db.Roles.Where(x => x.Name == "Nurse").ToList();
                     foreach (var item in personelFromFatabase)
@@ -24,9 +26,9 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             var Schedule = new List<Workday>();
             for (int i = 0; i < WardWorkInfo.WorkCycleLenght; i++)
                 SelectStaff(Schedule, PersonelList, i);
-        }*/
+        }
 
-        /*private Nurse ToNurseConverter(object item)
+        private Nurse ToNurseConverter(object item)
         {
             return new Nurse(
                 item.id,
