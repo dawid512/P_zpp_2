@@ -231,6 +231,28 @@ namespace P_zpp_2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("P_zpp_2.Data.WhateverClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("sampletext")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("TestTable");
+                });
+
             modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.RequestLeave", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
@@ -324,6 +346,15 @@ namespace P_zpp_2.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("P_zpp_2.Data.WhateverClass", b =>
+                {
+                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "connector")
+                        .WithOne("testfield")
+                        .HasForeignKey("P_zpp_2.Data.WhateverClass", "UserId");
+
+                    b.Navigation("connector");
+                });
+
             modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.RequestLeave", b =>
                 {
                     b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", null)
@@ -334,6 +365,8 @@ namespace P_zpp_2.Migrations
             modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.ApplicationUser", b =>
                 {
                     b.Navigation("RequestLeaves");
+
+                    b.Navigation("testfield");
                 });
 #pragma warning restore 612, 618
         }
