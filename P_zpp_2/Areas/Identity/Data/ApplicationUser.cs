@@ -28,8 +28,5 @@ namespace P_zpp_2.Areas.Identity.Data
 
         public WhateverClass testfield { get; set; }
 
-
-        public virtual ICollection<RequestLeave> RequestLeaves { get; set; }
-
     }
 }
