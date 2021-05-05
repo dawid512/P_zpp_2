@@ -12,7 +12,9 @@ namespace P_zpp_2.Data
     public class P_zpp_2DbContext : IdentityDbContext
     {
         public DbSet<ApplicationUser> Users { get; set; }
-        public DbSet<WhateverClass> TestTable { get; set; }
+        public DbSet<Departures> departures { get; set; }
+        public DbSet<Messages> messages { get; set; }
+        public DbSet<Company> company { get; set; }
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
         {
