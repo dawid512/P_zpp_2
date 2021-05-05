@@ -8,9 +8,11 @@ namespace P_zpp_2.Data
     {
         [Key]
         public int Id { get; set; }
-        public int CompanyID { get; set; }
+        [ForeignKey("CompanyID")]
+        public Company CompanyID { get; set; }
         public int DeprtureId { get; set; }
-        public int SupervisorId { get; set; }
+        [ForeignKey("UserId")]
+        public ApplicationUser SupervisorId { get; set; }
         public string Shifts { get; set; } //json, json, Json, JSON, JSON!
         [ForeignKey("UserId")]
         //public ApplicationUser User_id { get; set; } 
