@@ -22,6 +22,9 @@ namespace P_zpp_2.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "nvarchar(100)")]
         public string Rola { get; set; }
+        [PersonalData]
+        [Column(TypeName = "nvarchar(900)")]
+        public string Schedule { get; set; }
 
         public WhateverClass testfield { get; set; }
 
