@@ -7,14 +7,14 @@ namespace P_zpp_2.Data
     public class Departures
     {
         [Key]
-        public int Id { get; set; }
-        [ForeignKey("CompanyID")]
-        public Company CompanyID { get; set; }
         public int DeprtureId { get; set; }
-        [ForeignKey("UserId")]
-        public ApplicationUser SupervisorId { get; set; }
+        //[ForeignKey("CompanyID")]
+        public Company CompanyID { get; set; }
+        //public int DeprtureId { get; set; }
+        //[ForeignKey("UserId")]
+        public int SupervisorId { get; set; }
         public string Shifts { get; set; } //json, json, Json, JSON, JSON!
-        [ForeignKey("UserId")]
-        //public ApplicationUser User_id { get; set; } 
+        //[ForeignKey("UserId")]
+        public int User_id { get; set; } 
     }
 }

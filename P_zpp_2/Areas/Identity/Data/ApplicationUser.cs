@@ -26,7 +26,7 @@ namespace P_zpp_2.Areas.Identity.Data
         [Column(TypeName = "nvarchar(900)")]
         public string Schedule { get; set; }
 
-        public Departures testfield { get; set; }
+        //public Departures testfield { get; set; }
 
     }
 }
