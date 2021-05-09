@@ -25,7 +25,8 @@ namespace P_zpp_2.Areas.Identity
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     })
-                    .AddEntityFrameworkStores<P_zpp_2DbContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<P_zpp_2DbContext>();
             });
         }
     }
