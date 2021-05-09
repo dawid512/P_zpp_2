@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using P_zpp_2.Data;
 
 namespace P_zpp_2.Areas.Identity.Data
 {
@@ -21,9 +22,11 @@ namespace P_zpp_2.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "nvarchar(100)")]
         public string Rola { get; set; }
+        [PersonalData]
+        [Column(TypeName = "nvarchar(900)")]
+        public string Schedule { get; set; }
 
-
-        public virtual ICollection<RequestLeave> RequestLeaves { get; set; }
+        //public Departures testfield { get; set; }
 
     }
 }

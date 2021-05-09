@@ -8,22 +8,25 @@
         Layout = "/Areas/Identity/Pages/_Layout.cshtml";
     }
 }
+<div class="cardlogged">
+    <div class="card-header">
+        <h2>Zarzadzaj swoim kontem</h2>
 
-<h2>Zarzadzaj swoim kontem</h2>
-
-<div>
-    @*<h4>Zmien ustawienia swojego konta</h4>*@
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+        <div>
+            @*<h4>Zmien ustawienia swojego konta</h4>*@
+            <hr />
+            <div class="row">
+                <div class="col-md-3">
+                    <partial name="_ManageNav" />
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    @RenderSection("Scripts", required: false)
-}
+    @section Scripts {
+        @RenderSection("Scripts", required: false)
+    }

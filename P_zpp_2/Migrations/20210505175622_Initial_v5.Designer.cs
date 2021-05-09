@@ -10,8 +10,8 @@ using P_zpp_2.Data;
 namespace P_zpp_2.Migrations
 {
     [DbContext(typeof(P_zpp_2DbContext))]
-    [Migration("20210425180648_Initial-Create_v2")]
-    partial class InitialCreate_v2
+    [Migration("20210505175622_Initial_v5")]
+    partial class Initial_v5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,10 +30,6 @@ namespace P_zpp_2.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -50,8 +46,6 @@ namespace P_zpp_2.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -233,30 +227,78 @@ namespace P_zpp_2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.RequestLeave", b =>
+            modelBuilder.Entity("P_zpp_2.Data.Company", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("leaveType")
+                    b.Property<int>("CompanyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("leave_from")
-                        .HasColumnType("DateTime");
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("leave_untill")
-                        .HasColumnType("DateTime");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("requeststatus")
-                        .HasColumnType("Bit");
+                    b.HasKey("CompanyId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
-                    b.HasDiscriminator().HasValue("RequestLeave");
+                    b.ToTable("company");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
+                {
+                    b.Property<int>("DeprtureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Shifts")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupervisorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("DeprtureId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("departures");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReciverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ReciverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("messages");
                 });
 
             modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.ApplicationUser", b =>
@@ -271,6 +313,9 @@ namespace P_zpp_2.Migrations
 
                     b.Property<string>("Rola")
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Schedule")
+                        .HasColumnType("nvarchar(900)");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -326,16 +371,37 @@ namespace P_zpp_2.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.RequestLeave", b =>
+            modelBuilder.Entity("P_zpp_2.Data.Company", b =>
                 {
-                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", null)
-                        .WithMany("RequestLeaves")
-                        .HasForeignKey("ApplicationUserId");
+                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "BossId")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("BossId");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.ApplicationUser", b =>
+            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
                 {
-                    b.Navigation("RequestLeaves");
+                    b.HasOne("P_zpp_2.Data.Company", "CompanyID")
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
+
+                    b.Navigation("CompanyID");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
+                {
+                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "Reciver")
+                        .WithMany()
+                        .HasForeignKey("ReciverId");
+
+                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
+
+                    b.Navigation("Reciver");
+
+                    b.Navigation("Sender");
                 });
 #pragma warning restore 612, 618
         }
