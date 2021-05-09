@@ -55,6 +55,10 @@ html, body {
     color: white;
 }
 
+.login_register:hover  {
+    color: white;
+}
+
 .card-password h3{
     color: white;
 }

@@ -46,7 +46,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            
+            [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Typ konta")]
             public string Rola { get; set; }
@@ -90,10 +90,11 @@ namespace P_zpp_2.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Rola = Input.Rola, UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new ApplicationUser { Rola=Input.Rola, UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    _userManager.AddToRoleAsync(user, user.Rola).Wait();
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -25,10 +25,10 @@
                 <div class="form-group">
                     <label class="remember" asp-for="Input.Rola"></label>
                     @*<input asp-for="Input.Rola" class="form-control" />*@
-                    <select asp-for="Input.Rola" class="form-control" name="cars" id="cars">
-                        <option value="administrator">Administrator</option>
-                        <option value="koordynator">Koordynator</option>
-                        <option value="pracownik">Pracownik</option>
+                    <select asp-for="Input.Rola" class="form-control" >
+                        <option value="Administrator">Administrator</option>
+                        <option value="Koordynator">Koordynator</option>
+                        <option value="Pracownik">Pracownik</option>
                         
                     </select>
                     <span asp-validation-for="Input.Rola" class="text-danger"></span>
