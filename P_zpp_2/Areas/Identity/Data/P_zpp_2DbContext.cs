@@ -20,6 +20,10 @@ namespace P_zpp_2.Data
         {
         }
 
+        public P_zpp_2DbContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
