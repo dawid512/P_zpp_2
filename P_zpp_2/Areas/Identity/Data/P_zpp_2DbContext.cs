@@ -15,8 +15,13 @@ namespace P_zpp_2.Data
         public DbSet<Departures> departures { get; set; }
         public DbSet<Messages> messages { get; set; }
         public DbSet<Company> company { get; set; }
+        public DbSet<Schedule> schedules { get; set; }
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
+        {
+        }
+       
+        public P_zpp_2DbContext()
         {
         }
 
