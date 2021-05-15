@@ -6,91 +6,188 @@
 
 <ul class="navbar-nav">
     @*@if (SignInManager.IsSignedIn(User))
-    {
+        {
 
-        <nav class="navbar navbar-expand-md navbar-dark bg-info">
+            <nav class="navbar navbar-expand-md navbar-dark bg-info">
 
-            <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
+                    </li>
+                </ul>
 
-            <ul class="navbar-nav  mx-auto">
-                <li class="nav-item ">
-                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                </li>
-                <li class="nav-item">
+                <ul class="navbar-nav  mx-auto">
+                    <li class="nav-item ">
+                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    </li>
+                    <li class="nav-item">
 
-                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
-    }*@
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        }*@
 
     @if (SignInManager.IsSignedIn(User))
     {
+        if (this.User.IsInRole("Administrator"))
+        {
 
-        <nav class="navbar navbar-expand-md navbar-dark bg-info">
 
-            <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="AdminControler" asp-action="Create">Role</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
-                        Pracownicy
-                        <span id="group">
-                            <button type="button" class="btn btn-info">
-                                <i class="fa fa-envelope"></i>
-                            </button>
-                            <span class="badge badge-light">5</span>
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
-                        Urlopy
-                        <span id="group">
-                            <button type="button" class="btn btn-info">
-                                <i class="fa fa-envelope"></i>
-                            </button>
-                            <span class="badge badge-light">5</span>
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
 
-                </li>
-            </ul>
+            <nav class="navbar navbar-expand-md navbar-dark bg-info">
 
-            <ul class="navbar-nav  mx-auto">
-                <li class="nav-item ">
-                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                </li>
-                <li class="nav-item">
+                <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
+                    </li>
+                    @*<li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminControler" asp-action="Create">Role</a>
+                        </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
+                            Pracownicy
+                            <span id="group">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-envelope"></i>
+                                    @*</button>
+                                        <span class="badge badge-light">5</span>*@
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            Urlopy
+                            <span id="group">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-envelope"></i>
+                                    @*</button>
+                                        <span class="badge badge-light">5</span>*@
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
 
-                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav  mx-auto">
+                    <li class="nav-item ">
+                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        }
+        if (this.User.IsInRole("Koordynator"))
+        {
+
+            <nav class="navbar navbar-expand-md navbar-dark bg-info">
+
+                <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            Urlopy
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
+                            Pracownicy
+                            <span id="group">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-envelope"></i>
+                                    @*</button>
+                        <span class="badge badge-light">5</span>*@
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
+
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav  mx-auto">
+                    <li class="nav-item ">
+                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        }
+        if (this.User.IsInRole("Pracownik"))
+        {
+            <nav class="navbar navbar-expand-md navbar-dark bg-info">
+
+                <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            Urlopy
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
+
+                    </li>
+                </ul>
+
+
+
+                <ul class="navbar-nav  mx-auto">
+                    <li class="nav-item ">
+                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+
+        }
     }
 
     @*else

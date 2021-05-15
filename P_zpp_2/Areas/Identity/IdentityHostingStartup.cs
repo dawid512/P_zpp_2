@@ -15,6 +15,9 @@ namespace P_zpp_2.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
+
+        
+
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<P_zpp_2DbContext>(options =>
                     options.UseSqlServer(
