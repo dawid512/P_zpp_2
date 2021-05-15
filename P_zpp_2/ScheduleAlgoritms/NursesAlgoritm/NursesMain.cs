@@ -47,9 +47,9 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             {
                 var PersonelList = new List<Nurse>();
 
-                if (!db.schedules.Where(schedule => schedule.scheduleName == "Nurse").Any())
+                if (!db.schedules.Where(schedule => schedule.scheduleName == "Pracownik").Any())
                 {
-                    PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola == "Nurse").ToList());
+                    PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola == "Pracownik").ToList());
                 }
                 else
                 {

@@ -20,7 +20,12 @@ namespace P_zpp_2.Data
             : base(options)
         {
         }
-       
+
+        //public P_zpp_2DbContext(DbContextOptions options) : base(options)
+        //{
+            
+        //}
+
         public P_zpp_2DbContext()
         {
         }
