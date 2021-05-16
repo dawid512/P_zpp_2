@@ -1,5 +1,5 @@
-﻿using P_zpp_2.Areas.Identity.Data;
-using P_zpp_2.Data;
+﻿using P_zpp_2.Data;
+using P_zpp_2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
