@@ -55,6 +55,23 @@ html, body {
     color: white;
 }
 
+.napis-label{
+    color: white;
+}
+
+.card-header h4 {
+    color: white;
+}
+
+.card-header h2 {
+    color: white;
+}
+.nav-color {
+    background: #FFC312;
+    background-color: #FFC312;
+    border-color: #FFC312;
+}
+
 .login_register:hover  {
     color: white;
 }
@@ -95,7 +112,7 @@ input:focus {
 .login_btn {
     color: black;
     background-color: #FFC312;
-    width: 100px;
+    width: auto;
 }
 
     .login_btn:hover {
