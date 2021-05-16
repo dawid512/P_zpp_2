@@ -17,8 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Pages\Koordynator\" />
     <Folder Include="CleverWorkTimeDatabase\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Views\KoordynatorControler\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using P_zpp_2.Areas.Identity.Data;
+﻿using P_zpp_2.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using P_zpp_2.Areas.Identity.Data;
+using P_zpp_2.Models;
 using P_zpp_2.Data;
 using System;
 using System.Collections.Generic;

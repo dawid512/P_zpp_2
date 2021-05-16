@@ -1,40 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using P_zpp_2.Areas.Identity.Data
+@using P_zpp_2.Models;
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
-    @*@if (SignInManager.IsSignedIn(User))
-        {
-
-            <nav class="navbar navbar-expand-md navbar-dark bg-info">
-
-                <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav  mx-auto">
-                    <li class="nav-item ">
-                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                    </li>
-                    <li class="nav-item">
-
-                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
-                        </form>
-                    </li>
-                </ul>
-            </nav>
-        }*@
+    
 
     @if (SignInManager.IsSignedIn(User))
     {
@@ -47,7 +18,7 @@
 
                 <ul class="navbar-nav navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Kontakt</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="AdminControler" asp-action="Kontakt">Kontakt</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Profil</a>
@@ -56,29 +27,29 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="AdminControler" asp-action="Create">Role</a>
                         </li>*@
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Admin/PracownicyAdmin">
                             Pracownicy
-                            <span id="group">
+                            <!--<span id="group">
                                 <button type="button" class="btn btn-info">
-                                    <i class="fa fa-envelope"></i>
+                                    <i class="fa fa-envelope"></i>-->
                                     @*</button>
                                         <span class="badge badge-light">5</span>*@
-                            </span>
+                            <!--</span>-->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <a class="nav-link text-dark"asp-area="Identity" asp-page="/Admin/UrlopyAdmin">
                             Urlopy
-                            <span id="group">
+                            <!--<span id="group">
                                 <button type="button" class="btn btn-info">
-                                    <i class="fa fa-envelope"></i>
+                                    <i class="fa fa-envelope"></i>-->
                                     @*</button>
                                         <span class="badge badge-light">5</span>*@
-                            </span>
+                            <!--</span>-->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Admin/GrafikAdmin">Grafik</a>
 
                     </li>
                 </ul>
@@ -117,19 +88,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Admin/PracownicyAdmin">
                             Pracownicy
-                            <span id="group">
+                            <!--<span id="group">
                                 <button type="button" class="btn btn-info">
-                                    <i class="fa fa-envelope"></i>
+                                    <i class="fa fa-envelope"></i>-->
                                     @*</button>
                         <span class="badge badge-light">5</span>*@
-                            </span>
+                            <!--</span>-->
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Admin/GrafikAdmin"></a>
 
                     </li>
                 </ul>
@@ -161,13 +132,13 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Pracownik/UropyPracownik">
                             Urlopy
 
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Grafik</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Pracownik/GrafikPracownik">Grafik</a>
 
                     </li>
                 </ul>
