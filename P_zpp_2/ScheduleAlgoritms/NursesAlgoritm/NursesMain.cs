@@ -41,15 +41,16 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
                 return tmp;
             }
         }
-        public void RunNUrsesScheduler(int NumberOfDaysToSchedule, string NameOfSchedule)
+        public void RunNUrsesScheduler(int NumberOfDaysToSchedule, string NameOfSchedule, string TargetRoleName)
         {
             using (var db = new P_zpp_2DbContext())
             {
                 var PersonelList = new List<Nurse>();
+                var Schedule = new List<Workday>();
 
-                if (!db.schedules.Where(schedule => schedule.scheduleName == "Nurse").Any())
+                if (!db.schedules.Where(schedule => schedule.scheduleName == TargetRoleName).Any())
                 {
-                    PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola == "Nurse").ToList());
+                    PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola == TargetRoleName).ToList());
                 }
                 else
                 {
@@ -62,14 +63,11 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
                     PersonelList = JsonConvert.DeserializeObject<List<Nurse>>(StringToDeserialize);
                 }
-
-                var Schedule = new List<Workday>();
+               
                 for (int i = 0; i < WardWorkInfo.WorkCycleLenght; i++)
                     SelectStaff(Schedule, PersonelList, i);
 
                 PrepareDataForStorage(Schedule, PersonelList, NameOfSchedule);
-
-
             }
         }
         private void PrepareDataForStorage(List<Workday> wd, List<Nurse> pl, string NameOfSchedule)
@@ -111,7 +109,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
         {
             var today = DateTime.Now.Date.AddDays(Nofdays);
             var PeopleWhoHaveLeaveToday = Personel.Where(n => n.AprovedLeave.Contains(today)).ToList();
-            var AvailableStaff = Personel.Except(PeopleWhoHaveLeaveToday).ToList(); // xD
+            var AvailableStaff = Personel.Except(PeopleWhoHaveLeaveToday).ToList(); 
             var day = SelectForDayShift(AvailableStaff);
             var night = SelectForNightShift(AvailableStaff, day);
             var off = SetDayOff(AvailableStaff, day, night);
