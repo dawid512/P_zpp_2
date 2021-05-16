@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using P_zpp_2.Data;
 
-namespace P_zpp_2.Areas.Identity.Data
+namespace P_zpp_2.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser

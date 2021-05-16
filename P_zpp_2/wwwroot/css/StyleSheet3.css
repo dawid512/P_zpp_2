@@ -3,11 +3,12 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html, body {
-    background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+    background-image: url('https://getwallpapers.com/wallpaper/full/b/2/7/24187.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
     font-family: 'Numans', sans-serif;
+    color: white;
 }
 
 .container {
@@ -16,7 +17,23 @@ html, body {
 }
 
 .card {
-    height: 370px;
+    height: 570px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+
+.cardlogged {
+    height: 500px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 700px;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+
+.cardwybierz {
+    height: 623px;
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;

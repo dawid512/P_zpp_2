@@ -299,6 +299,27 @@ namespace P_zpp_2.Migrations
                     b.ToTable("messages");
                 });
 
+            modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("jsonfilewithschedule_locaton")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("jsonfilewithschedule_staff_locaton")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("scheduleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("schedules");
+                });
+
             modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");

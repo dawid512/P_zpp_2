@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using P_zpp_2.Areas.Identity.Data;
+using P_zpp_2.Models;
 
 namespace P_zpp_2.Data
 {
@@ -15,10 +15,16 @@ namespace P_zpp_2.Data
         public DbSet<Departures> departures { get; set; }
         public DbSet<Messages> messages { get; set; }
         public DbSet<Company> company { get; set; }
+        public DbSet<Schedule> schedules { get; set; }
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
         {
         }
+
+        //public P_zpp_2DbContext(DbContextOptions options) : base(options)
+        //{
+            
+        //}
 
         public P_zpp_2DbContext()
         {

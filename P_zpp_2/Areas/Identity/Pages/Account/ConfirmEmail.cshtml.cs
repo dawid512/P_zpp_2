@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using P_zpp_2.Areas.Identity.Data;
+using P_zpp_2.Models;
 
 namespace P_zpp_2.Areas.Identity.Pages.Account
 {
