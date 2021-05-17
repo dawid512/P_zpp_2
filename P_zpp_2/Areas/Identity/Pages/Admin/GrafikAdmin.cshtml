@@ -2,29 +2,27 @@
 @model P_zpp_2.Areas.Identity.Pages.Admin.GrafikAdminModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    //ViewData["Title"] = "Grafik";
 }
 
-@*<h2>grafik</h2>
-<p>@Model._callMeJson</p>
-<table id="eventsTable" >
-        @foreach (var item in Model._ScheduleDaysList)
-        {
-            <tr>
-                <td>@item.Id </td>
-                <td>@item.Title </td>
-                <td>@item.StartDate </td>
-            </tr>
-        } 
-</table>*@
-
-
-
-<div id="calendar" style="background-color:white; padding:5px; border-radius:7px;"></div>
+@*<div>
+    @foreach (var item in @Model._ScheduleDaysList)
+    {
+    <table>
+        <td>
+        <tr>@item.Id</tr>
+        <tr>@item.StartDate</tr>
+        <tr>@item.Title</tr>
+        </td>
+    </table>
+    }
+</div>*@
+<div id="calendar" style="        background-color: white;
+        padding: 5px;
+        border-radius: 7px;
+    "></div>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/main.min.css">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/main.min.js"></script>
-@*<script src ="~/js/Calendar.js"></script>*@
 <script type="text/javascript">
 
     var alternativeArr = [];
@@ -36,26 +34,8 @@
             title: item.Title,
             start: item.StartDate
         };
-        //alert(item.id);
         alternativeArr.push(eObj);
     }
-
-    /*
-    let eventArr = [];
-    let eventsTable = document.getElementById("eventsTable");
-    let trElems = eventsTable.getElementsByTagName("tr");
-
-
-
-    for (let tr of trElems) {
-        let tdElems = tr.getElementsByTagName("td");
-        let eventObj = {
-            id: tdElems[0].innerText,
-            title: tdElems[1].innerText,
-            start: tdElems[2].innerText
-        };
-        eventArr.push(eventObj);
-    }*/
 
     let calendarEl = document.getElementById('calendar')
 
