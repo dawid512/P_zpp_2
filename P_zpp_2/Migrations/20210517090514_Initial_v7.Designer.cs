@@ -10,8 +10,8 @@ using P_zpp_2.Data;
 namespace P_zpp_2.Migrations
 {
     [DbContext(typeof(P_zpp_2DbContext))]
-    [Migration("20210505175622_Initial_v5")]
-    partial class Initial_v5
+    [Migration("20210517090514_Initial_v7")]
+    partial class Initial_v7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -301,7 +301,28 @@ namespace P_zpp_2.Migrations
                     b.ToTable("messages");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Areas.Identity.Data.ApplicationUser", b =>
+            modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("jsonfilewithschedule_locaton")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("jsonfilewithschedule_staff_locaton")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("scheduleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("schedules");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -373,7 +394,7 @@ namespace P_zpp_2.Migrations
 
             modelBuilder.Entity("P_zpp_2.Data.Company", b =>
                 {
-                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "BossId")
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -391,11 +412,11 @@ namespace P_zpp_2.Migrations
 
             modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
                 {
-                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "Reciver")
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Reciver")
                         .WithMany()
                         .HasForeignKey("ReciverId");
 
-                    b.HasOne("P_zpp_2.Areas.Identity.Data.ApplicationUser", "Sender")
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId");
 

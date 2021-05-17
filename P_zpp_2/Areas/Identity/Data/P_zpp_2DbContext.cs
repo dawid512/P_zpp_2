@@ -16,6 +16,8 @@ namespace P_zpp_2.Data
         public DbSet<Messages> messages { get; set; }
         public DbSet<Company> company { get; set; }
         public DbSet<Schedule> schedules { get; set; }
+        
+        
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
         {
@@ -23,8 +25,10 @@ namespace P_zpp_2.Data
 
         //public P_zpp_2DbContext(DbContextOptions options) : base(options)
         //{
-            
+
         //}
+      
+
 
         public P_zpp_2DbContext()
         {
@@ -33,6 +37,14 @@ namespace P_zpp_2.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            //builder.Entity<AdministrationRole>().HasData(
+            //    new AdministrationRole { RoleName = "Administrator"},
+            //    new AdministrationRole { RoleName = "Koordynator" },
+            //    new AdministrationRole { RoleName = "Pracownik" }
+
+
+            //    );
+
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
