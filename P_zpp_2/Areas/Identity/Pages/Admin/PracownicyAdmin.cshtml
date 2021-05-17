@@ -4,92 +4,106 @@
     Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Pracownicy";
 }
+<div class="card-pracownicy  ">
+    <div class="card-header">
+        <h2>Pracownicy</h2>
+        @*<p>
+                <a asp-page="Create">Create New</a>
+            </p>*@
 
-<h2>Pracownicy</h2>
-@*<p>
-        <a asp-page="Create">Create New</a>
-    </p>*@
-
-<form asp-page="./PracownicyAdmin" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./PracownicyAdmin">Back to full List</a>
-        </p>
-    </div>
-</form>
+        <form asp-page="./PracownicyAdmin" method="get">
+            <div class="form-actions no-color">
+                <p class="napis-label">
+                    Find by name:
+                    <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+                    <input type="submit" value="Search" class="btn login_btn" /> |
+                    <a class="napis-label" asp-page="./PracownicyAdmin">Back to full List</a>
+                </p>
+            </div>
+        </form>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.NameSort"
-                   asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Users[0].LastName)
-                </a>
+        <table class="table">
+            
+               
+                        <thead>
+                            <tr>
+                                <th >
+                                    <a class="napis-label" asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.NameSort"
+                                       asp-route-currentFilter="@Model.CurrentFilter">
+                                        @Html.DisplayNameFor(model => model.Users[0].LastName)
+                                    </a>
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].FirstName)
-            </th>
-            <th>
-                <a asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.DateSort"
-                   asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Users[0].UserName)
-                </a>
+                                </th>
+                                <th class="napis-label">
+                                    @Html.DisplayNameFor(model => model.Users[0].FirstName)
+                                </th>
+                                <th >
+                                    <a class="napis-label" asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.DateSort"
+                                       asp-route-currentFilter="@Model.CurrentFilter">
+                                        @Html.DisplayNameFor(model => model.Users[0].UserName)
+                                    </a>
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Rola)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Users)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rola)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+                                </th>
+                                <th class="napis-label">
+                                    @Html.DisplayNameFor(model => model.Users[0].Rola)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Users)
+                            {
+                                
+                            <tr class="card-header card-pracownicy ">
+                               
+                                        <td class="napis-label">
+                                            @Html.DisplayFor(modelItem => item.LastName)
+                                        </td>
+                                        <td class="napis-label">
+                                            @Html.DisplayFor(modelItem => item.FirstName)
+                                        </td>
+                                        <td class="napis-label">
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+                                        <td class="napis-label">
+                                            @Html.DisplayFor(modelItem => item.Rola)
+                                        </td>
+                                        <td>
+                                            <a class="login_btn btn napis-label" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                                            <a class="login_btn btn napis-label" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                                            <a class="login_btn btn napis-label" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                                        </td>
+                                
+
+                            </tr>
+                                 
+                            }
+                        </tbody>
+                    
+        </table>
+
+
+
+        @{
+            var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
         }
-    </tbody>
-</table>
 
-@{
-    var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
-}
+        <a asp-page="./PracownicyAdmin"
+           asp-route-sortOrder="@Model.CurrentSort"
+           asp-route-pageIndex="@(Model.Users.PageIndex - 1)"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           class="btn login_btn @prevDisabled">
+            Previous
+        </a>
+        <a asp-page="./PracownicyAdmin"
+           asp-route-sortOrder="@Model.CurrentSort"
+           asp-route-pageIndex="@(Model.Users.PageIndex + 1)"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           class="btn login_btn @nextDisabled">
+            Next
+        </a>
 
-<a asp-page="./PracownicyAdmin"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.Users.PageIndex - 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @prevDisabled">
-    Previous
-</a>
-<a asp-page="./PracownicyAdmin"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.Users.PageIndex + 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @nextDisabled">
-    Next
-</a>
+    </div>
+</div>

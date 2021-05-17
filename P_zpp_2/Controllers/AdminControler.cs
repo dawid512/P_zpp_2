@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class AdminControler : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
