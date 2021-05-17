@@ -39,6 +39,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
                     }
                 }
                 return tmp;
+
             }
         }
         public void RunNUrsesScheduler(int NumberOfDaysToSchedule, string NameOfSchedule)

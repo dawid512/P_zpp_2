@@ -7,13 +7,14 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class SimpleDisplayShifs
     {
-        public DateTime Date { get; set; }
-        public String Shift { get; set; }
+        
+        public String Title { get; set; }
+        public DateTime StartDate { get; set; }
 
         public SimpleDisplayShifs(DateTime date, string shift)
         {
-            Date = date;
-            Shift = shift;
+            StartDate = date;
+            Title = shift;
         }
     }
 }
