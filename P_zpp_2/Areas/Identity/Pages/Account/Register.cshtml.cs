@@ -31,6 +31,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
