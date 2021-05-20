@@ -27,7 +27,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="AdminControler" asp-action="Create">Role</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Admin//Pracownicy/PracownicyAdmin">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Admin/Pracownicy/PracownicyAdmin">
                             Pracownicy
                             <!--<span id="group">
                                 <button type="button" class="btn btn-info">
@@ -160,7 +160,7 @@
 
         }
     }
-    else {
+    @*else {
 <nav class="navbar navbar-expand-md navbar-dark bg-info">
 
     <ul class="navbar-nav  mx-auto">
@@ -175,9 +175,9 @@
         </li>
     </ul>
 </nav>
-        }
+        }*@
 
-        @*else
+        else
             {
                 <li class="nav-item">
                     <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
@@ -185,5 +185,5 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
                 </li>
-            }*@
+            }
 </ul>
