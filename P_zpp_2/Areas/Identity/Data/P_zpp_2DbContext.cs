@@ -16,6 +16,7 @@ namespace P_zpp_2.Data
         public DbSet<Messages> messages { get; set; }
         public DbSet<Company> company { get; set; }
         public DbSet<Schedule> schedules { get; set; }
+        //public DbSet<AdministrationRole> administrationRoles { get; set; }
         
         
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)

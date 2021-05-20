@@ -37,7 +37,8 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
             }
 
             Pracownik= await _context.Users.FindAsync(Id);
-            //PracownikRola = await _userManager.GetRolesAsync(Id);
+           
+          
             if (Pracownik == null)
             {
                 return NotFound();
@@ -47,9 +48,12 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
 
         public async Task<IActionResult> OnPostAsync(string? Id)
         {
-            var pracownikToUpdate = await _context.Users.FindAsync(Id);
-            var roles = await _userManager.GetRolesAsync(pracownikToUpdate);
+            var pracownikToUpdate = await _userManager.FindByIdAsync(Id);
+            
+            
 
+            var roles = await _userManager.GetRolesAsync(pracownikToUpdate);
+            await _userManager.RemoveFromRolesAsync(pracownikToUpdate, roles);
             if (pracownikToUpdate == null)
             {
                 return NotFound();
@@ -59,10 +63,16 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
                 pracownikToUpdate,
                 "pracownik",
 
-                p => p.FirstName, p => p.LastName, p => p.Rola , p => p.Email))
+                p => p.FirstName, p => p.LastName, p => p.Rola , p => p.Email
+
+
+                
+                ))
+
             {
-                await _userManager.RemoveFromRolesAsync(pracownikToUpdate, roles);
-                await _userManager.AddToRoleAsync(pracownikToUpdate, PracownikRola.Name);
+                await _userManager.AddToRoleAsync(pracownikToUpdate, pracownikToUpdate.Rola);
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./PracownicyAdmin");
             }

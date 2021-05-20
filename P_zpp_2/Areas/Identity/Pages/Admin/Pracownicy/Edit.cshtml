@@ -23,8 +23,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Pracownik.Rola" class="control-label"></label>
-                <input asp-for="PracownikRola.Name"  class="form-control" />
-                <span asp-validation-for="PracownikRola.Name" class="text-danger"></span>
+                <select asp-for="Pracownik.Rola" class="form-control">
+                    <option value="Administrator">Administrator</option>
+                    <option value="Koordynator">Koordynator</option>
+                    <option value="Pracownik">Pracownik</option>
+
+                </select>
+                <span asp-validation-for="Pracownik.Rola" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Pracownik.Email" class="control-label"></label>
