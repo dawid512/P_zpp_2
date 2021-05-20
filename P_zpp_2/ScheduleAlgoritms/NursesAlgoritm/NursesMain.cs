@@ -50,7 +50,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
                 if (!db.schedules.Where(schedule => schedule.scheduleName == "Pracownik").Any())
                 {
-                    PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola == "Pracownik").ToList());
+                    PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola.ToString() == "Pracownik").ToList());
                 }
                 else
                 {

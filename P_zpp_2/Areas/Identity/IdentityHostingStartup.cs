@@ -23,12 +23,17 @@ namespace P_zpp_2.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("P_zpp_2DbContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>(options => {
+                services
+                .AddDefaultIdentity<ApplicationUser>
+                (options =>
+                {
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
-                    })
+                    }
+                )
                 .AddRoles<IdentityRole>()
+                
                 .AddEntityFrameworkStores<P_zpp_2DbContext>();
             });
         }
