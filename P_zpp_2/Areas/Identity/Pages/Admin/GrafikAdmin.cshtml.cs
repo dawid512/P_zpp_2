@@ -33,6 +33,23 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public void OnGet()
         {
+            GenerateSchedule();
+
+            //var tmp = DisplayShiftOF(User.Identity.GetUserId(), string ScheduleName);
+
+            //_ScheduleDaysList = 
+
+
+            _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
+
+
+        }
+        public List<EventModel> converter(List<SimpleDisplayShifs> toConvertList)
+        {
+            return null;
+        }
+        public void GenerateSchedule()
+        {
             _ScheduleDaysList = new List<EventModel>{
                  new EventModel(1, "2 zmiana", "2021-05-10"),
                  new EventModel(2, "1 zmiane", "2021-05-12"),
@@ -48,20 +65,6 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
                  new EventModel(2, "1 zmiane", "2021-05-27"),
                  new EventModel(2, "2 zmiane", "2021-05-28")
             };
-
-            //var tmp = DisplayShiftOF(User.Identity.GetUserId(), string ScheduleName);
-
-            //_ScheduleDaysList = 
-
-            
-            _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
-
-
         }
-        public List<EventModel> converter(List<SimpleDisplayShifs> toConvertList)
-        {
-            return null;
-        }
-        
     }
 }
