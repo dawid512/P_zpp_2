@@ -7,7 +7,6 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class SimpleDisplayShifs
     {
-        
         public String Title { get; set; }
         public DateTime StartDate { get; set; }
 

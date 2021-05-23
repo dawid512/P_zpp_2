@@ -18,7 +18,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
                 List<SimpleDisplayShifs> tmp = new List<SimpleDisplayShifs>();
                 var masterSchedule = db.schedules.Where(x => x.scheduleName == ScheduleName).FirstOrDefault();
 
-                var masterScheduleDeserialized = JsonConvert.DeserializeObject<List<Workday>>(File.ReadAllText(masterSchedule.jsonfilewithschedule_locaton));
+                var masterScheduleDeserialized = JsonConvert.DeserializeObject<List<Workday>>(masterSchedule.jsonfilewithschedule_locaton);
 
                 foreach (var item in masterScheduleDeserialized)
                 {
@@ -77,12 +77,12 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
         {
             var serialized_workdays = JsonConvert.SerializeObject(wd);
             var serialized_personel_algoritm_info = JsonConvert.SerializeObject(pl);
-            var Json_file_location_schedule = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)" + @"\NurseSchedules\" + NameOfSchedule + ".txt";
-            var Json_file_location_staff = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)" + @"\NurseSchedules\" + NameOfSchedule + "_staff" + ".txt";
+            //var Json_file_location_schedule = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)" + @"\NurseSchedules\" + NameOfSchedule + ".txt";
+            //var Json_file_location_staff = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)" + @"\NurseSchedules\" + NameOfSchedule + "_staff" + ".txt";
 
-            File.WriteAllText(Json_file_location_schedule, serialized_workdays);
-            File.WriteAllText(Json_file_location_staff, serialized_personel_algoritm_info);
-            SaveScheduleLocationToDatabase(NameOfSchedule, Json_file_location_schedule, Json_file_location_staff);
+            //File.WriteAllText(Json_file_location_schedule, serialized_workdays);
+            //File.WriteAllText(Json_file_location_staff, serialized_personel_algoritm_info);
+            SaveScheduleLocationToDatabase(NameOfSchedule, serialized_workdays, serialized_personel_algoritm_info);
         }
         private void SaveScheduleLocationToDatabase( string Schedule_name, string schedule_location, string staff_data_location )
         {

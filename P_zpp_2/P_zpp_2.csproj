@@ -20,7 +20,11 @@
     <Folder Include="Areas\Identity\Pages\Koordynator\" />
     <Folder Include="CleverWorkTimeDatabase\" />
     <Folder Include="Data\" />
+<<<<<<< HEAD
+    <Folder Include="Migrations\" />
     <Folder Include="Models\" />
+=======
+>>>>>>> 955313bb0374410d61faba61de031ae81326b8ae
     <Folder Include="Views\KoordynatorControler\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\bootstrap\" />

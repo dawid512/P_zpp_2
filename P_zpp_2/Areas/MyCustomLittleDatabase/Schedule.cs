@@ -10,7 +10,7 @@
         public Schedule(string scheduleName, string jsonfilewithschedule_staff_locaton, string jsonfilewithschedule_locaton)
         {
             this.scheduleName = scheduleName;
-            this.jsonfilewithschedule_staff_locaton = jsonfilewithschedule_staff_locaton;
+           this.jsonfilewithschedule_staff_locaton = jsonfilewithschedule_staff_locaton;
             this.jsonfilewithschedule_locaton = jsonfilewithschedule_locaton;
         }
     }

@@ -12,7 +12,7 @@ using P_zpp_2.Models;
 using P_zpp_2.Models.MyCustomLittleDatabase;
 using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items;
 using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
-
+using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items;
 
 namespace P_zpp_2.Areas.Identity.Pages.Admin
 {
@@ -20,36 +20,47 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
     {
         private readonly P_zpp_2DbContext _context;
         private readonly IConfiguration Configuration;
-        
+        private readonly UserManager<ApplicationUser> _UserManager;
 
-        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration)
+        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
+            _UserManager = userManager;
         }
 
         public List<EventModel> _ScheduleDaysList { get; set; }
         public string _callMeJson { get; set; }
+        public ApplicationUser pracownik { get; set; }
 
         public void OnGet()
         {
-            GenerateSchedule();
 
-            //var tmp = DisplayShiftOF(User.Identity.GetUserId(), string ScheduleName);
+            var uid = _UserManager.GetUserId(User);
+            var tmp = new NursesMain();
+            var ScheduleName = _context.Users.Find(uid);
+            _callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(uid, ScheduleName.Schedule)));
 
-            //_ScheduleDaysList = 
-
-
-            _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
-
-
+            //GenerateSampleSchedule();
+            //tmp.DisplayShiftOF(UserManager.GetUserId(User),)
+            //_callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
         }
-        public List<EventModel> converter(List<SimpleDisplayShifs> toConvertList)
+
+        public List<EventModel> Converter(List<SimpleDisplayShifs> toConvertList)
         {
-            return null;
+            List<EventModel> tmp = new List<EventModel>();
+            int iterator = 1;
+            foreach (var item in toConvertList)
+            {
+                tmp.Add(new EventModel(iterator++, item.Title, item.StartDate.ToString()));
+            }
+
+            return tmp;
         }
-        public void GenerateSchedule()
+        public void GenerateSampleSchedule()
         {
+            var _user = _context.Users.Find(_UserManager.GetUserId(User));
+            
             _ScheduleDaysList = new List<EventModel>{
                  new EventModel(1, "2 zmiana", "2021-05-10"),
                  new EventModel(2, "1 zmiane", "2021-05-12"),
@@ -65,6 +76,21 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
                  new EventModel(2, "1 zmiane", "2021-05-27"),
                  new EventModel(2, "2 zmiane", "2021-05-28")
             };
+
+            var shifts = new List<SimpleDisplayShifs> {
+                new SimpleDisplayShifs(DateTime.Now.Date, "1 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(1), "2 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(3), "1 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(4), "2 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(6), "1 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(7), "2 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(9), "1 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(10), "2 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(12), "1 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(13), "2 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(15), "1 zmiana"),
+                new SimpleDisplayShifs(DateTime.Now.Date.AddDays(16), "2 zmiana"),
+                };
         }
     }
 }
