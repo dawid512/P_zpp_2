@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using P_zpp_2.Data;
 using P_zpp_2.Models;
@@ -19,6 +20,8 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
     {
         private readonly P_zpp_2DbContext _context;
         private readonly IConfiguration Configuration;
+        [BindProperty]
+        public InputModel Input { get; set; }
 
 
         public AddFacilityModel(P_zpp_2DbContext context, IConfiguration configuration)
@@ -27,10 +30,13 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
             Configuration = configuration;
         }
 
-        public Company _myCompany { get; set; }
+
+        public IEnumerable<Company> _myCompany { get; set; }
+        public IEnumerable<Departures> _myDeparture{ get; set; }
         public void OnGet()
         {
-
+            _myCompany = _context.company.ToList();
+            _myDeparture = _context.departures.ToList();
         }
     }
 }

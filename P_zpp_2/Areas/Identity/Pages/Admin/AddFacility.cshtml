@@ -4,6 +4,7 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+
 <h1>Dołacz do Placowki </h1>
 <h4>lub utworz nowa jesli nie istnieje</h4>
 
@@ -12,11 +13,17 @@
     <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="_myCompany.CompanyName" class="control-label"></label>
-            <input asp-for="_myCompany.CompanyName" class="form-control" />
-            <span asp-validation-for="_myCompany.CompanyName" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label class="remember"></label>
+                <select class="form-control" asp-items=@(new SelectList(Model._myCompany, "CompanyId","CompanyName"))>
+                    <option>Select company</option>
+
+                </select>
+                <select class="form-control" asp-items=@(new SelectList(Model._myDeparture, "DepartureId","SupervisorId"))>
+                    <option>Select Departure</option>
+
+                </select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

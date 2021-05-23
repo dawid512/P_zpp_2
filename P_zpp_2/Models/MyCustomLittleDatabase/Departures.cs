@@ -10,6 +10,7 @@ namespace P_zpp_2.Data
         public int DeprtureId { get; set; }
         //[ForeignKey("CompanyID")]
         public Company CompanyID { get; set; }
+        public string DepartureName { get; set; }
         //public int DeprtureId { get; set; }
         //[ForeignKey("UserId")]
         public int SupervisorId { get; set; }
