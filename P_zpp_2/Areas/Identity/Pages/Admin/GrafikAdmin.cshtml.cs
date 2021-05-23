@@ -35,11 +35,13 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public void OnGet()
         {
- 
+
             var uid = _UserManager.GetUserId(User);
             var tmp = new NursesMain();
             var ScheduleName = _context.Users.Find(uid);
-            _callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(uid, ScheduleName.Schedule)));
+            
+            //_callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(_context ,uid, ScheduleName.Schedule)));
+            _callMeJson = JsonSerializer.Serialize(Converter(GenerateSampleSchedule()));
 
             //GenerateSampleSchedule();
             //tmp.DisplayShiftOF(UserManager.GetUserId(User),)
@@ -52,12 +54,12 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
             int iterator = 1;
             foreach (var item in toConvertList)
             {
-                tmp.Add(new EventModel(iterator++, item.Title, item.StartDate.ToString()));
+                tmp.Add(new EventModel(iterator, item.Title, item.StartDate.ToString("yyyy-MM-dd")));
             }
 
             return tmp;
         }
-        public void GenerateSampleSchedule()
+        public List<SimpleDisplayShifs> GenerateSampleSchedule()
         {
             var _user = _context.Users.Find(_UserManager.GetUserId(User));
             
@@ -91,6 +93,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
                 new SimpleDisplayShifs(DateTime.Now.Date.AddDays(15), "1 zmiana"),
                 new SimpleDisplayShifs(DateTime.Now.Date.AddDays(16), "2 zmiana"),
                 };
+            return shifts;
         }
     }
 }

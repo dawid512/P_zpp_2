@@ -11,31 +11,34 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class NursesMain
     {        
-        public List<SimpleDisplayShifs> DisplayShiftOF (string User_id, string ScheduleName)
+        public List<SimpleDisplayShifs> DisplayShiftOF (P_zpp_2DbContext _context,string User_id, string ScheduleName)
         {
-            using(var db = new P_zpp_2DbContext())
+            using(var db = _context)
             {
                 List<SimpleDisplayShifs> tmp = new List<SimpleDisplayShifs>();
                 var masterSchedule = db.schedules.Where(x => x.scheduleName == ScheduleName).FirstOrDefault();
-
-                var masterScheduleDeserialized = JsonConvert.DeserializeObject<List<Workday>>(masterSchedule.jsonfilewithschedule_locaton);
-
-                foreach (var item in masterScheduleDeserialized)
+                if (masterSchedule != null)
                 {
-                    if(item.CrewDay.Where(x=>x.Id == User_id).Any())
+                    var masterScheduleDeserialized = JsonConvert.DeserializeObject<List<Workday>>(masterSchedule.jsonfilewithschedule_locaton);
+
+                    foreach (var item in masterScheduleDeserialized)
                     {
-                        tmp.Add(new SimpleDisplayShifs(item.Date, "Day"));
-                    }else if (item.CrewNight.Where(x => x.Id == User_id).Any())
-                    {
-                        tmp.Add(new SimpleDisplayShifs(item.Date, "Night"));
-                    }
-                    else if (item.CrewOffStation.Where(x => x.Id == User_id).Any())
-                    {
-                        tmp.Add(new SimpleDisplayShifs(item.Date, "Off"));
-                    }
-                    else
-                    {
-                        tmp.Add(new SimpleDisplayShifs(item.Date, "Blad grafiku, prosze o kontakt z koordynatorem."));
+                        if (item.CrewDay.Where(x => x.Id == User_id).Any())
+                        {
+                            tmp.Add(new SimpleDisplayShifs(item.Date, "Day"));
+                        }
+                        else if (item.CrewNight.Where(x => x.Id == User_id).Any())
+                        {
+                            tmp.Add(new SimpleDisplayShifs(item.Date, "Night"));
+                        }
+                        else if (item.CrewOffStation.Where(x => x.Id == User_id).Any())
+                        {
+                            tmp.Add(new SimpleDisplayShifs(item.Date, "Off"));
+                        }
+                        else
+                        {
+                            tmp.Add(new SimpleDisplayShifs(item.Date, "Blad grafiku, prosze o kontakt z koordynatorem."));
+                        }
                     }
                 }
                 return tmp;
