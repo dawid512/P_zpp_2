@@ -26,8 +26,11 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
             _context = context;
             Configuration = configuration;
         }
+
+        public Company _myCompany { get; set; }
         public void OnGet()
         {
+
         }
     }
 }

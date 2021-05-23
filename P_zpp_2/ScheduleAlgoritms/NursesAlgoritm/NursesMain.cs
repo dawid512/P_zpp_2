@@ -42,7 +42,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
             }
         }
-        public void RunNUrsesScheduler(int NumberOfDaysToSchedule, string NameOfSchedule)
+        public void RunNUrsesScheduler(DateTime CreateScheduleFromDate  ,int NumberOfDaysToSchedule, string NameOfSchedule)
         {
             using (var db = new P_zpp_2DbContext())
             {
@@ -66,7 +66,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
                 var Schedule = new List<Workday>();
                 for (int i = 0; i < WardWorkInfo.WorkCycleLenght; i++)
-                    SelectStaff(Schedule, PersonelList, i);
+                    SelectStaff(CreateScheduleFromDate, Schedule, PersonelList, i);
 
                 PrepareDataForStorage(Schedule, PersonelList, NameOfSchedule);
 
@@ -108,9 +108,9 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             return tmp;
         }
 
-        public static void SelectStaff(List<Workday> workdaysList, List<Nurse> Personel, int Nofdays)
+        public static void SelectStaff(DateTime selectedDateTime , List<Workday> workdaysList, List<Nurse> Personel, int Nofdays)
         {
-            var today = DateTime.Now.Date.AddDays(Nofdays);
+            var today = selectedDateTime.Date.AddDays(Nofdays);
             var PeopleWhoHaveLeaveToday = Personel.Where(n => n.AprovedLeave.Contains(today)).ToList();
             var AvailableStaff = Personel.Except(PeopleWhoHaveLeaveToday).ToList(); // xD
             var day = SelectForDayShift(AvailableStaff);
@@ -118,7 +118,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             var off = SetDayOff(AvailableStaff, day, night);
 
             workdaysList.Add(new Workday(today, day, night, off));
-            var wd = new Workday(DateTime.Now.Date.AddDays(Nofdays), day, night, off);
+            var wd = new Workday(selectedDateTime.Date.AddDays(Nofdays), day, night, off);
         }
 
         public static List<Nurse> SelectForDayShift(List<Nurse> Personel)
