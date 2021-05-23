@@ -10,7 +10,7 @@ using P_zpp_2.Data;
 namespace P_zpp_2.Migrations
 {
     [DbContext(typeof(P_zpp_2DbContext))]
-    [Migration("20210517091359_Initial_v9")]
+    [Migration("20210523211240_Initial_v9")]
     partial class Initial_v9
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -260,15 +260,19 @@ namespace P_zpp_2.Migrations
                     b.Property<string>("Shifts")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupervisorId")
-                        .HasColumnType("int");
+                    b.Property<string>("SupervisorIdId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
+                    b.Property<string>("User_idId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("DeprtureId");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("SupervisorIdId");
+
+                    b.HasIndex("User_idId");
 
                     b.ToTable("departures");
                 });
@@ -320,6 +324,40 @@ namespace P_zpp_2.Migrations
                     b.HasKey("id");
 
                     b.ToTable("schedules");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CheckIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("IddepartuersDeprtureId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IduseraId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Leavesname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IddepartuersDeprtureId");
+
+                    b.HasIndex("IduseraId");
+
+                    b.ToTable("leaves");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
@@ -407,7 +445,19 @@ namespace P_zpp_2.Migrations
                         .WithMany()
                         .HasForeignKey("CompanyId");
 
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "SupervisorId")
+                        .WithMany()
+                        .HasForeignKey("SupervisorIdId");
+
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "User_id")
+                        .WithMany()
+                        .HasForeignKey("User_idId");
+
                     b.Navigation("CompanyID");
+
+                    b.Navigation("SupervisorId");
+
+                    b.Navigation("User_id");
                 });
 
             modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
@@ -423,6 +473,21 @@ namespace P_zpp_2.Migrations
                     b.Navigation("Reciver");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+                {
+                    b.HasOne("P_zpp_2.Data.Departures", "Iddepartuers")
+                        .WithMany()
+                        .HasForeignKey("IddepartuersDeprtureId");
+
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
+                        .WithMany()
+                        .HasForeignKey("IduseraId");
+
+                    b.Navigation("Iddepartuers");
+
+                    b.Navigation("Idusera");
                 });
 #pragma warning restore 612, 618
         }

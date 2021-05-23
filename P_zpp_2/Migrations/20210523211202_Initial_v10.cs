@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace P_zpp_2.Migrations
 {
-    public partial class Initial_v7 : Migration
+    public partial class Initial_v10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -227,18 +227,60 @@ namespace P_zpp_2.Migrations
                     DeprtureId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyId = table.Column<int>(type: "int", nullable: true),
-                    SupervisorId = table.Column<int>(type: "int", nullable: false),
+                    SupervisorIdId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Shifts = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_id = table.Column<int>(type: "int", nullable: false)
+                    User_idId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_departures", x => x.DeprtureId);
                     table.ForeignKey(
+                        name: "FK_departures_AspNetUsers_SupervisorIdId",
+                        column: x => x.SupervisorIdId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_departures_AspNetUsers_User_idId",
+                        column: x => x.User_idId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_departures_company_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "company",
                         principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "leaves",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Leavesname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IddepartuersDeprtureId = table.Column<int>(type: "int", nullable: true),
+                    IduseraId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_leaves", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_leaves_AspNetUsers_IduseraId",
+                        column: x => x.IduseraId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_leaves_departures_IddepartuersDeprtureId",
+                        column: x => x.IddepartuersDeprtureId,
+                        principalTable: "departures",
+                        principalColumn: "DeprtureId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -292,6 +334,26 @@ namespace P_zpp_2.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_departures_SupervisorIdId",
+                table: "departures",
+                column: "SupervisorIdId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_departures_User_idId",
+                table: "departures",
+                column: "User_idId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_leaves_IddepartuersDeprtureId",
+                table: "leaves",
+                column: "IddepartuersDeprtureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_leaves_IduseraId",
+                table: "leaves",
+                column: "IduseraId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_messages_ReciverId",
                 table: "messages",
                 column: "ReciverId");
@@ -320,7 +382,7 @@ namespace P_zpp_2.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "departures");
+                name: "leaves");
 
             migrationBuilder.DropTable(
                 name: "messages");
@@ -330,6 +392,9 @@ namespace P_zpp_2.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "departures");
 
             migrationBuilder.DropTable(
                 name: "company");

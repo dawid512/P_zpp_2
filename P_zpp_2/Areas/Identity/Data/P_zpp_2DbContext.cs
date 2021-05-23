@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Models;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 
 namespace P_zpp_2.Data
 {
@@ -16,6 +17,7 @@ namespace P_zpp_2.Data
         public DbSet<Messages> messages { get; set; }
         public DbSet<Company> company { get; set; }
         public DbSet<Schedule> schedules { get; set; }
+        public DbSet<Leaves> leaves { get; set; }
         //public DbSet<AdministrationRole> administrationRoles { get; set; }
         
         
