@@ -35,7 +35,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public void OnGet()
         {
-
+ 
             var uid = _UserManager.GetUserId(User);
             var tmp = new NursesMain();
             var ScheduleName = _context.Users.Find(uid);
