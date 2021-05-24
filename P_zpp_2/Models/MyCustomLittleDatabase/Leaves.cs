@@ -19,6 +19,11 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         public string Leavesname { get; set; }
         [Display(Name = "Status")]
         public string Status { get; set; }
+        [Display(Name = "Status Zaakceptowane")]
+        public bool Status_zaakceptopwane { get; set; }
+        [Display(Name = "Status Odrzucone")]
+        public bool Status_odrzucone { get; set; }
+        
 
 
         [Display(Name = "Placowka")]

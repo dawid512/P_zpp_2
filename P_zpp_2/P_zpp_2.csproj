@@ -20,7 +20,7 @@
     <Folder Include="Areas\Identity\Pages\Koordynator\" />
     <Folder Include="CleverWorkTimeDatabase\" />
     <Folder Include="Data\" />
-    <Folder Include="Views\KoordynatorControler\" />
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />

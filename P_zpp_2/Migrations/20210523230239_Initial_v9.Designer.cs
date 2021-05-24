@@ -10,7 +10,7 @@ using P_zpp_2.Data;
 namespace P_zpp_2.Migrations
 {
     [DbContext(typeof(P_zpp_2DbContext))]
-    [Migration("20210523211240_Initial_v9")]
+    [Migration("20210523230239_Initial_v9")]
     partial class Initial_v9
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,6 +257,9 @@ namespace P_zpp_2.Migrations
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("DepartureName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Shifts")
                         .HasColumnType("nvarchar(max)");
 
@@ -350,6 +353,12 @@ namespace P_zpp_2.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status_odrzucone")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Status_zaakceptopwane")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

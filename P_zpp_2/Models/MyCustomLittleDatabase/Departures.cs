@@ -15,6 +15,7 @@ namespace P_zpp_2.Data
         public ApplicationUser SupervisorId { get; set; }
         public string Shifts { get; set; } //json, json, Json, JSON, JSON!
         //[ForeignKey("UserId")]
-        public ApplicationUser User_id { get; set; } 
+        public ApplicationUser User_id { get; set; }
+        public string DepartureName { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace P_zpp_2.Migrations
 {
-    public partial class Initial_v10 : Migration
+    public partial class Initial_v11 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -229,7 +229,8 @@ namespace P_zpp_2.Migrations
                     CompanyId = table.Column<int>(type: "int", nullable: true),
                     SupervisorIdId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Shifts = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_idId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    User_idId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DepartureName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -264,6 +265,8 @@ namespace P_zpp_2.Migrations
                     CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Leavesname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status_zaakceptopwane = table.Column<bool>(type: "bit", nullable: false),
+                    Status_odrzucone = table.Column<bool>(type: "bit", nullable: false),
                     IddepartuersDeprtureId = table.Column<int>(type: "int", nullable: true),
                     IduseraId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },

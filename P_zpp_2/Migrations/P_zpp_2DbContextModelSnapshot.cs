@@ -255,6 +255,9 @@ namespace P_zpp_2.Migrations
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("DepartureName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Shifts")
                         .HasColumnType("nvarchar(max)");
 
@@ -348,6 +351,12 @@ namespace P_zpp_2.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status_odrzucone")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Status_zaakceptopwane")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

@@ -1,0 +1,181 @@
+﻿@model P_zpp_2.ViewModels.LeavesPracownicyListViewModel;
+@{ ViewData["Title"] = "Index";
+    string bg = " "; }
+
+
+
+<style>
+    a:link {
+        color: black;
+    }
+
+    a:visited {
+        color: black;
+    }
+
+    a:hover {
+        color: #333;
+        opacity: 0.7;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: black;
+    }
+
+    .btn-delete {
+        position: absolute;
+        border-radius: 50%;
+        top: 0px;
+        right: -10px;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        padding: 0;
+        -webkit-box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+        box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+        -webkit-transition: background .2s ease-in-out;
+        transition: background .2s ease-in-out;
+        border: 0px;
+        font-size: 11px;
+        color: black;
+        font-weight: 700;
+    }
+</style>
+
+<a data-toggle="modal" data-target="#AddLeavesModal">
+    Create New
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="AddLeavesModal" tabindex="-1" role="dialog" aria-labelledby="AddLeadesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddLeavesModalLabel">Dodaj urlop</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Create">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="CheckIn" class="control-label"></label>
+                                <input asp-for="CheckIn" class="form-control" required />
+                                <span asp-validation-for="CheckIn" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="CheckOut" class="control-label"></label>
+                                <input asp-for="CheckOut" class="form-control" />
+                                <span asp-validation-for="CheckOut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="departure" class="control-label"></label>
+                                <select asp-for="departure" asp-items="Model.departure" class="form-control dropdown">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                @*<label asp-for="Idusera" class="control-label"></label>*@
+                                @*<select asp-for="Idusera" asp-items="Model.Idusera" class="form-control dropdown">*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Leavesname" class="control-label"></label>
+                                <input asp-for="Leavesname" class="form-control" />
+                                <span asp-validation-for="Leavesname" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!--<div class="col-12 col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Status" class="control-label"></label>-->
+                                @*<input asp-for="Status" class="form-control" />*@
+                                <!--<span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                        </div>-->
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Status" class="control-label">Zaakceptowane</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" asp-for="Status_zaakceptopwane" aria-label=" @Html.DisplayNameFor(model => model.Status_zaakceptopwane)">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Status" class="control-label">Odrzucone</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" asp-for="Status_odrzucone" aria-label=" @Html.DisplayNameFor(model => model.Status_odrzucone)">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<div class="row">
+    @foreach (var item in Model.leaves)
+    {
+@if (item.Status_odrzucone == true && item.Status_zaakceptopwane == false) { bg = "bg-danger"; }
+else if (item.Status_zaakceptopwane == true) { bg = "bg-success"; }
+else { bg = ""; }
+
+                <div class="col-12 col-md-3 py-2">
+                    <div class="card">
+                        <h5 class="card-text text-center m-0 p-2 @bg">@item.CheckIn.ToString("dd.MM hh:mm") - @item.CheckOut.ToString("dd.MM hh:mm")</h5>
+                        <div class="card-body rounded text-center">
+                            <a asp-action="Details" asp-route-id="@item.Id">
+                                @*<h2 class="card-title text-uppercase">@item.Iddepartuers.DepartureName</h2>
+                                <p class="card-text">@item.Idusera.FirstName @item.Idusera.LastName</p>
+                                <p class="card-text mb-0">Status: @item.Status </p>*@
+
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">
+                                <button class="btn-danger btn-delete">X</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>}
+</div>
