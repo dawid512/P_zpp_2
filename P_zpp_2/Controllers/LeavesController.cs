@@ -74,6 +74,7 @@ namespace P_zpp_2.Controllers
         public async Task<IActionResult> Create(LeavesPracownicyListViewModel leavesPracownicyListViewModel)
         {
             Leaves leaves = leavesPracownicyListViewModel;
+            
             leaves.Iddepartuers = _departures.FirstOrDefault(x => x.DeprtureId == leavesPracownicyListViewModel.Iddepartuers);
             leaves.Idusera = _applicationUser.FirstOrDefault(x => x.Id == leavesPracownicyListViewModel.Idusera);
 

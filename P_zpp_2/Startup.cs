@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm;
 using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items;
 using P_zpp_2.Areas.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace P_zpp_2
 {
@@ -39,6 +40,23 @@ namespace P_zpp_2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<P_zpp_2DbContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("P_zpp_2DbContextConnection")));
+
+            services
+            .AddDefaultIdentity<ApplicationUser>
+            (options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }
+            )
+            .AddRoles<IdentityRole>()
+
+            .AddEntityFrameworkStores<P_zpp_2DbContext>();
+
             //services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<P_zpp_2DbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

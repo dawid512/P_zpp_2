@@ -1,6 +1,7 @@
 ﻿using P_zpp_2.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,12 +10,18 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
 {
     public class Leaves
     {
+        private static DateTime _joined = DateTime.Now.Date;
+
         [Key]
         public int Id { get; set; }
         [Display(Name = "Data od")]
-        public DateTime CheckIn { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime CheckIn { get { return _joined; } set { _joined = value; } }
+
         [Display(Name = "Data do")]
-        public DateTime CheckOut { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime CheckOut { get { return _joined; } set { _joined = value; } }
+
         [Display(Name = "Nazwa Urlopu")]
         public string Leavesname { get; set; }
         [Display(Name = "Status")]

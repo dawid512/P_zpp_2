@@ -65,14 +65,14 @@
                     <div class="row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label asp-for="CheckIn" class="control-label"></label>
+                                <label asp-for=@Model.CheckIn  class="control-label"></label>
                                 <input asp-for="CheckIn" class="form-control" required />
                                 <span asp-validation-for="CheckIn" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label asp-for="CheckOut" class="control-label"></label>
+                                <label asp-for=@Model.CheckOut class="control-label"></label>
                                 <input asp-for="CheckOut" class="form-control" />
                                 <span asp-validation-for="CheckOut" class="text-danger"></span>
                             </div>
@@ -83,15 +83,17 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label asp-for="departure" class="control-label"></label>
-                                <select asp-for="departure" asp-items="Model.departure" class="form-control dropdown">
-                                </select>
+                                @Html.DropDownListFor(model => model.departure, new SelectList(Model.departure, "DepartureName"), new { @class = "form-control dropdown" })
+
+                                @*<select asp-for="departure" asp-items="Model.departure" class="form-control dropdown">
+                                </select>*@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                @*<label asp-for="Idusera" class="control-label"></label>*@
-                                @*<select asp-for="Idusera" asp-items="Model.Idusera" class="form-control dropdown">*@
-                                </select>
+                                <label asp-for=@Model.Idusera class="control-label"></label>
+                                @Html.DropDownListFor(model => model.departure, new SelectList(Model.departure, "SupervisorId"), new { @class = "form-control dropdown" })
+                               
                             </div>
                         </div>
                     </div>
@@ -152,6 +154,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }
 
 
@@ -164,7 +167,7 @@ else { bg = ""; }
 
                 <div class="col-12 col-md-3 py-2">
                     <div class="card">
-                        <h5 class="card-text text-center m-0 p-2 @bg">@item.CheckIn.ToString("dd.MM hh:mm") - @item.CheckOut.ToString("dd.MM hh:mm")</h5>
+                        <h5 class="card-text text-center m-0 p-2 @bg">@item.CheckIn.ToString("dd.MM ") - @item.CheckOut.ToString("dd.MM ")</h5>
                         <div class="card-body rounded text-center">
                             <a asp-action="Details" asp-route-id="@item.Id">
                                 @*<h2 class="card-title text-uppercase">@item.Iddepartuers.DepartureName</h2>
