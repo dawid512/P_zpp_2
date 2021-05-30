@@ -3,3 +3,22 @@
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
+
+@foreach (var item in Model._ScheduleDaysListSDS)
+{
+    @if (item.StartDate < DateTime.Now) continue;
+    @if ((Model.licznik++) % 2 == 0)
+    {
+        <div class="offset-3 col-md-6 row">
+            <div style="background-color:white; border-radius:5px; font-size:150%;" class="col-md-6">@item.StartDate.ToString("yyyy-MM-dd") </div>
+            <div style="background-color:white; border-radius:5px; font-size:150%;" class="col-md-6">@item.Title</div>
+        </div> 
+        }
+    else
+    {
+        <div class="offset-3 col-md-6 row">
+            <div style="background-color:darkgray; border-radius:5px; font-size:150%;" class="col-md-6">@item.StartDate.ToString("yyyy-MM-dd") </div>
+            <div style="background-color:darkgray; border-radius:5px; font-size:150%;" class="col-md-6">@item.Title</div>
+        </div>
+    }
+}

@@ -41,13 +41,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
             var ScheduleName = _context.Users.Find(uid);
             
             _callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(_context ,uid, ScheduleName.Schedule)));
-            //_callMeJson = JsonSerializer.Serialize(Converter(GenerateSampleSchedule()));
-
-
-
-            //GenerateSampleSchedule();
-            //tmp.DisplayShiftOF(UserManager.GetUserId(User),)
-            //_callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
+            
         }
 
         public List<EventModel> Converter(List<SimpleDisplayShifs> toConvertList)
