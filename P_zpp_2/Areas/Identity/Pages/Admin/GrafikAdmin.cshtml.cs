@@ -40,8 +40,10 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
             var tmp = new NursesMain();
             var ScheduleName = _context.Users.Find(uid);
             
-            //_callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(_context ,uid, ScheduleName.Schedule)));
-            _callMeJson = JsonSerializer.Serialize(Converter(GenerateSampleSchedule()));
+            _callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(_context ,uid, ScheduleName.Schedule)));
+            //_callMeJson = JsonSerializer.Serialize(Converter(GenerateSampleSchedule()));
+
+
 
             //GenerateSampleSchedule();
             //tmp.DisplayShiftOF(UserManager.GetUserId(User),)

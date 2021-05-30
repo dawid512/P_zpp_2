@@ -114,7 +114,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
         public static void SelectStaff(DateTime selectedDateTime , List<Workday> workdaysList, List<Nurse> Personel, int Nofdays)
         {
             var today = selectedDateTime.Date.AddDays(Nofdays);
-            var PeopleWhoHaveLeaveToday = Personel.Where(n => n.AprovedLeave.Contains(today)).ToList();
+            var PeopleWhoHaveLeaveToday = Personel.Where(n => n.AprovedLeave.Contains(today)).ToList(); //tutaj wczytuje urlopy z klasy nurse, trzeba dodać do niej czytanie urlopow
             var AvailableStaff = Personel.Except(PeopleWhoHaveLeaveToday).ToList(); // xD
             var day = SelectForDayShift(AvailableStaff);
             var night = SelectForNightShift(AvailableStaff, day);
