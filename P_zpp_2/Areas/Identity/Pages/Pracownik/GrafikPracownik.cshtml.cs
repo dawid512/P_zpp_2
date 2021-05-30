@@ -13,41 +13,51 @@ using P_zpp_2.Models.MyCustomLittleDatabase;
 using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items;
 using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
 using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items;
+using P_zpp_2.Areas.Identity.Pages.Account.Display_Interfaces;
 
 namespace P_zpp_2.Areas.Identity.Pages.Pracownik
 {
     public class GrafikPracownikModel : PageModel
     {
-        private readonly P_zpp_2DbContext _context;
+        private readonly AplicationUser _context;
         private readonly IConfiguration Configuration;
         private readonly UserManager<ApplicationUser> _UserManager;
 
-        public GrafikPracownikModel(P_zpp_2DbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
+        public GrafikPracownikModel(AplicationUser context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
             _UserManager = userManager;
         }
 
-        public List<EventModel> _ScheduleDaysList { get; set; }
+       // public List<EventModel> _ScheduleDaysList { get; set; }
         public List<SimpleDisplayShifs> _ScheduleDaysListSDS { get; set; }
-        public string _callMeJson { get; set; }
+        //public string _callMeJson { get; set; }
         public ApplicationUser pracownik { get; set; }
         public int licznik { get; set; }
+        public IWorkerScheduleDisplay Schedule_type { get; set; }
         public void OnGet()
         {
             DemoScheduleToDispaly();
             licznik = 0;
 
-
-
             var uid = _UserManager.GetUserId(User);
-            var tmp = new NursesMain();
+            
             var ScheduleName = _context.Users.Find(uid);
-            _callMeJson = JsonSerializer.Serialize(Converter(tmp.DisplayShiftOF(_context, uid, ScheduleName.Schedule)));
+            var search_schedule = _context.Users.Find(uid).Rola;
+            switch (search_schedule)
+            {
+                case "Nurse":
+                    {
+                        Schedule_type = new NurseWorkerDispaly();
+                        break;
+                    };
+            }
+            _ScheduleDaysListSDS = Schedule_type.GetSchedule(_context, uid, ScheduleName.Schedule);
+            //_ScheduleDaysListSDS = tmp.DisplayShiftOF(_context, uid, ScheduleName.Schedule);
 
         }
-        public List<EventModel> Converter(List<SimpleDisplayShifs> toConvertList)
+        /*public List<EventModel> Converter(List<SimpleDisplayShifs> toConvertList)
         {
             List<EventModel> tmp = new List<EventModel>();
             int iterator = 1;
@@ -57,7 +67,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Pracownik
             }
 
             return tmp;
-        }
+        }*/
         public void DemoScheduleToDispaly()
         {
              _ScheduleDaysListSDS = new List<SimpleDisplayShifs> {

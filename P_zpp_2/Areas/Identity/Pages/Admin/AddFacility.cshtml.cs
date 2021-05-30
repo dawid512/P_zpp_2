@@ -17,11 +17,11 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
 {
     public class AddFacilityModel : PageModel
     {
-        private readonly P_zpp_2DbContext _context;
+        private readonly AplicationUser _context;
         private readonly IConfiguration Configuration;
 
 
-        public AddFacilityModel(P_zpp_2DbContext context, IConfiguration configuration)
+        public AddFacilityModel(AplicationUser context, IConfiguration configuration)
         {
             _context = context;
             Configuration = configuration;

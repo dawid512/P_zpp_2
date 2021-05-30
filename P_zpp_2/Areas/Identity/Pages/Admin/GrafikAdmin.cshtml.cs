@@ -18,11 +18,11 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 {
     public class GrafikAdminModel : PageModel
     {
-        private readonly P_zpp_2DbContext _context;
+        private readonly AplicationUser _context;
         private readonly IConfiguration Configuration;
         private readonly UserManager<ApplicationUser> _UserManager;
 
-        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
+        public GrafikAdminModel(AplicationUser context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;

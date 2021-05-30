@@ -19,10 +19,10 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
     public class PracownicyAdminModel : PageModel
     {
-        private readonly P_zpp_2DbContext _context;
+        private readonly AplicationUser _context;
         private readonly IConfiguration Configuration;
 
-        public PracownicyAdminModel(P_zpp_2DbContext context, IConfiguration configuration)
+        public PracownicyAdminModel(AplicationUser context, IConfiguration configuration)
         {
             _context = context;
             Configuration = configuration;

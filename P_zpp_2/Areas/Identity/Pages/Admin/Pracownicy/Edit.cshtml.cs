@@ -13,11 +13,11 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
 {
     public class EditModel : PageModel
     {
-        private readonly P_zpp_2DbContext _context;
+        private readonly AplicationUser _context;
         private readonly ILogger<EditModel> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public EditModel(P_zpp_2DbContext context,
+        public EditModel(AplicationUser context,
                            ILogger<EditModel> logger, UserManager<ApplicationUser> userManager)
         {
             _context = context;

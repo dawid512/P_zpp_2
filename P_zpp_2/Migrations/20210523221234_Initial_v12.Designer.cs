@@ -9,7 +9,7 @@ using P_zpp_2.Data;
 
 namespace P_zpp_2.Migrations
 {
-    [DbContext(typeof(P_zpp_2DbContext))]
+    [DbContext(typeof(AplicationUser))]
     [Migration("20210523221234_Initial_v12")]
     partial class Initial_v12
     {

@@ -8,7 +8,7 @@ using P_zpp_2.Data;
 
 namespace P_zpp_2.Migrations
 {
-    [DbContext(typeof(P_zpp_2DbContext))]
+    [DbContext(typeof(AplicationUser))]
     partial class P_zpp_2DbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

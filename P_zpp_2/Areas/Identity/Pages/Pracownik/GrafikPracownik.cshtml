@@ -10,15 +10,28 @@
     @if ((Model.licznik++) % 2 == 0)
     {
         <div class="offset-3 col-md-6 row">
-            <div style="background-color:white; border-radius:5px; font-size:150%;" class="col-md-6">@item.StartDate.ToString("yyyy-MM-dd") </div>
-            <div style="background-color:white; border-radius:5px; font-size:150%;" class="col-md-6">@item.Title</div>
+            <div class="col-md-6 div1_color">@item.StartDate.ToString("yyyy-MM-dd") </div>
+            <div class="col-md-6 div1_color">@item.Title</div>
         </div> 
         }
     else
     {
         <div class="offset-3 col-md-6 row">
-            <div style="background-color:darkgray; border-radius:5px; font-size:150%;" class="col-md-6">@item.StartDate.ToString("yyyy-MM-dd") </div>
-            <div style="background-color:darkgray; border-radius:5px; font-size:150%;" class="col-md-6">@item.Title</div>
+            <div class="col-md-6 div2_color">@item.StartDate.ToString("yyyy-MM-dd") </div>
+            <div  class="col-md-6 div2_color">@item.Title</div>
         </div>
     }
 }
+<style>
+    .div1_color {
+        background-color: white;
+        border-radius: 5px;
+        font-size: 150%;
+    }
+    .div2_color {
+        background-color: darkgray;
+        border-radius: 5px;
+        font-size: 150%;
+    }
+
+</style>

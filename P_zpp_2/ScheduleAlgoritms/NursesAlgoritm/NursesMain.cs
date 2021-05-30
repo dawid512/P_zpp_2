@@ -11,7 +11,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class NursesMain
     {        
-        public List<SimpleDisplayShifs> DisplayShiftOF (P_zpp_2DbContext _context,string User_id, string ScheduleName)
+        public List<SimpleDisplayShifs> DisplayShiftOF (AplicationUser _context,string User_id, string ScheduleName)
         {
             using(var db = _context)
             {
@@ -47,7 +47,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
         }
         public void RunNUrsesScheduler(DateTime CreateScheduleFromDate  ,int NumberOfDaysToSchedule, string NameOfSchedule)
         {
-            using (var db = new P_zpp_2DbContext())
+            using (var db = new AplicationUser())
             {
                 var PersonelList = new List<Nurse>();
 
@@ -89,7 +89,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
         }
         private void SaveScheduleLocationToDatabase( string Schedule_name, string schedule_location, string staff_data_location )
         {
-            using (var db = new P_zpp_2DbContext())
+            using (var db = new AplicationUser())
             {
                 if(db.schedules.Where(x=>x.scheduleName == Schedule_name).Any())
                 {

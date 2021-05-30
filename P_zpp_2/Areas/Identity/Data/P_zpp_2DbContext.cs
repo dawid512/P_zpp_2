@@ -10,7 +10,7 @@ using P_zpp_2.Models.MyCustomLittleDatabase;
 
 namespace P_zpp_2.Data
 {
-    public class P_zpp_2DbContext : IdentityDbContext
+    public class AplicationUser : IdentityDbContext
     {
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Departures> departures { get; set; }
@@ -21,7 +21,7 @@ namespace P_zpp_2.Data
         //public DbSet<AdministrationRole> administrationRoles { get; set; }
         
         
-        public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
+        public AplicationUser(DbContextOptions<AplicationUser> options)
             : base(options)
         {
         }
@@ -33,7 +33,7 @@ namespace P_zpp_2.Data
       
 
 
-        public P_zpp_2DbContext()
+        public AplicationUser()
         {
         }
 

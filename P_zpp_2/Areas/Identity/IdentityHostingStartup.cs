@@ -19,7 +19,7 @@ namespace P_zpp_2.Areas.Identity
         
 
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<P_zpp_2DbContext>(options =>
+                services.AddDbContext<AplicationUser>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("P_zpp_2DbContextConnection")));
 
@@ -34,7 +34,7 @@ namespace P_zpp_2.Areas.Identity
                 )
                 .AddRoles<IdentityRole>()
                 
-                .AddEntityFrameworkStores<P_zpp_2DbContext>();
+                .AddEntityFrameworkStores<AplicationUser>();
             });
         }
     }
