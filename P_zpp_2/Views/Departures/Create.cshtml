@@ -1,4 +1,4 @@
-﻿@model P_zpp_2.Data.Departures
+﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,16 +13,22 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Shifts" class="control-label"></label>
-                <input asp-for="Shifts" class="form-control" />
-                <span asp-validation-for="Shifts" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+        <label asp-for="Shifts" class="control-label"></label>
+        <input asp-for="Shifts" class="form-control" />
+        <span asp-validation-for="Shifts" class="text-danger"></span>*@
+            @*</div>*@
             <div class="form-group">
                 <label asp-for="DepartureName" class="control-label"></label>
                 <input asp-for="DepartureName" class="form-control" />
                 <span asp-validation-for="DepartureName" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="company" class="control-label"></label>
+                @Html.DropDownListFor(model => model.company, new SelectList(Model.company, "CompanyName"), new { @class = "form-control dropdown" })
+
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

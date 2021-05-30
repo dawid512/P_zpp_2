@@ -1,4 +1,5 @@
 ﻿using P_zpp_2.Models;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

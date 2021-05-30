@@ -19,7 +19,7 @@ namespace P_zpp_2.ViewModels
 
         [Display(Name = "Pracownik")]
         public string Idusera { get; set; }
-        [Display(Name = "Placowka")]
+        [Display(Name = "Dział")]
         public int Iddepartuers { get; set; }
     }
 }

@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ViewModels
 {
-    public class CompanyDepartuersListViewModel
+    public class CompanyDepartuersListViewModel : Departures
     {
-        public ICollection<Company> company { get; set; }
+        public SelectList company { get; set; }
 
-        public Departures departures { get; set; }
-        public IEnumerable<Departures> Departures { get; set; }
+        public ICollection<Departures> departures { get; set; }
+       // public IEnumerable<Departures> Departures { get; set; }
 
-        [Display(Name = "Id_firmy")]
-        public string idcompany { get; set; }
+        [Display(Name = "Firma")]
+        public int idcompany { get; set; }
        
     }
 }

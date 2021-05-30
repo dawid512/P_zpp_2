@@ -6,21 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
+using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
 {
     public class DeparturesController : Controller
     {
         private readonly P_zpp_2DbContext _context;
+        private ICollection<Company> _companies;
 
         public DeparturesController(P_zpp_2DbContext context)
         {
             _context = context;
+            _companies = _context.company.ToList();
         }
 
         // GET: Departures
         public async Task<IActionResult> Index()
         {
+            CompanyDepartuersListViewModel companyDepartuersListViewModel = new CompanyDepartuersListViewModel();
+            companyDepartuersListViewModel.company = new SelectList(_companies, "Id", "Name");
+
             return View(await _context.departures.ToListAsync());
         }
 
@@ -53,8 +60,16 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DeprtureId,Shifts,DepartureName")] Departures departures)
+        public async Task<IActionResult> Create(CompanyDepartuersListViewModel companyDepartuersListViewModel)
         {
+        
+          
+            Departures departures = companyDepartuersListViewModel;
+            
+           
+            departures.CompanyID = _companies.FirstOrDefault(x => x.CompanyId == companyDepartuersListViewModel.idcompany);
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(departures);

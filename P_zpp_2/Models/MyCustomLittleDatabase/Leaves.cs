@@ -33,7 +33,7 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         
 
 
-        [Display(Name = "Placowka")]
+        [Display(Name = "Dział")]
         public  Departures Iddepartuers { get; set; }
         [Display(Name = "Pracownik")]
         public  ApplicationUser Idusera { get; set; }

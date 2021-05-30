@@ -1,4 +1,4 @@
-﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
+﻿@model P_zpp_2.Models.MyCustomLittleDatabase.Company
 
 @{
     ViewData["Title"] = "Details";
@@ -12,47 +12,16 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.company.CompanyName)
+            @Html.DisplayNameFor(model => model.CompanyName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.company.CompanyName)
+            @Html.DisplayFor(model => model.CompanyName)
         </dd>
     </dl>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.departures.Shifts)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.departures.DepartureName)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Departures)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Shifts)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DepartureName)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.DeprtureId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.DeprtureId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.DeprtureId">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
+    
 
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.company.CompanyId">Edit</a> |
+   
     <a asp-action="Index">Back to List</a>
 </div>

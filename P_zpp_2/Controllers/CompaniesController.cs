@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
@@ -33,14 +34,12 @@ namespace P_zpp_2.Controllers
                 return NotFound();
             }
 
-            CompanyDepartuersListViewModel companyDepartuersListViewModel = new CompanyDepartuersListViewModel();
-
-            companyDepartuersListViewModel.Departures = _context.departures.ToList();
+           
            
 
-            var company = await _context.departures.Include(t=>t.CompanyID)
-                .FirstOrDefaultAsync(m => m.CompanyID.CompanyId == id);
-            companyDepartuersListViewModel.company = (ICollection<Company>)_context.company.FirstOrDefaultAsync(m => m.CompanyId == id);
+            var company = await _context.company
+                .FirstOrDefaultAsync(m => m.CompanyId == id);
+          
             if (company == null)
             {
                 return NotFound();
