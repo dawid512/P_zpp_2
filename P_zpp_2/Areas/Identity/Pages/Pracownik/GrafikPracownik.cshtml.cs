@@ -30,21 +30,25 @@ namespace P_zpp_2.Areas.Identity.Pages.Pracownik
             _UserManager = userManager;
         }
 
-       // public List<EventModel> _ScheduleDaysList { get; set; }
         public List<SimpleDisplayShifs> _ScheduleDaysListSDS { get; set; }
-        //public string _callMeJson { get; set; }
         public ApplicationUser pracownik { get; set; }
         public int licznik { get; set; }
         public IWorkerScheduleDisplay Schedule_type { get; set; }
         public void OnGet()
-        {
-            DemoScheduleToDispaly();
+        {           
             licznik = 0;
-
-            var uid = _UserManager.GetUserId(User);
-            
+            var uid = _UserManager.GetUserId(User); 
             var ScheduleName = _context.Users.Find(uid);
-            var search_schedule = _context.Users.Find(uid).Rola;
+            
+            GetScheduletype(_context.Users.Find(uid).Rola);
+            
+            // _ScheduleDaysListSDS = Schedule_type.GetSchedule(_context, uid, ScheduleName.Schedule);
+              
+            DemoScheduleToDispaly();
+        }
+
+        public void GetScheduletype(string search_schedule)
+        {
             switch (search_schedule)
             {
                 case "Nurse":
@@ -53,10 +57,8 @@ namespace P_zpp_2.Areas.Identity.Pages.Pracownik
                         break;
                     };
             }
-            _ScheduleDaysListSDS = Schedule_type.GetSchedule(_context, uid, ScheduleName.Schedule);
-            //_ScheduleDaysListSDS = tmp.DisplayShiftOF(_context, uid, ScheduleName.Schedule);
-
         }
+
         /*public List<EventModel> Converter(List<SimpleDisplayShifs> toConvertList)
         {
             List<EventModel> tmp = new List<EventModel>();

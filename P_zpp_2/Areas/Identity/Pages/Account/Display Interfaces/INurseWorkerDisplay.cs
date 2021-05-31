@@ -10,11 +10,6 @@ namespace P_zpp_2.Areas.Identity.Pages.Account.Display_Interfaces
 {
     public interface IWorkerScheduleDisplay
     {
-        //public List<SimpleDisplayShifs> _ShiftsList { get; set; }
-
         public List<SimpleDisplayShifs> GetSchedule(AplicationUser AUser, string userId, string Schedule);
-
-
-
     }
 }
