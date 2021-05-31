@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using P_zpp_2.Data;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,9 +11,10 @@ namespace P_zpp_2.ViewModels
 {
     public class CompanyDepartuersListViewModel : Departures
     {
-        public SelectList company { get; set; }
 
-        public ICollection<Departures> departures { get; set; }
+        public List<Company> companies { get; set; }
+        public SelectList company { get; set; }
+        public List<Departures> departures { get; set; }
        // public IEnumerable<Departures> Departures { get; set; }
 
         [Display(Name = "Firma")]
