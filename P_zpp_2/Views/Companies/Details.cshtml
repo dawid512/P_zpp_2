@@ -1,4 +1,4 @@
-﻿@model P_zpp_2.Models.MyCustomLittleDatabase.Company
+﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -6,16 +6,24 @@
 }
 
 <h1>Details</h1>
-
+<p>
+    <a asp-controller="Departures" asp-action="Create">Create New Department</a>
+</p>
 <div>
     <h4>Company</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Html.DisplayNameFor(model => model.companies.CompanyName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyName)
+            @Html.DisplayFor(model => model.companies.CompanyName)
+        </dd>
+        <dt class="col-sm-12">
+            @Html.DisplayNameFor(model => model.DepartureName)
+        </dt>
+        <dd class="col-sm-12">
+            @Html.DisplayFor(model => model.DepartureName)
         </dd>
     </dl>
     

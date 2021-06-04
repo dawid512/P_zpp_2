@@ -34,11 +34,12 @@ namespace P_zpp_2.Controllers
                 return NotFound();
             }
 
-           
-           
 
-            var company = await _context.company
+            CompanyDepartuersListViewModel company = new CompanyDepartuersListViewModel();
+
+            company.companies = await _context.company
                 .FirstOrDefaultAsync(m => m.CompanyId == id);
+            company.departures = _context.departures.Where(x => x.CompanyID.CompanyId == id).ToList();
           
             if (company == null)
             {
