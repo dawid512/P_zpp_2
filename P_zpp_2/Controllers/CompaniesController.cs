@@ -122,6 +122,7 @@ namespace P_zpp_2.Controllers
             return View(company);
         }
 
+
         // GET: Companies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

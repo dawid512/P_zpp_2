@@ -22,7 +22,8 @@ namespace P_zpp_2.Controllers
         // GET: Departures
         public async Task<IActionResult> Index()
         {
-            return View(await _context.departures.ToListAsync());
+
+            return View(await _context.departures.Include("CompanyID").ToListAsync());
         }
 
         // GET: Departures/Details/5
@@ -32,13 +33,16 @@ namespace P_zpp_2.Controllers
             {
                 return NotFound();
             }
+            ForDeparturesViewModel departures = new ForDeparturesViewModel();
+            departures.departures = await _context.departures.Include("CompanyID")
+            .FirstOrDefaultAsync(m => m.DeprtureId == id);
+            departures.appUsers = await _context.Users.Include("DeptID").Where(x => x.DeptID == departures.departures.DeprtureId).ToListAsync();
 
-            var departures = await _context.departures
-                .FirstOrDefaultAsync(m => m.DeprtureId == id);
             if (departures == null)
             {
                 return NotFound();
             }
+
 
             return View(departures);
         }
@@ -48,9 +52,9 @@ namespace P_zpp_2.Controllers
         {
             var deps = _context.company.Select(x => x);
             var model = new CompanyDepartuersListViewModel();
-            
+
             model.companyList = new SelectList(deps, "CompanyId", "CompanyName");
-        
+
 
 
             return View(model);
@@ -65,7 +69,7 @@ namespace P_zpp_2.Controllers
         public async Task<IActionResult> Create([Bind("DeprtureId,CompanyID,DepartureName")] Departures departures)
         {
             string str = Request.Form["Companies"].ToString();
-            departures.CompanyID = _context.company.Where(x => x.CompanyName == str).First();
+            departures.CompanyID = _context.company.Where(x => x.CompanyId.ToString() == str).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 _context.Add(departures);
@@ -125,6 +129,7 @@ namespace P_zpp_2.Controllers
             }
             return View(departures);
         }
+
 
         // GET: Departures/Delete/5
         public async Task<IActionResult> Delete(int? id)
