@@ -14,10 +14,9 @@ namespace P_zpp_2.ViewModels
         
         public SelectList departure { get; set; }
         public IEnumerable<SelectListItem> Pracownicy { get; set; }
-
         
 
-        [Display(Name = "Pracownik")]
+        [Display(Name = "Pracownik zgłaszający urlop")]
         public string Idusera { get; set; }
         [Display(Name = "Dział")]
         public int Iddepartuers { get; set; }

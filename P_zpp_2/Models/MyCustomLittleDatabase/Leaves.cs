@@ -10,17 +10,17 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
 {
     public class Leaves
     {
-        private static DateTime _joined = DateTime.Now.Date;
+        
 
         [Key]
         public int Id { get; set; }
         [Display(Name = "Data od")]
         [DataType(DataType.Date)]
-        public DateTime CheckIn { get { return _joined; } set { _joined = value; } }
+        public DateTime CheckIn { get; set; } = DateTime.Now;
 
         [Display(Name = "Data do")]
         [DataType(DataType.Date)]
-        public DateTime CheckOut { get { return _joined; } set { _joined = value; } }
+        public DateTime CheckOut { get; set; } = DateTime.Now;
 
         [Display(Name = "Nazwa Urlopu")]
         public string Leavesname { get; set; }
@@ -34,9 +34,9 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
 
 
         [Display(Name = "Dział")]
-        public  Departures Iddepartuers { get; set; }
+        public virtual  Departures Iddepartuers { get; set; }
         [Display(Name = "Pracownik")]
-        public  ApplicationUser Idusera { get; set; }
+        public virtual ApplicationUser Idusera { get; set; }
 
     }
 }

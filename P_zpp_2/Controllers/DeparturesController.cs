@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +25,12 @@ namespace P_zpp_2.Controllers
         // GET: Departures
         public async Task<IActionResult> Index()
         {
+           
             CompanyDepartuersListViewModel companyDepartuersListViewModel = new CompanyDepartuersListViewModel();
-            companyDepartuersListViewModel.company = new SelectList(_companies, "Id", "Name");
+            companyDepartuersListViewModel.departures =  _context.departures.ToList();
+            companyDepartuersListViewModel.company = new SelectList(_companies, "CompanyId", "CompanyName");
 
-            return View(await _context.departures.ToListAsync());
+            return View(companyDepartuersListViewModel);
         }
 
         // GET: Departures/Details/5
@@ -67,7 +69,7 @@ namespace P_zpp_2.Controllers
             Departures departures = companyDepartuersListViewModel;
             
            
-            departures.CompanyID = _companies.FirstOrDefault(x => x.CompanyId == companyDepartuersListViewModel.idcompany);
+            departures.CompanyID = _companies.FirstOrDefault(x => x.CompanyId == companyDepartuersListViewModel.CompanyID);
 
 
             if (ModelState.IsValid)
@@ -76,7 +78,7 @@ namespace P_zpp_2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(departures);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Departures/Edit/5

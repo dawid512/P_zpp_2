@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Pages\Koordynator\" />
     <Folder Include="CleverWorkTimeDatabase\" />
     <Folder Include="Data\" />
     <Folder Include="Migrations\" />

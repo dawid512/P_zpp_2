@@ -1,4 +1,4 @@
-﻿@model IEnumerable<P_zpp_2.Data.Departures>
+﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -23,7 +23,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.departures) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Shifts)
