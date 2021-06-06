@@ -58,12 +58,13 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
         public async Task<IActionResult> OnPostAsync(string? Id)
         {
             var pracownikToUpdate = await _userManager.FindByIdAsync(Id);
-
+            string str = Request.Form["Departures"].ToString();
 
 
             var roles = await _userManager.GetRolesAsync(pracownikToUpdate);
             await _userManager.RemoveFromRolesAsync(pracownikToUpdate, roles);
-            //pracownikToUpdate.DeptId = departures.DeprtureId;
+            pracownikToUpdate.departure = _context.departures.Where(x => x.DeprtureId.ToString() == str).FirstOrDefault();
+
             if (pracownikToUpdate == null)
             {
                 return NotFound();
@@ -72,7 +73,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
                 pracownikToUpdate,
                 "pracownik",
 
-                p => p.FirstName, p => p.LastName, p => p.Rola, p => p.Email, p => p.DeptId
+                p => p.FirstName, p => p.LastName, p => p.Rola, p => p.Email
 
 
 
