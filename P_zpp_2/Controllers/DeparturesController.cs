@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,7 +76,7 @@ namespace P_zpp_2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(departures);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Departures/Edit/5

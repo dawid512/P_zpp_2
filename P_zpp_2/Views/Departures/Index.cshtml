@@ -1,4 +1,4 @@
-﻿@model IEnumerable<P_zpp_2.Data.Departures>
+﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -19,17 +19,21 @@
             <th>
                 @Html.DisplayNameFor(model => model.DepartureName)
             </th>
+          
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.departures) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CompanyID.CompanyName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DepartureName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyID.CompanyName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.DeprtureId">Edit</a> |

@@ -9,17 +9,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Models.MyCustomLittleDatabase;
+using Microsoft.AspNetCore.Identity;
 
 namespace P_zpp_2.Controllers
 {
     public class LeavesController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly P_zpp_2DbContext _context;
         private ICollection<Departures> _departures;
         private ICollection<ApplicationUser> _applicationUser;
 
-        public LeavesController(P_zpp_2DbContext context)
+        public LeavesController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
             _departures = _context.departures.ToList();
             _applicationUser = context.Users.ToList();
@@ -28,17 +31,28 @@ namespace P_zpp_2.Controllers
       
 
         // GET: Leaves
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            //new SelectList(_departures, "DeprtureId", "DepartureName");
+
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
             leavesPracownicyListViewModel.leaves = _context.leaves.ToList();
-            leavesPracownicyListViewModel.departure = new SelectList(_departures, "Id", "Name");
+            leavesPracownicyListViewModel.departure = new SelectList(_departures.Where(d => d.User_id == user), "DeprtureId", "DepartureName");
+
+            //_context.departures.Where(d=>d.User_id == user).Select(d =>
+            //                                    new SelectListItem
+            //                                    {
+            //                                        Value = d.DeprtureId.ToString(),
+            //                                        Text = d.DepartureName
+            //                                    });
             leavesPracownicyListViewModel.Pracownicy = _applicationUser.Select(a =>
                                               new SelectListItem
                                               {
                                                   Value = a.Id,
                                                   Text = a.FirstName + " " + a.LastName
                                               });
+
 
             return View(leavesPracownicyListViewModel);
         }
@@ -75,8 +89,8 @@ namespace P_zpp_2.Controllers
         {
             Leaves leaves = leavesPracownicyListViewModel;
             
-            leaves.Iddepartuers = _departures.FirstOrDefault(x => x.DeprtureId == leavesPracownicyListViewModel.Iddepartuers);
-            leaves.Idusera = _applicationUser.FirstOrDefault(x => x.Id == leavesPracownicyListViewModel.Idusera);
+            leaves.Iddepartuers =  _departures.FirstOrDefault(x => x.DeprtureId == leavesPracownicyListViewModel.Iddepartuers);
+            leaves.Idusera = await _userManager.GetUserAsync(User);
 
             if (ModelState.IsValid)
             {
