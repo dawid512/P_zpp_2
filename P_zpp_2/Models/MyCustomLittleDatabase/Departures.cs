@@ -19,7 +19,8 @@ namespace P_zpp_2.Data
         //[ForeignKey("UserId")]
 
         //[ForeignKey("DeptID")]
-        //public virtual ApplicationUser MyDepartures { get; set; }
+        public virtual IEnumerable<ApplicationUser> MyUsers { get; set; }
         public string DepartureName { get; set; }
     }
+
 }

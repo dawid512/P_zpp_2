@@ -91,7 +91,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Rola=Input.Rola, UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, DeptID = null };
+                var user = new ApplicationUser { Rola=Input.Rola, UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, departure = null, DeptId = null };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

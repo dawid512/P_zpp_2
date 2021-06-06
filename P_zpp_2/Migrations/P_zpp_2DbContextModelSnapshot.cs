@@ -16,7 +16,7 @@ namespace P_zpp_2.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -225,26 +225,6 @@ namespace P_zpp_2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Company", b =>
-                {
-                    b.Property<int>("CompanyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CompanyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("company");
-                });
-
             modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
                 {
                     b.Property<int>("DeprtureId")
@@ -264,16 +244,11 @@ namespace P_zpp_2.Migrations
                     b.Property<string>("SupervisorIdId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("User_idId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("DeprtureId");
 
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("SupervisorIdId");
-
-                    b.HasIndex("User_idId");
 
                     b.ToTable("departures");
                 });
@@ -327,6 +302,26 @@ namespace P_zpp_2.Migrations
                     b.ToTable("schedules");
                 });
 
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
+                {
+                    b.Property<int>("CompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CompanyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("company");
+                });
+
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
                 {
                     b.Property<int>("Id")
@@ -371,6 +366,9 @@ namespace P_zpp_2.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<int?>("DeptId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(100)");
 
@@ -382,6 +380,8 @@ namespace P_zpp_2.Migrations
 
                     b.Property<string>("Schedule")
                         .HasColumnType("nvarchar(900)");
+
+                    b.HasIndex("DeptId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -437,18 +437,9 @@ namespace P_zpp_2.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Company", b =>
-                {
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("BossId");
-                });
-
             modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
                 {
-                    b.HasOne("P_zpp_2.Data.Company", "CompanyID")
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Company", "CompanyID")
                         .WithMany()
                         .HasForeignKey("CompanyId");
 
@@ -456,15 +447,9 @@ namespace P_zpp_2.Migrations
                         .WithMany()
                         .HasForeignKey("SupervisorIdId");
 
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "User_id")
-                        .WithMany()
-                        .HasForeignKey("User_idId");
-
                     b.Navigation("CompanyID");
 
                     b.Navigation("SupervisorId");
-
-                    b.Navigation("User_id");
                 });
 
             modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
@@ -482,6 +467,15 @@ namespace P_zpp_2.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("BossId");
+                });
+
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
                 {
                     b.HasOne("P_zpp_2.Data.Departures", "Iddepartuers")
@@ -495,6 +489,20 @@ namespace P_zpp_2.Migrations
                     b.Navigation("Iddepartuers");
 
                     b.Navigation("Idusera");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("P_zpp_2.Data.Departures", "departure")
+                        .WithMany("MyUsers")
+                        .HasForeignKey("DeptId");
+
+                    b.Navigation("departure");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
+                {
+                    b.Navigation("MyUsers");
                 });
 #pragma warning restore 612, 618
         }

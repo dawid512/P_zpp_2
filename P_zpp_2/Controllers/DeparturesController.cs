@@ -36,7 +36,7 @@ namespace P_zpp_2.Controllers
             ForDeparturesViewModel departures = new ForDeparturesViewModel();
             departures.departures = await _context.departures.Include("CompanyID")
             .FirstOrDefaultAsync(m => m.DeprtureId == id);
-            departures.appUsers = await _context.Users.Include("DeptID").Where(x => x.DeptID == departures.departures.DeprtureId).ToListAsync();
+            departures.appUsers = await _context.Users.Where(x => x.DeptId == departures.departures.DeprtureId).ToListAsync();
 
             if (departures == null)
             {

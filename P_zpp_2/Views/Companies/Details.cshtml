@@ -26,22 +26,17 @@
                 if (x == 0)
                 {
                     <dt class="col-sm-2">
-
                         @Html.DisplayNameFor(model => model.departures)
-
                     </dt>
                     x++;
                 }
                 else
                 {
                     <dt class="col-sm-2">
-
                     </dt>
                 }
                 <dd class="col-sm-10">
-
                     @Html.Raw(Html.Encode(item.DepartureName).Replace("\r\n", "<br />\r\n"))
-
                 </dd>
             }
         }
