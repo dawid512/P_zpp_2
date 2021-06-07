@@ -39,7 +39,7 @@ namespace P_zpp_2.Controllers
 
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
             leavesPracownicyListViewModel.leaves = await _context.leaves.Where(x => x.Iddepartuers.SupervisorId == ActualLoggedSupervisor).ToListAsync();
-            leavesPracownicyListViewModel.departure = new SelectList(_departures.Where(d => d.User_id == user), "DeprtureId", "DepartureName");
+            leavesPracownicyListViewModel.departure = new SelectList(_departures.Where(d => d.MyUsers == user), "DeprtureId", "DepartureName");
 
             //_context.departures.Where(d=>d.User_id == user).Select(d =>
             //                                    new SelectListItem
