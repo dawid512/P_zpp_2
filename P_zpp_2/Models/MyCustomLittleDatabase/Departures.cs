@@ -23,8 +23,6 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         public virtual Company CompanyID { get; set; }
         [Display(Name = "Koordynator")]
         public virtual ApplicationUser SupervisorId { get; set; }
-        [Display(Name = "Pracownik")]
-        public virtual ApplicationUser User_id { get; set; }
     }
 
 }

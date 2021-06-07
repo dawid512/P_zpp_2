@@ -1,4 +1,4 @@
-﻿@model P_zpp_2.Models.MyCustomLittleDatabase.Departures
+﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -15,14 +15,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DeprtureId" />
             <div class="form-group">
-                <label asp-for="Shifts" class="control-label"></label>
-                <input asp-for="Shifts" class="form-control" />
-                <span asp-validation-for="Shifts" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="DepartureName" class="control-label"></label>
                 <input asp-for="DepartureName" class="form-control" />
                 <span asp-validation-for="DepartureName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="companies" class="control-label"></label>
+                @Html.DropDownList("Companies", Model.companyList)
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

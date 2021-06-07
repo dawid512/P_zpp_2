@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using P_zpp_2.Data;
 using P_zpp_2.Models;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 
 namespace P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy
 {

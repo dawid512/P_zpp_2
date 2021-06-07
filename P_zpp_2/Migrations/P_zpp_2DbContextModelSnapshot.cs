@@ -225,62 +225,6 @@ namespace P_zpp_2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
-                {
-                    b.Property<int>("DeprtureId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DepartureName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Shifts")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupervisorIdId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DeprtureId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("SupervisorIdId");
-
-                    b.ToTable("departures");
-                });
-
-            modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MessageContent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReciverId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("isRead")
-                        .HasColumnType("bit");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("ReciverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("messages");
-                });
-
             modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
                 {
                     b.Property<int>("id")
@@ -309,17 +253,45 @@ namespace P_zpp_2.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BossIdId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("CompanyId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("BossIdId");
 
                     b.ToTable("company");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Departures", b =>
+                {
+                    b.Property<int>("DeprtureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DepartureName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Shifts")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupervisorIdId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DeprtureId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("SupervisorIdId");
+
+                    b.ToTable("departures");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
@@ -360,6 +332,34 @@ namespace P_zpp_2.Migrations
                     b.HasIndex("IduseraId");
 
                     b.ToTable("leaves");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Messages", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReciverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ReciverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("messages");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
@@ -437,7 +437,16 @@ namespace P_zpp_2.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
+                        .WithMany()
+                        .HasForeignKey("BossIdId");
+
+                    b.Navigation("BossId");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Departures", b =>
                 {
                     b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Company", "CompanyID")
                         .WithMany()
@@ -452,7 +461,22 @@ namespace P_zpp_2.Migrations
                     b.Navigation("SupervisorId");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "Iddepartuers")
+                        .WithMany()
+                        .HasForeignKey("IddepartuersDeprtureId");
+
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
+                        .WithMany()
+                        .HasForeignKey("IduseraId");
+
+                    b.Navigation("Iddepartuers");
+
+                    b.Navigation("Idusera");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Messages", b =>
                 {
                     b.HasOne("P_zpp_2.Models.ApplicationUser", "Reciver")
                         .WithMany()
@@ -467,40 +491,16 @@ namespace P_zpp_2.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
-                {
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("BossId");
-                });
-
-            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
-                {
-                    b.HasOne("P_zpp_2.Data.Departures", "Iddepartuers")
-                        .WithMany()
-                        .HasForeignKey("IddepartuersDeprtureId");
-
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
-                        .WithMany()
-                        .HasForeignKey("IduseraId");
-
-                    b.Navigation("Iddepartuers");
-
-                    b.Navigation("Idusera");
-                });
-
             modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("P_zpp_2.Data.Departures", "departure")
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "departure")
                         .WithMany("MyUsers")
                         .HasForeignKey("DeptId");
 
                     b.Navigation("departure");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Departures", b =>
                 {
                     b.Navigation("MyUsers");
                 });

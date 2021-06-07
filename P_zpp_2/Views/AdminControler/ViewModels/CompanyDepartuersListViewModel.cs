@@ -16,6 +16,7 @@ namespace P_zpp_2.ViewModels
         public SelectList company { get; set; }
         public SelectList companyList { get; set; }
         public List<Departures> departures { get; set; }
+        public Departures dp { get; set; }
        // public IEnumerable<Departures> Departures { get; set; }
 
         [Display(Name = "Firma")]
