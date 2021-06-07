@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
@@ -82,7 +83,7 @@ namespace P_zpp_2.Controllers
         // GET: Departures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
             }
@@ -91,8 +92,14 @@ namespace P_zpp_2.Controllers
             if (departures == null)
             {
                 return NotFound();
-            }
-            return View(departures);
+            }*/
+            var deps = await _context.departures.FindAsync(id);
+            var comps = _context.company.Select(x => x);
+            var model = new CompanyDepartuersListViewModel();
+            model.DeprtureId = deps.DeprtureId;
+            model.companyList = new SelectList(comps, "CompanyId", "CompanyName");
+
+            return View(model);
         }
 
         // POST: Departures/Edit/5
@@ -100,23 +107,26 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DeprtureId,Shifts,DepartureName")] Departures departures)
+        public async Task<IActionResult> Edit(int id, [Bind("DeprtureId,CompanyID,DepartureName")]  CompanyDepartuersListViewModel deps)
         {
-            if (id != departures.DeprtureId)
+
+            if (id != deps.DeprtureId)
             {
                 return NotFound();
             }
+            string str = Request.Form["Companies"].ToString();
 
+            deps.CompanyID = _context.company.Where(x => x.CompanyId.ToString() == str).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(departures);
+                    _context.Update(deps);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeparturesExists(departures.DeprtureId))
+                    if (!DeparturesExists(deps.DeprtureId))
                     {
                         return NotFound();
                     }
@@ -127,7 +137,7 @@ namespace P_zpp_2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(departures);
+            return View(deps);
         }
 
 
