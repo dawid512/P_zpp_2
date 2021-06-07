@@ -1,43 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using P_zpp_2.Data;
-using P_zpp_2.Models;
-using P_zpp_2.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using P_zpp_2.Models.MyCustomLittleDatabase;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using P_zpp_2.Data;
+using P_zpp_2.Models;
+using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
 {
-    public class LeavesController : Controller
+    public class LeavesAdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly P_zpp_2DbContext _context;
         private ICollection<Departures> _departures;
         private ICollection<ApplicationUser> _applicationUser;
 
-        public LeavesController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
+        public LeavesAdminController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
             _departures = _context.departures.ToList();
             _applicationUser = context.Users.ToList();
+
         }
 
-      
-
-        // GET: Leaves
+        // GET: LeavesAdmin
         public async Task<IActionResult> Index()
         {
+            var ActualLoggedSupervisor = await _userManager.GetUserAsync(User);
+
             var user = await _userManager.GetUserAsync(User);
             //new SelectList(_departures, "DeprtureId", "DepartureName");
 
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
-            leavesPracownicyListViewModel.leaves = _context.leaves.Where(x=>x.Idusera==user).ToList();
+            leavesPracownicyListViewModel.leaves = await _context.leaves.Where(x => x.Iddepartuers.SupervisorId == ActualLoggedSupervisor).ToListAsync();
             leavesPracownicyListViewModel.departure = new SelectList(_departures.Where(d => d.User_id == user), "DeprtureId", "DepartureName");
 
             //_context.departures.Where(d=>d.User_id == user).Select(d =>
@@ -55,47 +56,40 @@ namespace P_zpp_2.Controllers
 
 
             return View(leavesPracownicyListViewModel);
+
+      
         }
 
-        // GET: Leaves/Details/5
+        // GET: LeavesAdmin/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+         if (id == null)
             {
                 return NotFound();
             }
 
-            var reservation = await _context.leaves
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reservation == null)
+            var leaves = await _context.leaves.FindAsync(id);
+            if (leaves == null)
             {
                 return NotFound();
             }
-
-            return View(reservation);
+            return View(leaves);
         }
-
-        // GET: Leaves/Create
-        public IActionResult Create()
-        {
-
-            return View();
-        }
-
-        // POST: Leaves/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LeavesPracownicyListViewModel leavesPracownicyListViewModel)
+        public async Task<IActionResult> Details(int? id, [Bind("Id,CheckIn,CheckOut,Leavesname,Status,Status_zaakceptopwane,Status_odrzucone")] Leaves leaves)
         {
-            Leaves leaves = leavesPracownicyListViewModel;
-            
-            leaves.Iddepartuers =  _departures.FirstOrDefault(x => x.DeprtureId == leavesPracownicyListViewModel.Iddepartuers);
-            leaves.Idusera = await _userManager.GetUserAsync(User);
+            if (id != leaves.Id)
+            {
+                return NotFound();
+            }
+
             if (leaves.Status_odrzucone == false && leaves.Status_zaakceptopwane == false)
             {
                 leaves.Status = "Oczekujące";
             }
-            else if (leaves.Status_odrzucone == true )
+            else if (leaves.Status_odrzucone == true)
             {
                 leaves.Status_zaakceptopwane = false;
                 leaves.Status = "Odrzucony";
@@ -108,14 +102,50 @@ namespace P_zpp_2.Controllers
 
             if (ModelState.IsValid)
             {
+                try
+                {
+                    _context.Update(leaves);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LeavesExists(leaves.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(leaves);
+        }
+
+        // GET: LeavesAdmin/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: LeavesAdmin/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,CheckIn,CheckOut,Leavesname,Status,Status_zaakceptopwane,Status_odrzucone")] Leaves leaves)
+        {
+            if (ModelState.IsValid)
+            {
                 _context.Add(leaves);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            return View(leaves);
         }
 
-        // GET: Leaves/Edit/5
+        // GET: LeavesAdmin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -131,10 +161,12 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
-        // POST: Leaves/Edit/5
+        // POST: LeavesAdmin/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CheckIn,CheckOut,Leavesname,Status")] Leaves leaves)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CheckIn,CheckOut,Leavesname,Status,Status_zaakceptopwane,Status_odrzucone")] Leaves leaves)
         {
             if (id != leaves.Id)
             {
@@ -164,7 +196,7 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
-        // GET: Leaves/Delete/5
+        // GET: LeavesAdmin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -182,7 +214,7 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
-        // POST: Leaves/Delete/5
+        // POST: LeavesAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

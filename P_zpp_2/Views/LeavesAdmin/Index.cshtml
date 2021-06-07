@@ -1,0 +1,73 @@
+﻿@model P_zpp_2.ViewModels.LeavesPracownicyListViewModel;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card-pracownicy  ">
+    <div class="card-header">
+        <h2>Prośby o urlop</h2>
+
+   
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.Idusera)
+                    </th>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.Idusera)
+                    </th>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.Iddepartuers)
+                    </th>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.CheckIn)
+                    </th>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.CheckOut)
+                    </th>
+                    
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.leaves)
+                {
+                <tr class="card-header card-pracownicy ">
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.Idusera.FirstName)
+                    </td>
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.Idusera.LastName)
+                    </td>
+                    <td class="napis-label">
+                      
+                        @Html.DisplayFor(modelItem => item.Iddepartuers.DepartureName)
+                    </td>
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.CheckIn)
+                    </td>
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.CheckOut)
+                    </td>
+                   
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+                    <td class="napis-label">
+             
+                        <a class="login_btn btn napis-label" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+ 
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
