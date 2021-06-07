@@ -11,6 +11,7 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         [Key]
         public int DeprtureId { get; set; }
         public string Shifts { get; set; } //json, json, Json, JSON, JSON!
+        [Display(Name = "Dział")]
         public string DepartureName { get; set; }
 
 
