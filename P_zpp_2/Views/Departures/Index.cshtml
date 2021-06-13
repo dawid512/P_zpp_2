@@ -3,40 +3,42 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="card-pracownicy  ">
+    <div class="card-header">
+        <h2>Działy</h2>
 
-<h1>Index</h1>
+        <p>
+            <a class="login_btn btn napis-label" asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.CompanyID.CompanyName)
+                    </th>
+                    <th class="napis-label" >
+                        @Html.DisplayNameFor(model => model.DepartureName)
+                    </th>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyID.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartureName)
-            </th>
-          
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyID.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartureName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DeprtureId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DeprtureId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DeprtureId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="card-header card-pracownicy ">
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.CompanyID.CompanyName)
+                        </td>
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.DepartureName)
+                        </td>
+                        <td>
+                            <a class="login_btn btn napis-label" asp-action="Edit" asp-route-id="@item.DeprtureId">Edit</a> |
+                            <a class="login_btn btn napis-label" asp-action="Details" asp-route-id="@item.DeprtureId">Details</a> |
+                            <a class="login_btn btn napis-label" asp-action="Delete" asp-route-id="@item.DeprtureId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>

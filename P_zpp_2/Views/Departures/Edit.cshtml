@@ -4,33 +4,34 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="cardlogged">
+    <div class="card-header">
+        <h2>Edytuj</h2>
 
-<h1>Edit</h1>
+        <h4>Dział</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="DeprtureId" />
+                    <div class="form-group">
+                        <label asp-for="DepartureName" class="control-label napis-label"></label>
+                        <input asp-for="DepartureName" class="form-control" />
+                        <span asp-validation-for="DepartureName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="companies" class="control-label napis-label"></label>
+                        @Html.DropDownList("Companies", Model.companyList)
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class=" btn float-md-right  login_btn napis-label" />
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<h4>Departures</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DeprtureId" />
-            <div class="form-group">
-                <label asp-for="DepartureName" class="control-label"></label>
-                <input asp-for="DepartureName" class="form-control" />
-                <span asp-validation-for="DepartureName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="companies" class="control-label"></label>
-                @Html.DropDownList("Companies", Model.companyList)
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div>
+            <a class=" btn float-md-right  login_btn napis-label" asp-action="Index">Back to List</a>
+        </div>
 
