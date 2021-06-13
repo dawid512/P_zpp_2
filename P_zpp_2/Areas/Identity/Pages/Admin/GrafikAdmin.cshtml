@@ -5,7 +5,10 @@
 }
 
 
-<div id="calendar" style="        
+<a data-toggle="modal" data-target="#AddLeavesModal">
+    Create New
+</a>
+<div id="calendar" style="
         background-color: white;
         padding: 5px;
         border-radius: 7px;
@@ -13,6 +16,112 @@
 
 <link rel="stylesheet" href="~/css/FullCalendar.css" />
 <script src="~/js/FullCalendar.js"></script>
+
+<style>
+    a:link {
+        color: black;
+    }
+
+    a:visited {
+        color: black;
+    }
+
+    a:hover {
+        color: #333;
+        opacity: 0.7;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: black;
+    }
+
+    .btn-delete {
+        position: absolute;
+        border-radius: 50%;
+        top: 0px;
+        right: -10px;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        padding: 0;
+        -webkit-box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+        box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+        -webkit-transition: background .2s ease-in-out;
+        transition: background .2s ease-in-out;
+        border: 0px;
+        font-size: 11px;
+        color: black;
+        font-weight: 700;
+    }
+</style>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="AddLeavesModal" tabindex="-1" role="dialog" aria-labelledby="AddLeadesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddLeavesModalLabel">Dodaj urlop</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Create">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @*<div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label asp-for=@Model. class="control-label"></label>
+                                    <input asp-for="CheckIn" class="form-control" required />
+                                    <span asp-validation-for="CheckIn" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label asp-for=@Model.CheckOut class="control-label"></label>
+                                    <input asp-for="CheckOut" class="form-control" />
+                                    <span asp-validation-for="CheckOut" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            @*<div class="form-group">
+                                    <label asp-for="departure" class="control-label"></label>
+                                    @Html.DropDownListFor(model => model.departure, Model.departure, new { @class = "form-control dropdown" })
+
+
+                                </div>*@
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                @*<label asp-for="Idusera" class="control-label"></label>*@
+                                @*<select asp-for="Idusera" asp-items="Model.Idusera" class="form-control dropdown">*@
+                                @*</select>*@
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <script type="text/javascript">

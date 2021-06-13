@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CleverWorkTimeDatabase\**" />
+    <Compile Remove="Data\**" />
+    <Content Remove="CleverWorkTimeDatabase\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="CleverWorkTimeDatabase\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="CleverWorkTimeDatabase\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
@@ -18,8 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Pages\Koordynator\" />
-    <Folder Include="CleverWorkTimeDatabase\" />
-    <Folder Include="Data\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />

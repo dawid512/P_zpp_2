@@ -12,7 +12,7 @@ namespace P_zpp_2.ViewModels
     {
         public ICollection<Leaves> leaves { get; set; }
         
-        public SelectList departure { get; set; }
+        public ICollection<Departures> departure { get; set; }
         public IEnumerable<SelectListItem> Pracownicy { get; set; }
 
         

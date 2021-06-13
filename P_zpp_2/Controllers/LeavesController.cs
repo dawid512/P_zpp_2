@@ -34,18 +34,17 @@ namespace P_zpp_2.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            var userid = _userManager.GetUserId(User);
             //new SelectList(_departures, "DeprtureId", "DepartureName");
 
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
             leavesPracownicyListViewModel.leaves = _context.leaves.Where(x=>x.Idusera==user).ToList();
-            leavesPracownicyListViewModel.departure = new SelectList(_departures.Where(d => d.MyUsers == user), "DeprtureId", "DepartureName");
+            leavesPracownicyListViewModel.departure = _departures.Where(d => d.MyUsers == user).ToList();
+            //var depIdFromUser = _context.Users.Where(x => x.Id == userid).Select(x => x.DeptId).ToString();
+            //var deps = _context.departures.Where(d => d.DeprtureId.ToString() == depIdFromUser);
 
-            //_context.departures.Where(d=>d.User_id == user).Select(d =>
-            //                                    new SelectListItem
-            //                                    {
-            //                                        Value = d.DeprtureId.ToString(),
-            //                                        Text = d.DepartureName
-            //                                    });
+            //leavesPracownicyListViewModel.departure = new SelectList(deps, "DeprtureId", "DepartureName");
+          
             leavesPracownicyListViewModel.Pracownicy = _applicationUser.Select(a =>
                                               new SelectListItem
                                               {
