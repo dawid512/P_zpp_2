@@ -1,5 +1,4 @@
-﻿@model P_zpp_2.ViewModels.CompanyDepartuersListViewModel
-
+﻿@model IEnumerable<P_zpp_2.Models.MyCustomLittleDatabase.Departures>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Shifts)
+                @Html.DisplayNameFor(model => model.CompanyID.CompanyName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DepartureName)
@@ -24,16 +23,13 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.departures) {
+@foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Shifts)
+                @Html.DisplayFor(modelItem => item.CompanyID.CompanyName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DepartureName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyID.CompanyName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.DeprtureId">Edit</a> |

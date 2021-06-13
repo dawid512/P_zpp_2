@@ -11,7 +11,7 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         [Key]
         public int DeprtureId { get; set; }
         public string Shifts { get; set; } //json, json, Json, JSON, JSON!
-        [Display(Name = "Dział")]
+        public virtual IEnumerable<ApplicationUser> MyUsers { get; set; }
         public string DepartureName { get; set; }
 
 
@@ -20,7 +20,6 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         public virtual Company CompanyID { get; set; }
         [Display(Name = "Koordynator")]
         public virtual ApplicationUser SupervisorId { get; set; }
-        [Display(Name = "Pracownik")]
-        public virtual ApplicationUser User_id { get; set; }
     }
+
 }

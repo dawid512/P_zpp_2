@@ -19,8 +19,8 @@ namespace P_zpp_2.Data
         public DbSet<Schedule> schedules { get; set; }
         public DbSet<Leaves> leaves { get; set; }
         //public DbSet<AdministrationRole> administrationRoles { get; set; }
-        
-        
+
+
         public P_zpp_2DbContext(DbContextOptions<P_zpp_2DbContext> options)
             : base(options)
         {
@@ -30,7 +30,7 @@ namespace P_zpp_2.Data
         //{
 
         //}
-      
+
 
 
         public P_zpp_2DbContext()
@@ -40,7 +40,10 @@ namespace P_zpp_2.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-           
+            builder.Entity<Departures>()
+                .HasMany(x => x.MyUsers)
+                .WithOne(x => x.departure)
+                .HasForeignKey(x => x.DeptId);
         }
     }
 }

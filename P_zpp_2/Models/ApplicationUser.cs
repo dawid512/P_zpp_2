@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using P_zpp_2.Data;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 
 namespace P_zpp_2.Models
 {
@@ -29,7 +30,8 @@ namespace P_zpp_2.Models
         [Column(TypeName = "nvarchar(900)")]
         public string Schedule { get; set; }
 
-        //public Departures testfield { get; set; }
+        public int? DeptId { get; set; }
+        public virtual Departures departure { get; set; }
 
     }
 }

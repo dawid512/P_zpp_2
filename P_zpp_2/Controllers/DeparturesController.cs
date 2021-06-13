@@ -14,23 +14,17 @@ namespace P_zpp_2.Controllers
     public class DeparturesController : Controller
     {
         private readonly P_zpp_2DbContext _context;
-        private ICollection<Company> _companies;
 
         public DeparturesController(P_zpp_2DbContext context)
         {
             _context = context;
-            _companies = _context.company.ToList();
         }
 
         // GET: Departures
         public async Task<IActionResult> Index()
         {
-           
-            CompanyDepartuersListViewModel companyDepartuersListViewModel = new CompanyDepartuersListViewModel();
-            companyDepartuersListViewModel.departures =  _context.departures.ToList();
-            companyDepartuersListViewModel.company = new SelectList(_companies, "CompanyId", "CompanyName");
 
-            return View(companyDepartuersListViewModel);
+            return View(await _context.departures.Include("CompanyID").ToListAsync());
         }
 
         // GET: Departures/Details/5
@@ -40,13 +34,16 @@ namespace P_zpp_2.Controllers
             {
                 return NotFound();
             }
+            ForDeparturesViewModel departures = new ForDeparturesViewModel();
+            departures.departures = await _context.departures.Include("CompanyID")
+            .FirstOrDefaultAsync(m => m.DeprtureId == id);
+            departures.appUsers = await _context.Users.Where(x => x.DeptId == departures.departures.DeprtureId).ToListAsync();
 
-            var departures = await _context.departures
-                .FirstOrDefaultAsync(m => m.DeprtureId == id);
             if (departures == null)
             {
                 return NotFound();
             }
+
 
             return View(departures);
         }
@@ -54,7 +51,15 @@ namespace P_zpp_2.Controllers
         // GET: Departures/Create
         public IActionResult Create()
         {
-            return View();
+            var deps = _context.company.Select(x => x);
+            var model = new CompanyDepartuersListViewModel();
+
+            model.companyList = new SelectList(deps, "CompanyId", "CompanyName");
+
+
+
+            return View(model);
+
         }
 
         // POST: Departures/Create
@@ -62,16 +67,10 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CompanyDepartuersListViewModel companyDepartuersListViewModel)
+        public async Task<IActionResult> Create([Bind("DeprtureId,CompanyID,DepartureName")] Departures departures)
         {
-        
-          
-            Departures departures = companyDepartuersListViewModel;
-            
-           
-            departures.CompanyID = _companies.FirstOrDefault(x => x.CompanyId == companyDepartuersListViewModel.CompanyID);
-
-
+            string str = Request.Form["Companies"].ToString();
+            departures.CompanyID = _context.company.Where(x => x.CompanyId.ToString() == str).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 _context.Add(departures);
@@ -84,7 +83,7 @@ namespace P_zpp_2.Controllers
         // GET: Departures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            /*if (id == null)
             {
                 return NotFound();
             }
@@ -93,8 +92,14 @@ namespace P_zpp_2.Controllers
             if (departures == null)
             {
                 return NotFound();
-            }
-            return View(departures);
+            }*/
+            var deps = await _context.departures.FindAsync(id);
+            var comps = _context.company.Select(x => x);
+            var model = new CompanyDepartuersListViewModel();
+            model.DeprtureId = deps.DeprtureId;
+            model.companyList = new SelectList(comps, "CompanyId", "CompanyName");
+
+            return View(model);
         }
 
         // POST: Departures/Edit/5
@@ -102,23 +107,26 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DeprtureId,Shifts,DepartureName")] Departures departures)
+        public async Task<IActionResult> Edit(int id, [Bind("DeprtureId,CompanyID,DepartureName")]  CompanyDepartuersListViewModel deps)
         {
-            if (id != departures.DeprtureId)
+
+            if (id != deps.DeprtureId)
             {
                 return NotFound();
             }
+            string str = Request.Form["Companies"].ToString();
 
+            deps.CompanyID = _context.company.Where(x => x.CompanyId.ToString() == str).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(departures);
+                    _context.Update(deps);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeparturesExists(departures.DeprtureId))
+                    if (!DeparturesExists(deps.DeprtureId))
                     {
                         return NotFound();
                     }
@@ -129,8 +137,9 @@ namespace P_zpp_2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(departures);
+            return View(deps);
         }
+
 
         // GET: Departures/Delete/5
         public async Task<IActionResult> Delete(int? id)
