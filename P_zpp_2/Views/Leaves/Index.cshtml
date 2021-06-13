@@ -84,7 +84,7 @@
                             <div class="form-group">
                                 <label asp-for="departure" class="control-label"></label>
                              
-                                <input asp-for="@Model.departure" class="form-control" disabled />
+                                <input asp-for="@Model.singleDep.DepartureName" class="form-control" disabled />
                                 @*@Html.DropDownList("Departures", Model.departure)
                                 @Html.DropDownListFor(model => model.Iddepartuers, Model.departure, new { @class = "form-control dropdown" })*@
 

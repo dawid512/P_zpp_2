@@ -15,7 +15,7 @@ namespace P_zpp_2.ViewModels
         public ICollection<Departures> departure { get; set; }
         public IEnumerable<SelectListItem> Pracownicy { get; set; }
 
-        
+        public Departures singleDep { get; set; }
 
         [Display(Name = "Pracownik")]
         public string Idusera { get; set; }
