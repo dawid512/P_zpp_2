@@ -39,8 +39,9 @@ namespace P_zpp_2.Controllers
             //new SelectList(_departures, "DeprtureId", "DepartureName");
             var userDepartment = _applicationUser.Where(x => x.Id == userid).Select(x => x.DeptId);
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
-            leavesPracownicyListViewModel.leaves = await _context.leaves.Where(x => x.Iddepartuers.DeprtureId.ToString() == ActualLoggedSupervisor.DeptId.ToString()).ToListAsync();
-            leavesPracownicyListViewModel.departure = _departures.Where(d => d.MyUsers == user).ToList();
+           // .Where(x => x.Idusera.DeptId == de)
+           
+            leavesPracownicyListViewModel.departure = _departures.Where(d => d.DeprtureId == user.DeptId).ToList();
 
             //_context.departures.Where(d=>d.User_id == user).Select(d =>
             //                                    new SelectListItem
@@ -54,8 +55,9 @@ namespace P_zpp_2.Controllers
                                                   Value = a.Id,
                                                   Text = a.FirstName + " " + a.LastName
                                               });
-
-
+            var currentUserDepartureId = _departures.Where(d => d.DeprtureId == user.DeptId).Select(X=>X.DeprtureId).FirstOrDefault();
+        
+            leavesPracownicyListViewModel.leaves = await _context.leaves.Where(X=>X.Iddepartuers.DeprtureId== currentUserDepartureId).ToListAsync();
             return View(leavesPracownicyListViewModel);
 
       

@@ -179,7 +179,7 @@ else { bg = ""; }
                         <h5 class="card-text text-center m-0 p-2 @bg">@item.CheckIn.ToString("dd.MM ") - @item.CheckOut.ToString("dd.MM ")</h5>
                         <div class="card-pracownicy rounded text-center">
                             <a asp-action="Details" asp-route-id="@item.Id">
-                                @*<h2 class="card-title napis-label text-uppercase">@item.</h2>*@
+                                @*<h2 class="card-title napis-label text-uppercase">@item.Iddepartuers.DepartureName</h2*@
                                 <p class="card-text napis-label">@item.Idusera.FirstName @item.Idusera.LastName</p>
                                 <p class="card-text napis-label mb-0">Status: @item.Status </p>
 
