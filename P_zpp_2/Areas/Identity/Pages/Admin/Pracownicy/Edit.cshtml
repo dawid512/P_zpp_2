@@ -1,57 +1,68 @@
-﻿@page 
+﻿@page
+
 @model P_zpp_2.Areas.Identity.Pages.Admin.Pracownicy.EditModel
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="cardlogged">
+    <div class="card-header">
+        <h4>Pracownik</h4>
+        <hr />
 
-<h4>Student</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Pracownik.Id" />
-            <div class="form-group">
-                <label asp-for="Pracownik.LastName" class="control-label"></label>
-                <input asp-for="Pracownik.LastName" class="form-control" />
-                <span asp-validation-for="Pracownik.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pracownik.FirstName" class="control-label"></label>
-                <input asp-for="Pracownik.FirstName" class="form-control" />
-                <span asp-validation-for="Pracownik.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pracownik.Rola" class="control-label"></label>
-                <select asp-for="Pracownik.Rola" class="form-control">
-                    <option value="Administrator">Administrator</option>
-                    <option value="Koordynator">Koordynator</option>
-                    <option value="Pracownik">Pracownik</option>
+        <div class="col-md-4">
 
-                </select>
-                <span asp-validation-for="Pracownik.Rola" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pracownik.Email" class="control-label"></label>
-                <input asp-for="Pracownik.Email" class="form-control" />
-                <span asp-validation-for="Pracownik.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="departures" class="control-label"></label>
-                @Html.DropDownList("Departures", Model.departures)
-                <span asp-validation-for="departures" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger napis-label"></div>
+                <input type="hidden" asp-for="Pracownik.Id" />
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Pracownik.LastName" class="control-label napis-label"></label>
+                        <input asp-for="Pracownik.LastName" disabled class="form-control" />
+                      
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pracownik.FirstName" class="control-label napis-label"></label>
+                        <input asp-for="Pracownik.FirstName " disabled class="form-control" />
+                    
+                    </div>
+                </div>
+                <div class="row float-md-right">
+                    <div class="form-group">
+                        <label asp-for="Pracownik.Rola" class="control-label napis-label"></label>
+                        <select asp-for="Pracownik.Rola" class="form-control napis-label">
+                            <option value="Administrator">Administrator</option>
+                            <option value="Koordynator">Koordynator</option>
+                            <option value="Pracownik">Pracownik</option>
+
+                        </select>
+                        <span asp-validation-for="Pracownik.Rola" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pracownik.Email" class="control-label napis-label"></label>
+                        <input asp-for="Pracownik.Email" disabled class="form-control" />
+                     
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="departures" class="control-label napis-label"></label>
+                        @Html.DropDownList("Departures", Model.departures)
+                        <span asp-validation-for="departures" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class=" btn   login_btn napis-label" />
+                </div>
+            </form>
+
+        </div>
+        <div>
+            <a class=" btn float-md-right  login_btn napis-label" asp-page="./PracownicyAdmin">Back to List</a>
+        </div>
+
     </div>
-</div>
+    </div>
 
-<div>
-    <a asp-page="./PracownicyAdmin">Back to List</a>
-</div>
+       
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
