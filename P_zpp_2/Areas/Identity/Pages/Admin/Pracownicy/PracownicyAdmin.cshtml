@@ -14,10 +14,10 @@
         <form asp-page="./PracownicyAdmin" method="get">
             <div class="form-actions no-color">
                 <p class="napis-label">
-                    Find by name:
+                    Znajdz:
                     <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                    <input type="submit" value="Search" class="btn login_btn" /> |
-                    <a class="napis-label" asp-page="./PracownicyAdmin">Back to full List</a>
+                    <input type="submit" value="Szukaj" class="btn login_btn" /> 
+                    <a class="napis-label btn login_btn" asp-page="./PracownicyAdmin">Wróć do pełnej listy</a>
                 </p>
             </div>
         </form>
@@ -70,9 +70,9 @@
                                             @Html.DisplayFor(modelItem => item.Rola)
                                         </td>
                                         <td>
-                                            <a class="login_btn btn napis-label" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                                            <a class="login_btn btn napis-label" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                                            <a class="login_btn btn napis-label" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                                            <a class="login_btn btn napis-label" asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                            <a class="login_btn btn napis-label" asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                                            <a class="login_btn btn napis-label" asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
                                         </td>
                                 
 
@@ -95,14 +95,14 @@
            asp-route-pageIndex="@(Model.Users.PageIndex - 1)"
            asp-route-currentFilter="@Model.CurrentFilter"
            class="btn login_btn @prevDisabled">
-            Previous
+            <<
         </a>
         <a asp-page="./PracownicyAdmin"
            asp-route-sortOrder="@Model.CurrentSort"
            asp-route-pageIndex="@(Model.Users.PageIndex + 1)"
            asp-route-currentFilter="@Model.CurrentFilter"
            class="btn login_btn @nextDisabled">
-            Next
+            >>
         </a>
 
     </div>

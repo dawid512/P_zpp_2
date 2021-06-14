@@ -11,11 +11,15 @@ namespace P_zpp_2.ViewModels
 {
     public class CompanyDepartuersListViewModel : Departures
     {
-
+        [Display(Name = "Firma")]
         public Company companies { get; set; }
+        [Display(Name = "Firma")]
         public SelectList company { get; set; }
+        [Display(Name = "Firma")]
         public SelectList companyList { get; set; }
+        [Display(Name = "Dział")]
         public List<Departures> departures { get; set; }
+        [Display(Name = "Dział")]
         public Departures dp { get; set; }
        // public IEnumerable<Departures> Departures { get; set; }
 
