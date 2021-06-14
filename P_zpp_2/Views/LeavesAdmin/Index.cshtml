@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string bg = " ";
 }
 <div class="card-pracownicy  ">
     <div class="card-header">
@@ -28,12 +27,9 @@
                     <th class="napis-label">
                         @Html.DisplayNameFor(model => model.CheckOut)
                     </th>
-
+                    
                     <th class="napis-label">
                         @Html.DisplayNameFor(model => model.Status)
-                    </th>
-                    <th class="napis-label">
-                        @Html.DisplayNameFor(model => model.Leavesname)
                     </th>
 
                     <th></th>
@@ -42,40 +38,34 @@
             <tbody>
                 @foreach (var item in Model.leaves)
                 {
-                    @if (item.Status_odrzucone == true && item.Status_zaakceptopwane == false) { bg = "bg-danger"; }
-                    else if (item.Status_zaakceptopwane == true) { bg = "bg-success"; }
-                    else { bg = ""; }
-                    <tr class="card-header card-pracownicy @bg ">
-                        <td class="napis-label">
-                            @Html.DisplayFor(modelItem => item.Idusera.FirstName)
-                        </td>
-                        <td class="napis-label">
-                            @Html.DisplayFor(modelItem => item.Idusera.LastName)
-                        </td>
-                        <td class="napis-label">
+                <tr class="card-header card-pracownicy ">
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.Idusera.FirstName)
+                    </td>
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.Idusera.LastName)
+                    </td>
+                    <td class="napis-label">
+                      
+                        @Html.DisplayFor(modelItem => item.Iddepartuers.DepartureName)
+                    </td>
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.CheckIn)
+                    </td>
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.CheckOut)
+                    </td>
+                   
+                    <td class="napis-label">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
 
-                            @Html.DisplayFor(modelItem => item.Iddepartuers.DepartureName)
-                        </td>
-                        <td class="napis-label">
-                            @Html.DisplayFor(modelItem => item.CheckIn)
-                        </td>
-                        <td class="napis-label">
-                            @Html.DisplayFor(modelItem => item.CheckOut)
-                        </td>
-
-                        <td class="napis-label">
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
-                        <td class="napis-label">
-                            @Html.DisplayFor(modelItem => item.Leavesname)
-                        </td>
-
-                        <td class="napis-label">
-
-                            <a class="login_btn btn napis-label" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
-
-                        </td>
-                    </tr>
+                    <td class="napis-label">
+             
+                        <a class="login_btn btn napis-label" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+ 
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

@@ -4,29 +4,28 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="cardlogged">
-    <div class="card-header">
-        <h2>Dodaj</h2>
 
-        <h4>Firma</h4>
-        <hr />
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="CompanyName" class="control-label napis-label"></label>
-                        <input asp-for="CompanyName" class="form-control" />
-                        <span asp-validation-for="CompanyName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class=" btn  login_btn napis-label" />
-                    </div>
-                </form>
+<h1>Create</h1>
+
+<h4>Company</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label"></label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
 
-        <div>
-            <a class=" btn float-md-right  login_btn napis-label" asp-action="Index">Back to List</a>
-        </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 

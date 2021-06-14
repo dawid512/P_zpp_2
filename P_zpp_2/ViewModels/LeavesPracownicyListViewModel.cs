@@ -11,7 +11,7 @@ namespace P_zpp_2.ViewModels
     public class LeavesPracownicyListViewModel : Leaves
     {
         public ICollection<Leaves> leaves { get; set; }
-        [Display(Name = "Dział" )]
+        
         public ICollection<Departures> departure { get; set; }
         public IEnumerable<SelectListItem> Pracownicy { get; set; }
 

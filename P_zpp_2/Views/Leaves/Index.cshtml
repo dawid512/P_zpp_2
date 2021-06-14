@@ -112,16 +112,8 @@
                         <div class="col-12 col-sm-4">
                             <div class="form-group">
                                 <label asp-for="Leavesname" class="control-label"></label>
-                                <select asp-for="Leavesname" class="form-control napis-label">
-                                    <option value="Chorobowy(L4)"> Chorobowy(L4)</option>
-                                    <option value="Wypoczynkowy">Wypoczynkowy</option>
-                                    <option value="Okolicznościowy">Okolicznościowy</option>
-                                    <option value="Związany z rodzicielstwem">Związany z rodzicielstwem</option>
-                                    <option value="Bezpłatny">Bezpłatny</option>
-                                   
-
-                                </select>
-                              
+                                <input asp-for="Leavesname" class="form-control" />
+                                <span asp-validation-for="Leavesname" class="text-danger"></span>
                             </div>
                         </div>
                         <!--<div class="col-12 col-sm-4">
@@ -162,7 +154,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" value="Create" class="btn  login_btn " />
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </form>
         </div>
