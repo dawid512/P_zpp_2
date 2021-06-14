@@ -5,46 +5,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-<p>
-    <a asp-controller="Departures" asp-action="Create">Create New Department</a>
-</p>
-<div>
-    <h4>Company</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.companies.CompanyName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.companies.CompanyName)
-        </dd>
-        @{
-            int x = 0;
-            foreach (var item in Model.departures)
-            {
-                if (x == 0)
-                {
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.departures)
-                    </dt>
-                    x++;
-                }
-                else
-                {
-                    <dt class="col-sm-2">
-                    </dt>
-                }
-                <dd class="col-sm-10">
-                    @Html.Raw(Html.Encode(item.DepartureName).Replace("\r\n", "<br />\r\n"))
+<div class="cardlogged">
+    <div class="card-header">
+        <h2>Szczegóły</h2>
+        <p>
+            <a class=" btn  login_btn napis-label" asp-controller="Departures" asp-action="Create">Create New Department</a>
+        </p>
+        <div>
+            <h4>Firma</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2 napis-label">
+                    @Html.DisplayNameFor(model => model.companies.CompanyName)
+                </dt>
+                <dd class="col-sm-10 napis-label">
+                    @Html.DisplayFor(model => model.companies.CompanyName)
                 </dd>
-            }
-        }
-    </dl>
+                @{
+                    int x = 0;
+                    foreach (var item in Model.departures)
+                    {
+                        if (x == 0)
+                        {
+                            <dt class="col-sm-2 napis-label">
+                                                
+                                                    @Html.DisplayNameFor(model => model.departures)
+                                              
+                            </dt>
+                            x++;
+                        }
+                        else
+                        {
+                            <dt class="col-sm-2">
+                            </dt>
+                        }
+            <dd class="col-sm-10 napis-label">
+                <a class="napis-label" asp-controller="Departures" asp-action="Details" asp-route-id=@item.DeprtureId>
+                    @Html.Raw(Html.Encode(item.DepartureName).Replace("\r\n", "<br />\r\n"))
+                    </a>
+            </dd>
+                    }
+                }
+            </dl>
 
 
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.companies.CompanyId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+        </div>
+        <div>
+            <a class=" btn  login_btn napis-label" asp-action="Edit" asp-route-id="@Model.companies.CompanyId">Edit</a> 
+            <a class=" btn float-md-right  login_btn napis-label" asp-action="Index">Back to List</a>
+        </div>
