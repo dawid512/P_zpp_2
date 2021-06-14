@@ -126,7 +126,7 @@ namespace XUnitTestProject_pzpp2
             Assert.Contains("newDep", _driver.PageSource);
             Logout();
         }
-        [Fact, Priority(5)]
+        /*[Fact, Priority(5)]
         public void SetDepartment()
         {
             _driver.Navigate()
@@ -141,7 +141,7 @@ namespace XUnitTestProject_pzpp2
                 .Click();
             Assert.Contains("newDep", _driver.PageSource);
             Logout();
-        }
+        }*/
         [Fact, Priority(6)]
         public void CreateLeave()
         {
