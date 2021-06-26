@@ -1,47 +1,50 @@
 ﻿using CashierAlgorithm.Database;
 using Newtonsoft.Json;
+using P_zpp_2.Data;
+using P_zpp_2.Models;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
 {
-    public class FourBrigadeSystem : ISchedule
+    public class FourBrigadeSystem
     {
-        private Dictionary<Workers, List<SingleShift>> _Schedule;
-        public List<KeyValuePair<Workers, List<SingleShift>>> SerializedSchedule
+        private Dictionary<ApplicationUser, List<SingleShift>> _Schedule;
+        public List<KeyValuePair<ApplicationUser, List<SingleShift>>> SerializedSchedule
         {
             get { return _Schedule.ToList(); }
             set { _Schedule = value.ToDictionary(x => x.Key, x => x.Value); }
         }
 
-        public string Generate()
+        public string Generate(string coordinatorId, ScheduleInstructions si)
         {
             var teams = GetTeamsToAlgorithm();
-            var shiftInfoFromUser = GetShiftInfoFromUser();
+            var shiftInfoFromUser = JsonConvert.DeserializeObject <List<ShiftInfoForScheduleGenerating>>(si.ListOfShistsInJSON);
             var lastSchedule = GetLastSchedule(shiftInfoFromUser.First().ShiftSetBeginTime.Date);
             var shifts = CreateShifts(shiftInfoFromUser, lastSchedule);
             var ScheduleInDictionary = PutTeamsIntoShifts(shifts, teams, lastSchedule, shiftInfoFromUser);
 
             var ScheduleWithoutLeaves = GenerateSchedule(ScheduleInDictionary, teams);
-            _Schedule = AdjustScheduleForLeaves(ScheduleWithoutLeaves, shiftInfoFromUser.First().coordinatorId);
+            _Schedule = AdjustScheduleForLeaves(ScheduleWithoutLeaves, si.CoordinatorId);
             string json = JsonConvert.SerializeObject(SerializedSchedule, Formatting.Indented);
             return json;
         }
-        private Schedule GetLastSchedule(DateTime StartingDay)
+        private CustomScheduleClass GetLastSchedule(DateTime StartingDay)
         {
-            using (var db = new TmpContext())
+            using (var db = new P_zpp_2DbContext())
             {
                 var DayBeforeStartingDay = StartingDay.AddDays(-1);
-                Schedules? lastschedule = db.Schedules
-                    .Where(x => x.LastScheduleDay.Date == DayBeforeStartingDay.Date)
+                var lastschedule = db.schedules
+                    .Where(x => x.LastScheduleDay == DayBeforeStartingDay.Date)
                     .FirstOrDefault();
 
                 if (lastschedule != null)
                 {
-                    var ScheduleInDictionary = JsonConvert.DeserializeObject<Dictionary<Workers, List<SingleShift>>>(lastschedule.ScheduleInJSON);
+                    var ScheduleInDictionary = JsonConvert.DeserializeObject<Dictionary<ApplicationUser, List<SingleShift>>>(lastschedule.ScheduleInJSON);
                     var HangingDays = JsonConvert.DeserializeObject<List<LastShiftInfo>>(lastschedule.HangingDaysInJSON);
-                    Schedule scheduleToReturn = new Schedule(ScheduleInDictionary, HangingDays);
+                    CustomScheduleClass scheduleToReturn = new CustomScheduleClass(ScheduleInDictionary, HangingDays);
                     return scheduleToReturn;
                 }
                 else
@@ -50,7 +53,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
                 }
             }
         }
-        private Tuple<Dictionary<ShiftGroup, Team>, List<LastShiftInfo>> PutTeamsIntoShifts(Tuple<List<ShiftGroup>, List<LastShiftInfo>> shifts, List<Team> teams, Schedule lastSchedule, List<ShiftInfoForScheduleGenerating> shiftInfo)
+        private Tuple<Dictionary<ShiftGroup, Team>, List<LastShiftInfo>> PutTeamsIntoShifts(Tuple<List<ShiftGroup>, List<LastShiftInfo>> shifts, List<Team> teams, CustomScheduleClass lastSchedule, List<ShiftInfoForScheduleGenerating> shiftInfo)
         {
             int x = 0;
             var ScheduleInDictionary = new Dictionary<ShiftGroup, Team>();
@@ -92,45 +95,39 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             }
             return Tuple.Create(ScheduleInDictionary, lastShiftInfos);
         }
-        private Dictionary<Workers, List<SingleShift>> AdjustScheduleForLeaves(Tuple<Dictionary<Workers, List<SingleShift>>, List<LastShiftInfo>> schedule, int coordinatorId)
+        private Dictionary<ApplicationUser, List<SingleShift>> AdjustScheduleForLeaves(Tuple<Dictionary<ApplicationUser, List<SingleShift>>, List<LastShiftInfo>> schedule, string coordinatorId)
         {
             List<Leaves> leaves = new();
             var firstDay = schedule.Item1.First().Value.First().ShiftBegin;
-            using (var db = new TmpContext())
+            using (var db = new P_zpp_2DbContext())
             {
                 foreach (var item in schedule.Item1)
                 {
-                    leaves = db.Leaves.Where(x => x.WorkerId == item.Key.Id && x.Status == true && x.LeaveEnd > firstDay).ToList();
+                    leaves = db.leaves.Where(x => x.Idusera.Id == item.Key.Id && x.Status_zaakceptopwane == true && x.CheckOut > firstDay).ToList();
 
                     foreach (var leave in leaves)
                     {
                         foreach (var item2 in item.Value)
                         {
-                            if ((item2.ShiftBegin >= leave.LeaveStart) && (item2.ShiftEnd <= leave.LeaveEnd))
+                            if ((item2.ShiftBegin >= leave.CheckIn) && (item2.ShiftEnd <= leave.CheckOut))
                             {
                                 item.Value.Remove(item2);
                             }
                         }
                     }
                 }
-                Schedules sch = new()
-                {
-                    CoordinatorId = coordinatorId,
-                    LastScheduleDay = schedule.Item1.Last().Value.Last().ShiftBegin.Date,
-                    Name = "test",
-                    ScheduleInJSON = JsonConvert.SerializeObject(schedule.Item1),
-                    HangingDaysInJSON = JsonConvert.SerializeObject(schedule.Item2)
-                };
+                Schedule sch = new(coordinatorId, schedule.Item1.Last().Value.Last().ShiftBegin.Date, JsonConvert.SerializeObject(schedule.Item1), 0);
 
-                db.Schedules.Add(sch);
+
+                db.schedules.Add(sch);
                 //db.SaveChanges();
                 return schedule.Item1;
             }
         }
-        private Tuple<Dictionary<Workers, List<SingleShift>>, List<LastShiftInfo>> GenerateSchedule(Tuple<Dictionary<ShiftGroup, Team>, List<LastShiftInfo>> ScheduleInDictionary, List<Team> teams)
+        private Tuple<Dictionary<ApplicationUser, List<SingleShift>>, List<LastShiftInfo>> GenerateSchedule(Tuple<Dictionary<ShiftGroup, Team>, List<LastShiftInfo>> ScheduleInDictionary, List<Team> teams)
         {
-            var schedule = new Dictionary<Workers, List<SingleShift>>();
-            var workerlist = new List<Workers>();
+            var schedule = new Dictionary<ApplicationUser, List<SingleShift>>();
+            var workerlist = new List<ApplicationUser>();
             workerlist = teams.SelectMany(x => x.TeamMembers).ToList();
 
 
@@ -160,12 +157,12 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
         private List<Team> GetTeamsToAlgorithm()
         {
 
-            var workerlist = new List<Workers>();
+            var workerlist = new List<ApplicationUser>();
 
-            using (var db = new TmpContext())
+            using (var db = new P_zpp_2DbContext())
             {
-                workerlist = db.Workers
-                    .Where(x => x.DepartmentId == 49)
+                workerlist = db.Users
+                    .Where(x => x.DeptId == 49)
                     .ToList();
 
                 var AssignedWorkers = workerlist
@@ -189,7 +186,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
 
 
         }
-        private List<Team> GetTeams(List<Workers> workerlist)
+        private List<Team> GetTeams(List<ApplicationUser> workerlist)
         {
             List<Team> Teams = new();
             for (int i = 0; i < 4; i++)
@@ -201,7 +198,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             }
             return Teams;
         }
-        private List<Team> AssignNewWorkersToAlreadyExistingTeams(List<Workers> workerlist)
+        private List<Team> AssignNewWorkersToAlreadyExistingTeams(List<ApplicationUser> workerlist)
         {
             List<Team> Teams = new();
             for (int i = 0; i < 4; i++)
@@ -212,7 +209,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
                 Teams.Add(new Team(i + 1, team));
             }
             var unassignedworkers = workerlist.Where(x => JsonConvert.DeserializeObject<SpecialInfo>(x.SpecialInfo).TeamNumber == null);
-            using (var db = new TmpContext())
+            using (var db = new P_zpp_2DbContext())
             {
                 foreach (var item in unassignedworkers)
                 {
@@ -226,11 +223,11 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
 
             return Teams;
         }
-        private List<Team> AssignAllWorkersToTeams(List<Workers> workerlist)
+        private List<Team> AssignAllWorkersToTeams(List<ApplicationUser> workerlist)
         {
             List<Team> Teams = new();
             var WorkerAmount = workerlist.Count / 4;
-            using (var db = new TmpContext())
+            using (var db = new P_zpp_2DbContext())
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -246,7 +243,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             }
             return Teams;
         }
-        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShifts(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, Schedule lastSchedule)
+        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShifts(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule)
         {
             List<LastShiftInfo> ListOfLastShiftInfos = new();
             List<ShiftGroup> GroupedShifts = new();
@@ -321,7 +318,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             return Tuple.Create(GroupedShifts, ListOfLastShiftInfos);
 
         }
-        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShiftsWithHangingDays(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, Schedule lastSchedule, List<LastShiftInfo> ListOfLastShiftInfos, List<ShiftGroup> GroupedShifts)
+        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShiftsWithHangingDays(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule, List<LastShiftInfo> ListOfLastShiftInfos, List<ShiftGroup> GroupedShifts)
         {
             var dateTimeList = new List<SingleShift>();
             var dateTimeListToAdd = new List<SingleShift>();
@@ -433,12 +430,12 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
     internal class LeavesForProcessing
     {
         public List<DateTime> LeaveDayRange { get; set; }
-        public int WorkerId { get; set; }
+        public string WorkerId { get; set; }
 
         internal LeavesForProcessing(Leaves leave)
         {
             LeaveDayRange = JsonConvert.DeserializeObject<List<DateTime>>(leave.LeaveDayRange);
-            WorkerId = leave.WorkerId;
+            WorkerId = leave.Idusera.Id;
         }
     }
 }

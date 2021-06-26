@@ -16,9 +16,9 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             using(var db = new P_zpp_2DbContext())
             {
                 List<SimpleDisplayShifs> tmp = new List<SimpleDisplayShifs>();
-                var masterSchedule = db.schedules.Where(x => x.scheduleName == ScheduleName).FirstOrDefault();
+                var masterSchedule = db.schedules.Where(x => x.ScheduleName == ScheduleName).FirstOrDefault();
 
-                var masterScheduleDeserialized = JsonConvert.DeserializeObject<List<Workday>>(File.ReadAllText(masterSchedule.jsonfilewithschedule_locaton));
+                var masterScheduleDeserialized = JsonConvert.DeserializeObject<List<Workday>>(File.ReadAllText(masterSchedule.ScheduleInJSON));
 
                 foreach (var item in masterScheduleDeserialized)
                 {
@@ -48,7 +48,7 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             {
                 var PersonelList = new List<Nurse>();
 
-                if (!db.schedules.Where(schedule => schedule.scheduleName == "Pracownik").Any())
+                if (!db.schedules.Where(schedule => schedule.ScheduleName == "Pracownik").Any())
                 {
                     PersonelList = PrepareListOfNursesOutOfUsersFromDatabase(db.Users.Where(x => x.Rola.ToString() == "Pracownik").ToList());
                 }
@@ -56,8 +56,8 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
                 {
                     var StringToDeserialize = File.ReadAllText(
                         db.schedules
-                            .Where(schedules => schedules.scheduleName == NameOfSchedule)
-                            .Select(x => x.jsonfilewithschedule_locaton)
+                            .Where(schedules => schedules.ScheduleName == NameOfSchedule)
+                            .Select(x => x.ScheduleInJSON)
                             .ToString()
                         );
 
@@ -88,9 +88,9 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
         {
             using (var db = new P_zpp_2DbContext())
             {
-                if(db.schedules.Where(x=>x.scheduleName == Schedule_name).Any())
+                if(db.schedules.Where(x=>x.ScheduleName == Schedule_name).Any())
                 {
-                    db.schedules.Remove(db.schedules.Where(x => x.scheduleName == Schedule_name).FirstOrDefault());
+                    db.schedules.Remove(db.schedules.Where(x => x.ScheduleName == Schedule_name).FirstOrDefault());
                 }
                 else
                 {

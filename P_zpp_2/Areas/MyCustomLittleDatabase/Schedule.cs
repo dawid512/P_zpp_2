@@ -1,17 +1,36 @@
-﻿namespace P_zpp_2.Data
+﻿using P_zpp_2.Models;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace P_zpp_2.Data
 {
     public class Schedule
     {
-        public int id { get; set; }
-        public string scheduleName { get; set; }
-        public string jsonfilewithschedule_staff_locaton { get; set; }
-        public string jsonfilewithschedule_locaton { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public string ScheduleName { get; set; }
+        public DateTime LastScheduleDay { get; set; }
+        public string ScheduleInJSON { get; set; }
+        public string? HangingDaysInJSON { get; set; }
+        public string ScheduleInstructions { get; set; }
+        public string CoordinatorId { get; set; }
+        [ForeignKey("CoordinatorId")]
+        public virtual ApplicationUser Coordinaor { get; set; }
 
-        public Schedule(string scheduleName, string jsonfilewithschedule_staff_locaton, string jsonfilewithschedule_locaton)
+
+        public Schedule(string ScheduleName, string ScheduleInJSON, string ScheduleInstructions)
         {
-            this.scheduleName = scheduleName;
-            this.jsonfilewithschedule_staff_locaton = jsonfilewithschedule_staff_locaton;
-            this.jsonfilewithschedule_locaton = jsonfilewithschedule_locaton;
+            this.ScheduleName = ScheduleName;
+            this.ScheduleInJSON = ScheduleInJSON;
+            this.ScheduleInstructions = ScheduleInstructions;
+        }
+
+        public Schedule(string CoordinatorId, DateTime LastScheduleDay, string ScheduleInJSON, int Bs)
+        {
+            this.CoordinatorId = CoordinatorId;
+            this.LastScheduleDay = LastScheduleDay;
+            this.ScheduleInJSON = ScheduleInJSON;
         }
     }
 }

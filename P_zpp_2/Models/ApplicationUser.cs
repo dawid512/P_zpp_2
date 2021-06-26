@@ -29,9 +29,8 @@ namespace P_zpp_2.Models
         [PersonalData]
         [Column(TypeName = "nvarchar(900)")]
         public string Schedule { get; set; }
-
+        public string SpecialInfo { get; set; }
         public int? DeptId { get; set; }
         public virtual Departures departure { get; set; }
-
     }
 }

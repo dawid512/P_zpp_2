@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Identity\Pages\Koordynator\**" />
     <Compile Remove="CleverWorkTimeDatabase\**" />
     <Compile Remove="Data\**" />
+    <Content Remove="Areas\Identity\Pages\Koordynator\**" />
     <Content Remove="CleverWorkTimeDatabase\**" />
     <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Areas\Identity\Pages\Koordynator\**" />
     <EmbeddedResource Remove="CleverWorkTimeDatabase\**" />
     <EmbeddedResource Remove="Data\**" />
+    <None Remove="Areas\Identity\Pages\Koordynator\**" />
     <None Remove="CleverWorkTimeDatabase\**" />
     <None Remove="Data\**" />
   </ItemGroup>
@@ -28,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Pages\Koordynator\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />

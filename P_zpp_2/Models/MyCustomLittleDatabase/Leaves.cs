@@ -30,7 +30,7 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         public bool Status_zaakceptopwane { get; set; }
         [Display(Name = "Status Odrzucone")]
         public bool Status_odrzucone { get; set; }
-        
+        public string LeaveDayRange { get; set; }
 
 
         [Display(Name = "Dział")]

@@ -18,6 +18,9 @@ namespace P_zpp_2.Data
         public DbSet<Company> company { get; set; }
         public DbSet<Schedule> schedules { get; set; }
         public DbSet<Leaves> leaves { get; set; }
+        public DbSet<ScheduleInstructions> ScheduleInstructions { get; set; }
+        public object Schedule { get; internal set; }
+
         //public DbSet<AdministrationRole> administrationRoles { get; set; }
 
 

@@ -227,21 +227,32 @@ namespace P_zpp_2.Migrations
 
             modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("jsonfilewithschedule_locaton")
+                    b.Property<string>("CoordinatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("HangingDaysInJSON")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("jsonfilewithschedule_staff_locaton")
+                    b.Property<DateTime>("LastScheduleDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ScheduleInJSON")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("scheduleName")
+                    b.Property<string>("ScheduleInstructions")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.Property<string>("ScheduleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoordinatorId");
 
                     b.ToTable("schedules");
                 });
@@ -313,6 +324,9 @@ namespace P_zpp_2.Migrations
                     b.Property<string>("IduseraId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("LeaveDayRange")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Leavesname")
                         .HasColumnType("nvarchar(max)");
 
@@ -362,6 +376,29 @@ namespace P_zpp_2.Migrations
                     b.ToTable("messages");
                 });
 
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CoordinatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ListOfShistsInJSON")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoordinatorId");
+
+                    b.ToTable("ScheduleInstructions");
+                });
+
             modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -380,6 +417,9 @@ namespace P_zpp_2.Migrations
 
                     b.Property<string>("Schedule")
                         .HasColumnType("nvarchar(900)");
+
+                    b.Property<string>("SpecialInfo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasIndex("DeptId");
 
@@ -437,6 +477,15 @@ namespace P_zpp_2.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Coordinaor")
+                        .WithMany()
+                        .HasForeignKey("CoordinatorId");
+
+                    b.Navigation("Coordinaor");
+                });
+
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
                 {
                     b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
@@ -489,6 +538,15 @@ namespace P_zpp_2.Migrations
                     b.Navigation("Reciver");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Coordinator")
+                        .WithMany()
+                        .HasForeignKey("CoordinatorId");
+
+                    b.Navigation("Coordinator");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
