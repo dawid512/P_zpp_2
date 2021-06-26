@@ -10,7 +10,6 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
     {
         [Key]
         public int CompanyId { get; set; }
-        //[ForeignKey("UserId")]
         public ApplicationUser BossId { get; set; }
         [Display(Name = "Nazwa Firmy")]
         public string CompanyName { get; set; }

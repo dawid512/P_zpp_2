@@ -21,8 +21,6 @@ namespace P_zpp_2.ViewModels
         public List<Departures> departures { get; set; }
         [Display(Name = "Dział")]
         public Departures dp { get; set; }
-       // public IEnumerable<Departures> Departures { get; set; }
-
         [Display(Name = "Firma")]
         public int idcompany { get; set; }
        

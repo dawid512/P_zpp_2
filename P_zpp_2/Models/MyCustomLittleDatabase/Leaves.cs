@@ -10,10 +10,9 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
 {
     public class Leaves
     {
-        
-
         [Key]
         public int Id { get; set; }
+
         [Display(Name = "Data od")]
         [DataType(DataType.Date)]
         public DateTime CheckIn { get; set; } = DateTime.Now;
@@ -30,9 +29,6 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         public bool Status_zaakceptopwane { get; set; }
         [Display(Name = "Status Odrzucone")]
         public bool Status_odrzucone { get; set; }
-        
-
-
         [Display(Name = "Dział")]
         public virtual  Departures Iddepartuers { get; set; }
         [Display(Name = "Pracownik")]
