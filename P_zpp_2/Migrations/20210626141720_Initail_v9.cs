@@ -2,7 +2,7 @@
 
 namespace P_zpp_2.Migrations
 {
-    public partial class Initial_v9 : Migration
+    public partial class Initail_v9 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

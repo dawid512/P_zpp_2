@@ -10,15 +10,15 @@ using P_zpp_2.Data;
 namespace P_zpp_2.Migrations
 {
     [DbContext(typeof(P_zpp_2DbContext))]
-    [Migration("20210523230228_Initial_v11")]
-    partial class Initial_v11
+    [Migration("20210626141720_Initail_v9")]
+    partial class Initail_v9
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -227,27 +227,59 @@ namespace P_zpp_2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Company", b =>
+            modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CoordinatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("HangingDaysInJSON")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastScheduleDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ScheduleInJSON")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScheduleInstructions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScheduleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoordinatorId");
+
+                    b.ToTable("schedules");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
                 {
                     b.Property<int>("CompanyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BossIdId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("CompanyId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("BossIdId");
 
                     b.ToTable("company");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Departures", b =>
                 {
                     b.Property<int>("DeprtureId")
                         .ValueGeneratedOnAdd()
@@ -266,21 +298,59 @@ namespace P_zpp_2.Migrations
                     b.Property<string>("SupervisorIdId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("User_idId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("DeprtureId");
 
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("SupervisorIdId");
 
-                    b.HasIndex("User_idId");
-
                     b.ToTable("departures");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CheckIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("IddepartuersDeprtureId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IduseraId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LeaveDayRange")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Leavesname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status_odrzucone")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Status_zaakceptopwane")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IddepartuersDeprtureId");
+
+                    b.HasIndex("IduseraId");
+
+                    b.ToTable("leaves");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Messages", b =>
                 {
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd()
@@ -308,70 +378,35 @@ namespace P_zpp_2.Migrations
                     b.ToTable("messages");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("jsonfilewithschedule_locaton")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("jsonfilewithschedule_staff_locaton")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("scheduleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("schedules");
-                });
-
-            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CheckOut")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("IddepartuersDeprtureId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IduseraId")
+                    b.Property<string>("CoordinatorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Leavesname")
+                    b.Property<string>("ListOfShistsInJSON")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status_odrzucone")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Status_zaakceptopwane")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IddepartuersDeprtureId");
+                    b.HasIndex("CoordinatorId");
 
-                    b.HasIndex("IduseraId");
-
-                    b.ToTable("leaves");
+                    b.ToTable("ScheduleInstructions");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int?>("DeptId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(100)");
@@ -384,6 +419,11 @@ namespace P_zpp_2.Migrations
 
                     b.Property<string>("Schedule")
                         .HasColumnType("nvarchar(900)");
+
+                    b.Property<string>("SpecialInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("DeptId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -439,18 +479,27 @@ namespace P_zpp_2.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Company", b =>
+            modelBuilder.Entity("P_zpp_2.Data.Schedule", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Coordinaor")
+                        .WithMany()
+                        .HasForeignKey("CoordinatorId");
+
+                    b.Navigation("Coordinaor");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Company", b =>
                 {
                     b.HasOne("P_zpp_2.Models.ApplicationUser", "BossId")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("BossIdId");
 
                     b.Navigation("BossId");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Departures", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Departures", b =>
                 {
-                    b.HasOne("P_zpp_2.Data.Company", "CompanyID")
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Company", "CompanyID")
                         .WithMany()
                         .HasForeignKey("CompanyId");
 
@@ -458,18 +507,27 @@ namespace P_zpp_2.Migrations
                         .WithMany()
                         .HasForeignKey("SupervisorIdId");
 
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "User_id")
-                        .WithMany()
-                        .HasForeignKey("User_idId");
-
                     b.Navigation("CompanyID");
 
                     b.Navigation("SupervisorId");
-
-                    b.Navigation("User_id");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Data.Messages", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "Iddepartuers")
+                        .WithMany()
+                        .HasForeignKey("IddepartuersDeprtureId");
+
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
+                        .WithMany()
+                        .HasForeignKey("IduseraId");
+
+                    b.Navigation("Iddepartuers");
+
+                    b.Navigation("Idusera");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Messages", b =>
                 {
                     b.HasOne("P_zpp_2.Models.ApplicationUser", "Reciver")
                         .WithMany()
@@ -484,19 +542,27 @@ namespace P_zpp_2.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions", b =>
                 {
-                    b.HasOne("P_zpp_2.Data.Departures", "Iddepartuers")
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Coordinator")
                         .WithMany()
-                        .HasForeignKey("IddepartuersDeprtureId");
+                        .HasForeignKey("CoordinatorId");
 
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
-                        .WithMany()
-                        .HasForeignKey("IduseraId");
+                    b.Navigation("Coordinator");
+                });
 
-                    b.Navigation("Iddepartuers");
+            modelBuilder.Entity("P_zpp_2.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "departure")
+                        .WithMany("MyUsers")
+                        .HasForeignKey("DeptId");
 
-                    b.Navigation("Idusera");
+                    b.Navigation("departure");
+                });
+
+            modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Departures", b =>
+                {
+                    b.Navigation("MyUsers");
                 });
 #pragma warning restore 612, 618
         }
