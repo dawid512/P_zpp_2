@@ -1,0 +1,67 @@
+﻿@model P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ScheduleInstructions</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 1 zmiany</label>
+                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
+                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 1 zmiany</label>
+                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
+                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 2 zmiany</label>
+                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
+                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 2 zmiany</label>
+                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
+                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 3 zmiany</label>
+                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
+                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 3 zmiany</label>
+                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
+                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="CoordinatorId" class="control-label"></label>
+                <select asp-for="CoordinatorId" class="form-control" asp-items="ViewBag.CoordinatorId"></select>
+                <span asp-validation-for="CoordinatorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
