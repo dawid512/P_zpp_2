@@ -1,5 +1,8 @@
 ﻿@page
 @model P_zpp_2.Areas.Identity.Pages.Admin.PracownicyAdminModel
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Pracownicy";
@@ -16,7 +19,7 @@
                 <p class="napis-label">
                     Znajdz:
                     <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-                    <input type="submit" value="Szukaj" class="btn login_btn" /> 
+                    <input type="submit" value="Szukaj" class="btn login_btn" />
                     <a class="napis-label btn login_btn" asp-page="./PracownicyAdmin">Wróć do pełnej listy</a>
                 </p>
             </div>
@@ -24,63 +27,66 @@
 
 
         <table class="table">
-            
-               
-                        <thead>
-                            <tr>
-                                <th >
-                                    <a class="napis-label" asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.NameSort"
-                                       asp-route-currentFilter="@Model.CurrentFilter">
-                                        @Html.DisplayNameFor(model => model.Users[0].LastName)
-                                    </a>
 
-                                </th>
-                                <th class="napis-label">
-                                    @Html.DisplayNameFor(model => model.Users[0].FirstName)
-                                </th>
-                                <th >
-                                    <a class="napis-label" asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.DateSort"
-                                       asp-route-currentFilter="@Model.CurrentFilter">
-                                        @Html.DisplayNameFor(model => model.Users[0].UserName)
-                                    </a>
 
-                                </th>
-                                <th class="napis-label">
-                                    @Html.DisplayNameFor(model => model.Users[0].Rola)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Users)
+            <thead>
+                <tr>
+                    <th>
+                        <a class="napis-label" asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.NameSort"
+                           asp-route-currentFilter="@Model.CurrentFilter">
+                            @Html.DisplayNameFor(model => model.Users[0].LastName)
+                        </a>
+
+                    </th>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.Users[0].FirstName)
+                    </th>
+                    <th>
+                        <a class="napis-label" asp-page="./PracownicyAdmin" asp-route-sortOrder="@Model.DateSort"
+                           asp-route-currentFilter="@Model.CurrentFilter">
+                            @Html.DisplayNameFor(model => model.Users[0].UserName)
+                        </a>
+
+                    </th>
+                    <th class="napis-label">
+                        @Html.DisplayNameFor(model => model.Users[0].Rola)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Users)
+                {
+
+                    <tr class="card-header card-pracownicy ">
+
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.Rola)
+                        </td>
+                        <td>
+                            <a class="login_btn btn napis-label" asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                            <a class="login_btn btn napis-label" asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a>
+                            @if (this.User.IsInRole("Administrator"))
                             {
-                                
-                            <tr class="card-header card-pracownicy ">
-                               
-                                        <td class="napis-label">
-                                            @Html.DisplayFor(modelItem => item.LastName)
-                                        </td>
-                                        <td class="napis-label">
-                                            @Html.DisplayFor(modelItem => item.FirstName)
-                                        </td>
-                                        <td class="napis-label">
-                                            @Html.DisplayFor(modelItem => item.UserName)
-                                        </td>
-                                        <td class="napis-label">
-                                            @Html.DisplayFor(modelItem => item.Rola)
-                                        </td>
-                                        <td>
-                                            <a class="login_btn btn napis-label" asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
-                                            <a class="login_btn btn napis-label" asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
-                                            <a class="login_btn btn napis-label" asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
-                                        </td>
-                                
-
-                            </tr>
-                                 
+                                <a class="login_btn btn napis-label" asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
                             }
-                        </tbody>
-                    
+                        </td>
+
+
+                    </tr>
+
+                }
+            </tbody>
+
         </table>
 
 
