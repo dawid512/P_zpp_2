@@ -13,13 +13,13 @@ namespace P_zpp_2.ViewModels
         public ICollection<Leaves> leaves { get; set; }
         [Display(Name = "Dział" )]
         public ICollection<Departures> departure { get; set; }
-        public IEnumerable<SelectListItem> Pracownicy { get; set; }
+        public IEnumerable<SelectListItem> workers { get; set; }
 
         public Departures singleDep { get; set; }
 
         [Display(Name = "Pracownik")]
-        public string Idusera { get; set; }
+        public string IdUser { get; set; }
         [Display(Name = "Dział")]
-        public int Iddepartuers { get; set; }
+        public int IdDepartuers { get; set; }
     }
 }

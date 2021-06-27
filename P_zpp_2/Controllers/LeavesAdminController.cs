@@ -41,7 +41,7 @@ namespace P_zpp_2.Controllers
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
            
             leavesPracownicyListViewModel.departure = _departures.Where(d => d.DeprtureId == user.DeptId).ToList();
-            leavesPracownicyListViewModel.Pracownicy = _applicationUser.Select(a =>
+            leavesPracownicyListViewModel.workers = _applicationUser.Select(a =>
                                               new SelectListItem
                                               {
                                                   Value = a.Id,

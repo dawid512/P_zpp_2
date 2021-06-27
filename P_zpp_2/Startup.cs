@@ -23,14 +23,6 @@ namespace P_zpp_2
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            //var tmp = new NursesMain();
-
-            //tmp.RunNUrsesScheduler(20, "Pracownik");
-
-           //IdentityHostingStartup ihs =  new();
-           // ihs.Configure(IHostingStartup Builder);
-
         }
 
 
@@ -44,8 +36,7 @@ namespace P_zpp_2
                     options.UseSqlServer(
                         Configuration.GetConnectionString("P_zpp_2DbContextConnection")));
 
-            services
-            .AddDefaultIdentity<ApplicationUser>
+            services.AddDefaultIdentity<ApplicationUser>
             (options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -54,10 +45,8 @@ namespace P_zpp_2
             }
             )
             .AddRoles<IdentityRole>()
-
             .AddEntityFrameworkStores<P_zpp_2DbContext>();
 
-            //services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<P_zpp_2DbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             
@@ -73,7 +62,6 @@ namespace P_zpp_2
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

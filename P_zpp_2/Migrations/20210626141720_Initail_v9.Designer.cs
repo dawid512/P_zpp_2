@@ -514,17 +514,17 @@ namespace P_zpp_2.Migrations
 
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
                 {
-                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "Iddepartuers")
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "IdDepartuers")
                         .WithMany()
                         .HasForeignKey("IddepartuersDeprtureId");
 
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "IdUser")
                         .WithMany()
                         .HasForeignKey("IduseraId");
 
-                    b.Navigation("Iddepartuers");
+                    b.Navigation("IdDepartuers");
 
-                    b.Navigation("Idusera");
+                    b.Navigation("IdUser");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Messages", b =>
