@@ -66,7 +66,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
 
 
-                IQueryable<ApplicationUser> pracownikIQ = from s in _context.Users where s.DeptId == null || s.DeptId == actualCoordinator.DeptId || s.Rola != "Administrator"
+                IQueryable<ApplicationUser> pracownikIQ = from s in _context.Users where s.DeptId == null && s.Rola != "Administrator" || s.DeptId == actualCoordinator.DeptId && s.Rola != "Administrator"
                                                           select s
                                                           ;
 
