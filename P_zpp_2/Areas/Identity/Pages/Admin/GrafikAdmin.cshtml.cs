@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using P_zpp_2.Data;
 using P_zpp_2.Models;
@@ -33,18 +34,19 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
         public List<EventModel> _ScheduleDaysList { get; set; }
         public string _callMeJson { get; set; }
 
-        public List<ScheduleInstructions> scheduleInstructions { get; set; }
+        public List<ScheduleInstructions> scheduleInstructions { get; set; } 
 
         public async void OnGetAsync(ApplicationUser user)
         {
             GenerateSchedule();
 
-            //var tmp = DisplayShiftOF(User.Identity.GetUserId(), string ScheduleName);
+            var deps = _context.company.Select(x => x);
+            var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
 
-            //_ScheduleDaysList = 
-            var actualCoordinatorID = await _userManager.GetUserIdAsync(User);
+            var scheduleInstructions = _context.ScheduleInstructions.Where(x => x.CoordinatorId == actualCoordinatorID).ToList();
+           // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
 
-            scheduleInstructions =_context.ScheduleInstructions.Where(x=>x.CoordinatorId== actualCoordinatorID)
+
 
             _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
 

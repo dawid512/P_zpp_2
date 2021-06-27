@@ -10,16 +10,19 @@ using System.Text.Json;
 using P_zpp_2.Data;
 using P_zpp_2.Models.MyCustomLittleDatabase;
 using P_zpp_2.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using P_zpp_2.Models;
 
 namespace P_zpp_2.Controllers
 {
     public class ScheduleInstructionsController : Controller
     {
         private readonly P_zpp_2DbContext _context;
-
-        public ScheduleInstructionsController(P_zpp_2DbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ScheduleInstructionsController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: ScheduleInstructions
@@ -64,29 +67,31 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ScheduleInstructionViewModel scheduleInstructionViewModel, string? algorithmName)
+        public async Task<IActionResult> Create(ScheduleInstructionViewModel tuple)
         {
             ScheduleInstructions scheduleInstructions = new ScheduleInstructions();
-            scheduleInstructions.Name = scheduleInstructionViewModel.scheduleInstructions.Name;
+            scheduleInstructions.Name = tuple.scheduleInstructions.Name;
             ShiftInfoForScheduleGenerating shiftOne = new ShiftInfoForScheduleGenerating();
             ShiftInfoForScheduleGenerating shiftTwo = new ShiftInfoForScheduleGenerating();
             ShiftInfoForScheduleGenerating shiftThree = new ShiftInfoForScheduleGenerating();
-            shiftOne.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstructionViewModel.startOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            shiftOne.ShiftSetEndTime = DateTime.ParseExact(scheduleInstructionViewModel.endOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            shiftTwo.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstructionViewModel.startTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            shiftTwo.ShiftSetEndTime = DateTime.ParseExact(scheduleInstructionViewModel.endTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            shiftThree.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstructionViewModel.startThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            shiftThree.ShiftSetEndTime = DateTime.ParseExact(scheduleInstructionViewModel.endThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            if(scheduleInstructionViewModel.długość_zmiany_w_dniach != null)
+            shiftOne.ShiftSetBeginTime = DateTime.ParseExact(tuple.startOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftOne.ShiftSetEndTime = DateTime.ParseExact(tuple.endOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftTwo.ShiftSetBeginTime = DateTime.ParseExact(tuple.startTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftTwo.ShiftSetEndTime = DateTime.ParseExact(tuple.endTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftThree.ShiftSetBeginTime = DateTime.ParseExact(tuple.startThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftThree.ShiftSetEndTime = DateTime.ParseExact(tuple.endThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            if(tuple.długość_zmiany_w_dniach != null)
             {
-                shiftOne.ShiftLengthInDays = (int)scheduleInstructionViewModel.długość_zmiany_w_dniach;
-                shiftTwo.ShiftLengthInDays = (int)scheduleInstructionViewModel.długość_zmiany_w_dniach;
-                shiftThree.ShiftLengthInDays = (int)scheduleInstructionViewModel.długość_zmiany_w_dniach;
+                shiftOne.ShiftLengthInDays = (int)tuple.długość_zmiany_w_dniach;
+                shiftTwo.ShiftLengthInDays = (int)tuple.długość_zmiany_w_dniach;
+                shiftThree.ShiftLengthInDays = (int)tuple.długość_zmiany_w_dniach;
             }
             List<ShiftInfoForScheduleGenerating> listOfShifts = new List<ShiftInfoForScheduleGenerating>();
             listOfShifts.Add(shiftOne);
             listOfShifts.Add(shiftTwo);
             listOfShifts.Add(shiftThree);
+            var coordinator = await _userManager.GetUserAsync(User);
+            scheduleInstructions.CoordinatorId = coordinator.Id;
             foreach(var item in listOfShifts)
             {
                 if (item.ShiftSetBeginTime < item.ShiftSetEndTime)
@@ -106,7 +111,7 @@ namespace P_zpp_2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", scheduleInstructions.CoordinatorId);
-            return View(Tuple.Create(scheduleInstructions, algorithmName));
+            return View(scheduleInstructions);
         }
 
         // GET: ScheduleInstructions/Edit/5
