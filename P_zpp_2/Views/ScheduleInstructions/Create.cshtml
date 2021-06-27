@@ -4,86 +4,87 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="card-pracownicy">
+    <div class="card-header">
+        <h2>Dodaj nową</h2>
 
-<h1>Create</h1>
+        <h4>Instrukcję</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@Model.scheduleInstructions.Name" class="control-label napis-label"></label>
+                        <input asp-for="@Model.scheduleInstructions.Name" class="form-control" />
+                        <span asp-validation-for="@Model.scheduleInstructions.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.startOne" class="control-label napis-label">Data rozpoczęcia 1 zmiany</label>
+                        <input type="time" asp-for="@Model.startOne" class="form-control" />
+                        <span asp-validation-for="@Model.startOne" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.endOne" class="control-label napis-label">Data zakończenia 1 zmiany</label>
+                        <input type="time" asp-for="@Model.endOne" class="form-control" />
+                        <span asp-validation-for="@Model.endOne" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.startTwo" class="control-label napis-label">Data rozpoczęcia 2 zmiany</label>
+                        <input type="time" asp-for="@Model.startTwo" class="form-control" />
+                        <span asp-validation-for="@Model.startTwo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.endTwo" class="control-label napis-label">Data zakończenia 2 zmiany</label>
+                        <input type="time" asp-for="@Model.endTwo" class="form-control" />
+                        <span asp-validation-for="@Model.endTwo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.startThree" class="control-label napis-label">Data rozpoczęcia 3 zmiany</label>
+                        <input type="time" asp-for="@Model.startThree" class="form-control" />
+                        <span asp-validation-for="@Model.startThree" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.endThree" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                        <input type="time" asp-for="@Model.endThree" class="form-control" />
+                        <span asp-validation-for="@Model.endThree" class="text-danger"></span>
+                    </div>
+                    @if (@ViewBag.algorithmName == "RetailAlgorithm")
+                    {
+                        <div class="form-group">
+                            <label asp-for="@Model.startFour" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.startFour" class="form-control" />
+                            <span asp-validation-for="@Model.startFour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.endFour" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.endFour" class="form-control" />
+                            <span asp-validation-for="@Model.endFour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.startFive" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.startFive" class="form-control" />
+                            <span asp-validation-for="@Model.startFive" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.endFive" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.endFive" class="form-control" />
+                            <span asp-validation-for="@Model.endFive" class="text-danger"></span>
+                        </div>
+                    }
 
-<h4>ScheduleInstructions</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.scheduleInstructions.Name" class="control-label"></label>
-                <input asp-for="@Model.scheduleInstructions.Name" class="form-control" />
-                <span asp-validation-for="@Model.scheduleInstructions.Name" class="text-danger"></span>
+                    <div class="form-group" hidden>
+                        <label asp-for="@Model.CoordinatorId" class="control-label"></label>
+                        <select asp-for="@Model.CoordinatorId" class="form-control" asp-items="ViewBag.CoordinatorId" h></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Dodaj" class=" btn  login_btn napis-label" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.startOne" class="control-label">Data rozpoczęcia 1 zmiany</label>
-                <input type="time" asp-for="@Model.startOne" class="form-control" />
-                <span asp-validation-for="@Model.startOne" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.endOne" class="control-label">Data zakończenia 1 zmiany</label>
-                <input type="time" asp-for="@Model.endOne" class="form-control" />
-                <span asp-validation-for="@Model.endOne" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.startTwo" class="control-label">Data rozpoczęcia 2 zmiany</label>
-                <input type="time" asp-for="@Model.startTwo" class="form-control" />
-                <span asp-validation-for="@Model.startTwo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.endTwo" class="control-label">Data zakończenia 2 zmiany</label>
-                <input type="time" asp-for="@Model.endTwo" class="form-control" />
-                <span asp-validation-for="@Model.endTwo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.startThree" class="control-label">Data rozpoczęcia 3 zmiany</label>
-                <input type="time" asp-for="@Model.startThree" class="form-control" />
-                <span asp-validation-for="@Model.startThree" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.endThree" class="control-label">Data zakończenia 3 zmiany</label>
-                <input type="time" asp-for="@Model.endThree" class="form-control" />
-                <span asp-validation-for="@Model.endThree" class="text-danger"></span>
-            </div>
-            @if (@ViewBag.algorithmName == "RetailAlgorithm")
-            {
-                <div class="form-group">
-                    <label asp-for="@Model.startFour" class="control-label">Data zakończenia 3 zmiany</label>
-                    <input type="time" asp-for="@Model.startFour" class="form-control" />
-                    <span asp-validation-for="@Model.startFour" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.endFour" class="control-label">Data zakończenia 3 zmiany</label>
-                    <input type="time" asp-for="@Model.endFour" class="form-control" />
-                    <span asp-validation-for="@Model.endFour" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.startFive" class="control-label">Data zakończenia 3 zmiany</label>
-                    <input type="time" asp-for="@Model.startFive" class="form-control" />
-                    <span asp-validation-for="@Model.startFive" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.endFive" class="control-label">Data zakończenia 3 zmiany</label>
-                    <input type="time" asp-for="@Model.endFive" class="form-control" />
-                    <span asp-validation-for="@Model.endFive" class="text-danger"></span>
-                </div>
-            }
+        </div>
 
-            <div class="form-group" hidden>
-                <label asp-for="@Model.CoordinatorId" class="control-label"></label>
-                <select asp-for="@Model.CoordinatorId" class="form-control" asp-items="ViewBag.CoordinatorId" h></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Dodaj" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Wróć do Listy</a>
-</div>
+        <div>
+            <a class=" btn float-md-right  login_btn napis-label" asp-action="Index">Wróć do Listy</a>
+        </div>
 
