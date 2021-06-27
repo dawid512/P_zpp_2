@@ -420,9 +420,9 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
         {
 
             List<ShiftInfoForScheduleGenerating> sifsg = new();
-            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 6, 0, 0), new DateTime(2020, 5, 31, 14, 0, 0), 8, 4, 1, false)); // 6-14
-            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 14, 0, 0), new DateTime(2020, 5, 31, 22, 0, 0), 8, 4, 1, false)); //14-22
-            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 22, 0, 0), new DateTime(2020, 5, 31, 6, 0, 0), 8, 4, 1, true));//22-6
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 6, 0, 0), new DateTime(2020, 5, 31, 14, 0, 0), 8, 4, "1", false)); // 6-14
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 14, 0, 0), new DateTime(2020, 5, 31, 22, 0, 0), 8, 4, "1", false)); //14-22
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 22, 0, 0), new DateTime(2020, 5, 31, 6, 0, 0), 8, 4, "1", true));//22-6
 
             return sifsg;
         }

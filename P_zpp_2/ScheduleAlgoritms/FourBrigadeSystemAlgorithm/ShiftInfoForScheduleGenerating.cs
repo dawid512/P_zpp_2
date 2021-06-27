@@ -12,10 +12,10 @@ namespace CashierAlgorithm.Database
         public DateTime ShiftSetEndTime { get; set; }
         public int ScheduleMonth { get; set; }
         public int ShiftLengthInDays { get; set; }
-        public int coordinatorId { get; set; }
+        public string coordinatorId { get; set; }
         public bool IsOvernight { get; set; }
 
-        public ShiftInfoForScheduleGenerating(DateTime ShiftSetBeginTime, DateTime ShiftSetEndTime, int ScheduleMonth, int ShiftLengthInDays, int coordinatorId, bool IsOvernight)
+        public ShiftInfoForScheduleGenerating(DateTime ShiftSetBeginTime, DateTime ShiftSetEndTime, int ScheduleMonth, int ShiftLengthInDays, string coordinatorId, bool IsOvernight)
         {
             this.ShiftSetBeginTime = ShiftSetBeginTime;
             this.ShiftSetEndTime = ShiftSetEndTime;

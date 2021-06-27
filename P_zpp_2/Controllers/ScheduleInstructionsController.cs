@@ -83,6 +83,17 @@ namespace P_zpp_2.Controllers
             listOfShifts.Add(shiftOne);
             listOfShifts.Add(shiftTwo);
             listOfShifts.Add(shiftThree);
+            foreach(var item in listOfShifts)
+            {
+                if (item.ShiftSetBeginTime < item.ShiftSetEndTime)
+                {
+                    item.IsOvernight = true;
+                }
+                else
+                {
+                    item.IsOvernight = false;
+                }
+            }
             scheduleInstructions.ListOfShistsInJSON = JsonSerializer.Serialize(listOfShifts);
             if (ModelState.IsValid)
             {
