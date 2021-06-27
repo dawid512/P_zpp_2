@@ -35,16 +35,11 @@ namespace P_zpp_2.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var userid = _userManager.GetUserId(User);
-            //new SelectList(_departures, "DeprtureId", "DepartureName");
 
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
             leavesPracownicyListViewModel.leaves = _context.leaves.Where(x=>x.Idusera==user).ToList();
             leavesPracownicyListViewModel.singleDep = _departures.Where(x => x.DeprtureId == user.DeptId).FirstOrDefault();
-            //var depIdFromUser = _context.Users.Where(x => x.Id == userid).Select(x => x.DeptId).ToString();
-            //var deps = _context.departures.Where(d => d.DeprtureId.ToString() == depIdFromUser);
 
-            //leavesPracownicyListViewModel.departure = new SelectList(deps, "DeprtureId", "DepartureName");
-          
             leavesPracownicyListViewModel.Pracownicy = _applicationUser.Select(a =>
                                               new SelectListItem
                                               {

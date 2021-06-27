@@ -9,7 +9,7 @@
         <h2>Firmy</h2>
 
         <p>
-            <a class="login_btn btn napis-label"  asp-action="Create">Dodaj nową Firmę</a>
+            <a class="login_btn btn napis-label" asp-action="Create">Dodaj nową Firmę</a>
         </p>
 
         <table class="table">
@@ -29,11 +29,13 @@
                             @Html.DisplayFor(modelItem => item.CompanyName)
                         </td>
                         <td>
-                            <a class="login_btn btn napis-label"  asp-action="Edit" asp-route-id="@item.CompanyId">Edytuj</a> |
-                            <a class="login_btn btn napis-label"  asp-action="Details" asp-route-id="@item.CompanyId">Szczegóły</a> |
-                            <a  class="login_btn btn napis-label" asp-action="Delete" asp-route-id="@item.CompanyId">Usuń</a>
+                            <a class="login_btn btn napis-label" asp-action="Edit" asp-route-id="@item.CompanyId">Edytuj</a> |
+                            <a class="login_btn btn napis-label" asp-action="Details" asp-route-id="@item.CompanyId">Szczegóły</a> |
+                            <a class="login_btn btn napis-label" asp-action="Delete" asp-route-id="@item.CompanyId">Usuń</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+    </div>
+</div>

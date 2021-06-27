@@ -63,8 +63,6 @@ namespace P_zpp_2.Controllers
         }
 
         // POST: Departures/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DeprtureId,CompanyID,DepartureName")] Departures departures)
@@ -83,16 +81,6 @@ namespace P_zpp_2.Controllers
         // GET: Departures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }
-
-            var departures = await _context.departures.FindAsync(id);
-            if (departures == null)
-            {
-                return NotFound();
-            }*/
             var deps = await _context.departures.FindAsync(id);
             var comps = _context.company.Select(x => x);
             var model = new CompanyDepartuersListViewModel();
@@ -103,8 +91,6 @@ namespace P_zpp_2.Controllers
         }
 
         // POST: Departures/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DeprtureId,CompanyID,DepartureName")]  CompanyDepartuersListViewModel deps)
