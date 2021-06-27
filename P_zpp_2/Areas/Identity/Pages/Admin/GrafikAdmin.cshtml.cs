@@ -31,7 +31,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
         public List<EventModel> _ScheduleDaysList { get; set; }
         public string _callMeJson { get; set; }
 
-        
+        public List<ScheduleInstructions> scheduleInstructions { get; set; }
 
         public void OnGet()
         {

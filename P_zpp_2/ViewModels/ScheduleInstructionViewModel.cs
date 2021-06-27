@@ -1,8 +1,10 @@
 ﻿using P_zpp_2.Models.MyCustomLittleDatabase;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace P_zpp_2.ViewModels
 {
@@ -20,10 +22,14 @@ namespace P_zpp_2.ViewModels
         public string? endFour { get; set; }
         public string? startFive { get; set; }
         public string? endFive { get; set; }
-
+        
+        
+        [Display(Name = "długość zmiany w dniach")]
         public int? długość_zmiany_w_dniach { get; set; }
 
-        public string? SETTINGSJSON {get; set;}
+        [Display(Name = "Ilość kas")]
+        public int? ilość_kas { get; set; }
+
 
     }
 }

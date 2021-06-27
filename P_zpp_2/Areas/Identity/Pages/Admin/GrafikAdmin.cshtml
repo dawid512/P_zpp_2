@@ -73,31 +73,40 @@
             <form asp-action="Create">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @foreach (var item in Model.scheduleInstructions)
+                    {
+                        <label class="napis-label" class="form-check-label">
+                            <input class="form-check-input" asp-for="@item" /> @item
+                        </label>
+
+                        
+                    }
+
                     @*<div class="row">
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label asp-for=@Model. class="control-label"></label>
-                                    <input asp-for="CheckIn" class="form-control" required />
-                                    <span asp-validation-for="CheckIn" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label asp-for=@Model.CheckOut class="control-label"></label>
-                                    <input asp-for="CheckOut" class="form-control" />
-                                    <span asp-validation-for="CheckOut" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>*@
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label asp-for=@Model. class="control-label"></label>
+                    <input asp-for="CheckIn" class="form-control" required />
+                    <span asp-validation-for="CheckIn" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label asp-for=@Model.CheckOut class="control-label"></label>
+                    <input asp-for="CheckOut" class="form-control" />
+                    <span asp-validation-for="CheckOut" class="text-danger"></span>
+                </div>
+            </div>
+        </div>*@
 
                     <div class="row">
                         <div class="col-12 col-sm-6">
                             @*<div class="form-group">
-                                    <label asp-for="departure" class="control-label"></label>
-                                    @Html.DropDownListFor(model => model.departure, Model.departure, new { @class = "form-control dropdown" })
+                    <label asp-for="departure" class="control-label"></label>
+                    @Html.DropDownListFor(model => model.departure, Model.departure, new { @class = "form-control dropdown" })
 
 
-                                </div>*@
+                </div>*@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
@@ -116,7 +125,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <input type="submit" value="Dodaj" class="login_btn btn napis-label" />
+                    <input type="submit" value="Wygeneruj" class="login_btn btn napis-label" />
                 </div>
             </form>
         </div>
