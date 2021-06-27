@@ -121,15 +121,15 @@ namespace P_zpp_2.Controllers
             {
                 return NotFound();
             }
-
-            var scheduleInstructions = await _context.ScheduleInstructions.FindAsync(id);
-            if (scheduleInstructions == null)
+            ScheduleInstructionViewModel schedule = new ScheduleInstructionViewModel();
+            schedule.scheduleInstructions = await _context.ScheduleInstructions.FindAsync(id);
+            if (schedule.scheduleInstructions == null)
             {
                 return NotFound();
             }
             ViewBag.algorithmName = algorithmName;
-            ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", scheduleInstructions.CoordinatorId);
-            return View(scheduleInstructions);
+            ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", schedule.scheduleInstructions.CoordinatorId);
+            return View(schedule);
         }
 
         // POST: ScheduleInstructions/Edit/5
