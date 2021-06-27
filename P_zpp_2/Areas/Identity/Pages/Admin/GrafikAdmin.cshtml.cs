@@ -42,8 +42,8 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
             var deps = _context.company.Select(x => x);
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
-
-            var scheduleInstructions = _context.ScheduleInstructions.Where(x => x.CoordinatorId == actualCoordinatorID).ToList();
+            
+            scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();
            // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
 
 
