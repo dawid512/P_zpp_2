@@ -73,15 +73,38 @@
             <form asp-action="Create">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @foreach (var item in Model.scheduleInstructions)
-                    {
-                        <label class="napis-label form-check-label">
-                            <input class="form-check-input" asp-for="@item.Name" />
-                            <button type="button" class="btn btn-secondary">Generuj</button>
-                        </label>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a class="napis-label">
+                                        @Html.DisplayNameFor(model => model.scheduleInstructions)
+                                    </a>
 
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.scheduleInstructions)
+                            {
+                            <tr>
+                                <td >
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary">Generuj</button>
 
-                    }
+                                    @*<label class="napis-label form-check-label">
+                                        <input class="form-check-input" asp-for="@item.Name" />
+
+                                    </label>*@
+</tr>
+
+                            }
+                        </tbody>
+
+                    </table>
 
 
                     <div class="row">
@@ -110,7 +133,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <input type="submit" value="Wygeneruj" class="login_btn btn napis-label" />
+                    @*<input type="submit" value="Wygeneruj" class="login_btn btn napis-label" />*@
                 </div>
             </form>
         </div>
