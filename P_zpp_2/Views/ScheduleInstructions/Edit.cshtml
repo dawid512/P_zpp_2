@@ -1,4 +1,4 @@
-﻿@model P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions
+﻿@model P_zpp_2.ViewModels.ScheduleInstructionViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -15,39 +15,39 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="scheduleInstructions.Name" class="control-label"></label>
+                <input asp-for="scheduleInstructions.Name" class="form-control" />
+                <span asp-validation-for="scheduleInstructions.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 1 zmiany</label>
-                <input type="time" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+                <label asp-for="startOne" class="control-label">Data rozpoczęcia 1 zmiany</label>
+                <input type="time" asp-for="startOne" class="form-control" />
+                <span asp-validation-for="startOne" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 1 zmiany</label>
-                <input type="time" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+                <label asp-for="endOne" class="control-label">Data zakończenia 1 zmiany</label>
+                <input type="time" asp-for="endOne" class="form-control" />
+                <span asp-validation-for="endOne" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 2 zmiany</label>
-                <input type="time" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+                <label asp-for="startTwo" class="control-label">Data rozpoczęcia 2 zmiany</label>
+                <input type="time" asp-for="startTwo" class="form-control" />
+                <span asp-validation-for="startTwo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 2 zmiany</label>
-                <input type="time" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+                <label asp-for="endTwo" class="control-label">Data zakończenia 2 zmiany</label>
+                <input type="time" asp-for="endTwo" class="form-control" />
+                <span asp-validation-for="endTwo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 3 zmiany</label>
-                <input type="time" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+                <label asp-for="startThree" class="control-label">Data rozpoczęcia 3 zmiany</label>
+                <input type="time" asp-for="startThree" class="form-control" />
+                <span asp-validation-for="startThree" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 3 zmiany</label>
-                <input type="time" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
+                <label asp-for="endThree" class="control-label">Data zakończenia 3 zmiany</label>
+                <input type="time" asp-for="endThree" class="form-control" />
+                <span asp-validation-for="endThree" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
                 <label asp-for="CoordinatorId" class="control-label"></label>
