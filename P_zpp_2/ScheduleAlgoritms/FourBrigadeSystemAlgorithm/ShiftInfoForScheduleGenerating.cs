@@ -24,5 +24,9 @@ namespace CashierAlgorithm.Database
             this.coordinatorId = coordinatorId;
             this.IsOvernight = IsOvernight;
         }
+
+        public ShiftInfoForScheduleGenerating()
+        {
+        }
     }
 }

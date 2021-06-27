@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CashierAlgorithm.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using P_zpp_2.Data;
 using P_zpp_2.Models.MyCustomLittleDatabase;
 using P_zpp_2.ViewModels;
@@ -60,10 +62,28 @@ namespace P_zpp_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ScheduleInstructionViewModel scheduleInstructionViewModel)
         {
-            ScheduleInstructions scheduleInstructions = scheduleInstructionViewModel;
-
-            scheduleInstructions.ListOfShistsInJSON = scheduleInstructionViewModel.startOne + ' ' + scheduleInstructionViewModel.endOne;
-
+            ScheduleInstructions scheduleInstructions = new ScheduleInstructions();
+            scheduleInstructions.Name = scheduleInstructionViewModel.scheduleInstructions.Name;
+            ShiftInfoForScheduleGenerating shiftOne = new ShiftInfoForScheduleGenerating();
+            ShiftInfoForScheduleGenerating shiftTwo = new ShiftInfoForScheduleGenerating();
+            ShiftInfoForScheduleGenerating shiftThree = new ShiftInfoForScheduleGenerating();
+            shiftOne.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstructionViewModel.startOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftOne.ShiftSetEndTime = DateTime.ParseExact(scheduleInstructionViewModel.endOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftTwo.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstructionViewModel.startTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftTwo.ShiftSetEndTime = DateTime.ParseExact(scheduleInstructionViewModel.endTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftThree.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstructionViewModel.startThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftThree.ShiftSetEndTime = DateTime.ParseExact(scheduleInstructionViewModel.endThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            if(scheduleInstructionViewModel.długość_zmiany_w_dniach != null)
+            {
+                shiftOne.ShiftLengthInDays = (int)scheduleInstructionViewModel.długość_zmiany_w_dniach;
+                shiftTwo.ShiftLengthInDays = (int)scheduleInstructionViewModel.długość_zmiany_w_dniach;
+                shiftThree.ShiftLengthInDays = (int)scheduleInstructionViewModel.długość_zmiany_w_dniach;
+            }
+            List<ShiftInfoForScheduleGenerating> listOfShifts = new List<ShiftInfoForScheduleGenerating>();
+            listOfShifts.Add(shiftOne);
+            listOfShifts.Add(shiftTwo);
+            listOfShifts.Add(shiftThree);
+            scheduleInstructions.ListOfShistsInJSON = JsonSerializer.Serialize(listOfShifts);
             if (ModelState.IsValid)
             {
                 _context.Add(scheduleInstructions);
