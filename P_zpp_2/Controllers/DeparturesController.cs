@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
+using P_zpp_2.Models;
 using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm;
 using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
@@ -14,10 +17,12 @@ namespace P_zpp_2.Controllers
     public class DeparturesController : Controller
     {
         private readonly P_zpp_2DbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeparturesController(P_zpp_2DbContext context)
+        public DeparturesController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Departures
@@ -126,6 +131,16 @@ namespace P_zpp_2.Controllers
             return View(deps);
         }
 
+        public async Task<IActionResult> GenerateSchedule(ScheduleInstructions Instruction)
+        {
+            FourBrigadeSystem fbs = new();
+            var user = await _userManager.GetUserAsync(User);
+            var userId = _userManager.GetUserId(User);
+            var depId = await _context.Users.Where(x => x.DeptId == user.DeptId).FirstOrDefaultAsync();
+            var context = _context;
+            var xxx = fbs.Generate(userId, Instruction, (int)depId.DeptId, context);
+            return View();
+        }
 
         // GET: Departures/Delete/5
         public async Task<IActionResult> Delete(int? id)

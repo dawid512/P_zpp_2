@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
+namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
 {
     public class Team
     {

@@ -40,7 +40,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
         {
             GenerateSchedule();
 
-            var deps = _context.company.Select(x => x);
+           // var deps = _context.company.Select(x => x);
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
             
             scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();

@@ -11,6 +11,7 @@ namespace P_zpp_2.Data
         public int Id { get; set; }
         public string ScheduleName { get; set; }
         public DateTime LastScheduleDay { get; set; }
+        [MaxLength(1000000)]
         public string ScheduleInJSON { get; set; }
         public string? HangingDaysInJSON { get; set; }
         public string ScheduleInstructions { get; set; }
@@ -18,6 +19,14 @@ namespace P_zpp_2.Data
         [ForeignKey("CoordinatorId")]
         public virtual ApplicationUser Coordinaor { get; set; }
 
+        public Schedule(string CoordinatorId, string ScheduleName, DateTime LastScheduleDay, string ScheduleInJSON, string? HangingDaysInJSON)
+        {
+            this.ScheduleName = ScheduleName;
+            this.LastScheduleDay = LastScheduleDay;
+            this.ScheduleInJSON = ScheduleInJSON;
+            this.HangingDaysInJSON = HangingDaysInJSON;
+            this.CoordinatorId = CoordinatorId;
+        }
 
         public Schedule(string ScheduleName, string ScheduleInJSON, string ScheduleInstructions)
         {

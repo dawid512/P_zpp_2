@@ -5,14 +5,14 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="cardlogged">
+<div class="card-pracownicy">
     <div class="card-header">
         <h4>Pracownik</h4>
         <hr />
 
         <div class="col-md-4">
 
-            <form method="post">
+            <form method="post" style="float: none!important">
                 <div asp-validation-summary="ModelOnly" class="text-danger napis-label"></div>
                 <input type="hidden" asp-for="Pracownik.Id" />
                 <div class="row">

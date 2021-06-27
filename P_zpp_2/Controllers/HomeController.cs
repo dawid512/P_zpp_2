@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using P_zpp_2.Data;
 using P_zpp_2.Models;
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,18 @@ namespace P_zpp_2.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly P_zpp_2DbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, P_zpp_2DbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            
-            return View();
+            var x = _context.schedules.Where(x => x.Id == 4).FirstOrDefault();
+            return View(x.ScheduleInJSON);
         }
 
         public IActionResult Privacy()
