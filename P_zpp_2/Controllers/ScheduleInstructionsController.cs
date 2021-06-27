@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
 using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
 {
@@ -57,8 +58,12 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ListOfShistsInJSON,CoordinatorId")] ScheduleInstructions scheduleInstructions)
+        public async Task<IActionResult> Create(ScheduleInstructionViewModel scheduleInstructionViewModel)
         {
+            ScheduleInstructions scheduleInstructions = scheduleInstructionViewModel;
+
+            scheduleInstructions.ListOfShistsInJSON = scheduleInstructionViewModel.startOne + ' ' + scheduleInstructionViewModel.endOne;
+
             if (ModelState.IsValid)
             {
                 _context.Add(scheduleInstructions);
