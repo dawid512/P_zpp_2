@@ -36,20 +36,12 @@ namespace P_zpp_2.Controllers
 
             var user = await _userManager.GetUserAsync(User);
             var userid =  _userManager.GetUserId(User);
-            //new SelectList(_departures, "DeprtureId", "DepartureName");
+
             var userDepartment = _applicationUser.Where(x => x.Id == userid).Select(x => x.DeptId);
             LeavesPracownicyListViewModel leavesPracownicyListViewModel = new LeavesPracownicyListViewModel();
-           // .Where(x => x.Idusera.DeptId == de)
            
             leavesPracownicyListViewModel.departure = _departures.Where(d => d.DeprtureId == user.DeptId).ToList();
-
-            //_context.departures.Where(d=>d.User_id == user).Select(d =>
-            //                                    new SelectListItem
-            //                                    {
-            //                                        Value = d.DeprtureId.ToString(),
-            //                                        Text = d.DepartureName
-            //                                    });
-            leavesPracownicyListViewModel.Pracownicy = _applicationUser.Select(a =>
+            leavesPracownicyListViewModel.workers = _applicationUser.Select(a =>
                                               new SelectListItem
                                               {
                                                   Value = a.Id,
@@ -133,8 +125,6 @@ namespace P_zpp_2.Controllers
         }
 
         // POST: LeavesAdmin/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CheckIn,CheckOut,Leavesname,Status,Status_zaakceptopwane,Status_odrzucone")] Leaves leaves)

@@ -15,11 +15,6 @@
             <div class="col-md-4">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @*<div class="form-group">
-                        <label asp-for="Shifts" class="control-label"></label>
-                        <input asp-for="Shifts" class="form-control" />
-                        <span asp-validation-for="Shifts" class="text-danger"></span>*@
-                    @*</div>*@
                     <div class="form-group">
                         <label asp-for="DepartureName" class="control-label napis-label"></label>
                         <input asp-for="DepartureName" class="form-control" />
@@ -40,4 +35,5 @@
         <div>
             <a class=" btn float-md-right  login_btn napis-label" asp-action="Index">Wróć do Listy</a>
         </div>
-
+    </div>
+</div>

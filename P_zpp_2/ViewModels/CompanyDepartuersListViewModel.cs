@@ -20,11 +20,10 @@ namespace P_zpp_2.ViewModels
         [Display(Name = "Dział")]
         public List<Departures> departures { get; set; }
         [Display(Name = "Dział")]
-        public Departures dp { get; set; }
-       // public IEnumerable<Departures> Departures { get; set; }
+        public Departures singleDeparture { get; set; }
 
         [Display(Name = "Firma")]
-        public int idcompany { get; set; }
+        public int IdCompany { get; set; }
        
     }
 }
