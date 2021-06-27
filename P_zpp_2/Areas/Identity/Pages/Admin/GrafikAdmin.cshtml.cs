@@ -20,12 +20,14 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
     {
         private readonly P_zpp_2DbContext _context;
         private readonly IConfiguration Configuration;
-        
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration)
+
+        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
+            _userManager = userManager;
         }
 
         public List<EventModel> _ScheduleDaysList { get; set; }
@@ -33,14 +35,16 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public List<ScheduleInstructions> scheduleInstructions { get; set; }
 
-        public void OnGet()
+        public async void OnGetAsync(ApplicationUser user)
         {
             GenerateSchedule();
 
             //var tmp = DisplayShiftOF(User.Identity.GetUserId(), string ScheduleName);
 
             //_ScheduleDaysList = 
+            var actualCoordinatorID = await _userManager.GetUserIdAsync(User);
 
+            scheduleInstructions =_context.ScheduleInstructions.Where(x=>x.CoordinatorId== actualCoordinatorID)
 
             _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
 
