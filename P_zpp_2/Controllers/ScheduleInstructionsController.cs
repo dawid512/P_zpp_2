@@ -36,7 +36,7 @@ namespace P_zpp_2.Controllers
         }
 
         // GET: ScheduleInstructions/Details/5
-        public async Task<IActionResult> Details(int? id, string? algorithmName)
+        public async Task<IActionResult> Details(int? id )
         {
             if (id == null)
             {
@@ -51,7 +51,7 @@ namespace P_zpp_2.Controllers
                 return NotFound();
             }
 
-            return View(Tuple.Create(scheduleInstructions, algorithmName));
+            return View(scheduleInstructions);
         }
 
         // GET: ScheduleInstructions/Create
@@ -127,8 +127,9 @@ namespace P_zpp_2.Controllers
             {
                 return NotFound();
             }
+            ViewBag.algorithmName = algorithmName;
             ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", scheduleInstructions.CoordinatorId);
-            return View(Tuple.Create(scheduleInstructions, algorithmName));
+            return View(scheduleInstructions);
         }
 
         // POST: ScheduleInstructions/Edit/5
@@ -136,7 +137,7 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ListOfShistsInJSON,CoordinatorId")] ScheduleInstructions scheduleInstructions, string? algorithmName)
+        public async Task<IActionResult> Edit(int id, ScheduleInstructions scheduleInstructions, string? algorithmName)
         {
             if (id != scheduleInstructions.Id)
             {
@@ -164,11 +165,11 @@ namespace P_zpp_2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", scheduleInstructions.CoordinatorId);
-            return View(Tuple.Create(scheduleInstructions, algorithmName));
+            return View( algorithmName);
         }
 
         // GET: ScheduleInstructions/Delete/5
-        public async Task<IActionResult> Delete(int? id, string? algorithmName)
+        public async Task<IActionResult> Delete(int? id )
         {
             if (id == null)
             {
@@ -183,7 +184,7 @@ namespace P_zpp_2.Controllers
                 return NotFound();
             }
 
-            return View(Tuple.Create(scheduleInstructions, algorithmName));
+            return View(scheduleInstructions);
         }
 
         // POST: ScheduleInstructions/Delete/5
