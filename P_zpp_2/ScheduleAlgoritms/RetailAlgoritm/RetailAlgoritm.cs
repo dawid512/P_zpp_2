@@ -9,8 +9,9 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm
 {
     public class RetailAlgoritm
     {
-        private static void RetailMain(int numberOfays, DateTime generateFromDate, string scheduleName)
+        private static void RetailMain(int numberOfays, DateTime generateFromDate, string scheduleName)//wszystko z tej funkcji leci do widoku
         {
+            
             int tmpVariable_MustBeDeletedBeforeImplementationsOfFInalAlgoritm = 4; //to będzie pobierane z View do tworzenia
             string algoritmConfigJson = Get_Config_From_Database(scheduleName);
 
@@ -36,34 +37,73 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm
             Save_New_AlgoritmData_To_Database(config);
         }
         //----------------rquires database---------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        private static AlgoritmData CreateNewSettingsAndSaveToDatabase(int NumberOfRegistersToBeManned, string scheduleName) //skonsultować szymona lub szymona
+        private static List<RetailWorker> UpdateLegacyPersonel_RemoveFired_AddNew(List<RetailWorker> retailWorkers, List<RetailWorker> legacyWorkers, AlgoritmData AD)
         {
-            return null;
-        }
-        private static void Save_New_AlgoritmData_To_Database(AlgoritmData config)
-        {
-            throw new NotImplementedException();
-        }
-        private static List<RetailWorker> UpdateLegacyPersonel_RemoveFired_AddNew(List<RetailWorker> retailWorkers, List<RetailWorker> legacyWorkers)
-        {
-            throw new NotImplementedException();
-        }
-        private static List<RetailWorkday> GetCurrentScheduleFromDatabase()
-        {
-            throw new NotImplementedException();
-        }
+            var oldToBeRemovedFromLegacy = new List<RetailWorker>();
+            
+            //znajduje zwolnionych
+            bool currentlyEmployed = false;
+            foreach (var lw in legacyWorkers)
+            {
+                currentlyEmployed = false;
+                foreach (var cw in retailWorkers)
+                {
+                    if (lw.WorkerId == cw.WorkerId) 
+                    {
+                        currentlyEmployed = true; 
+                        break;
+                    }
+                }
+                if (!currentlyEmployed)
+                    oldToBeRemovedFromLegacy.Add(lw);
+            }
+            //usuwa zwolnionych
+            foreach (var item in oldToBeRemovedFromLegacy)
+            {
+                legacyWorkers.Remove(item);
+            }
+            //szuka nowych
+            var newWorker = new List<RetailWorker>();
+            foreach (var lw in legacyWorkers)
+            {
+                if (retailWorkers.Contains(lw)) continue;
+                else newWorker.Add(lw);
+            }
+            foreach (var item in newWorker)
+            {
+                legacyWorkers.Add(item);
+            }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------DONE--------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
+            AD.retailWorkerList = UpdateNewPersonel(legacyWorkers, AD.algoritmSettings);
+            return AD.retailWorkerList;
+
+        }
+        private static List<RetailWorkday> GetCurrentScheduleFromDatabaseInJson(string scheduleName, string coordinatorID)
+        {
+            using (var db = new P_zpp_2DbContext())
+            {
+                var tmp = db.schedules.Where(x => x.CoordinatorId == coordinatorID && scheduleName == x.ScheduleName).First();
+                return JsonConvert.DeserializeObject<List<RetailWorkday>>(tmp.ScheduleInJSON);
+            }
+        }
+        private static void Save_New_AlgoritmData_To_Database(AlgoritmData newAD, string scheduleName, string coordinatorID)
+        {
+            using (var db = new P_zpp_2DbContext())
+            {
+                var toEdit = db.schedules.Where(x => x.CoordinatorId == coordinatorID && x.ScheduleName == scheduleName).First();
+                toEdit.ScheduleInstructions = JsonConvert.SerializeObject(newAD);
+                db.schedules.Update(toEdit);
+                db.SaveChanges();
+            }
+        }
+        private static void CreateNewSettingsAndSaveToDatabase(AlgoritmData newAD, string scheduleName, string coordinatorID) //skonsultować szymona lub szymona
+        {
+            using (var db = new P_zpp_2DbContext())
+            {
+                db.schedules.Add(new Schedule(scheduleName, string.Empty, JsonConvert.SerializeObject(newAD), coordinatorID));
+                db.SaveChanges();
+            }
+        }
         private static void Save_Complete_Schedule_To_Database(List<RetailWorkday> completeSchedule, string coordinatorId, string scheduleName, AlgoritmData config)
         {
             using (var db = new P_zpp_2DbContext())
@@ -112,14 +152,6 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm
                 return string.Empty;
             }
         }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------------------------------------------------------
         private static RetailWorker Convert_ApplicationUser_To_RetailWorker(Models.ApplicationUser slave)
         {
             using (var db = new P_zpp_2DbContext())
@@ -218,7 +250,6 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm
             }
             return shedule;
         }
-
         private static List<RetailWorkday> GenerateEmptySchedule(int numberOfDays, DateTime generateFromDate)
         {
             for (int i = 0; i < numberOfDays; i++)
