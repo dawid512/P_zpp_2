@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
 {
+    /// <summary>
+    /// Contains info of workday date, and personel at each shift
+    /// </summary>
     public class RetailWorkday
     {
         public DateTime DayDate { get; set; }

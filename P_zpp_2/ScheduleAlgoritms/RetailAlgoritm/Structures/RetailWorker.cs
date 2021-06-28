@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
 {
+    /// <summary>
+    /// A supplementary class for easier access to information required for alghoritm to work properly
+    /// </summary>
     public class RetailWorker
     {
         public string WorkerId { get; set; }

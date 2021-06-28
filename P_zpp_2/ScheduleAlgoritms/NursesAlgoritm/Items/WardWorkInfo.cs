@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
+    /// <summary>
+    /// Contains information about workplace required for algiritm to work, also stores information about physical characteristics of workplace
+    /// </summary>
     public static class WardWorkInfo
     {
         public static int WorkCycleLenght = 16; //days

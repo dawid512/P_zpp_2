@@ -4,6 +4,9 @@ using System.Text;
 
 namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
+    /// <summary>
+    /// Contains info of workday date, and personel at each shift
+    /// </summary>
     public class Workday
     {
         public DateTime Date { get; set; }

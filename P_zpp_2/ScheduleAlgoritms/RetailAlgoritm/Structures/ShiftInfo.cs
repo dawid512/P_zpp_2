@@ -2,6 +2,9 @@
 
 namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
 {
+    /// <summary>
+    /// Contains data about shifts ending and starting hours
+    /// </summary>
     public class ShiftInfo
     {
         public DateTime OpeningShift_BeginningTime { get; set; }

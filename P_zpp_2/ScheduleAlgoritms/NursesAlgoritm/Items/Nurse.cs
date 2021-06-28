@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
+    /// <summary>
+    /// A supplementary class for easier access to information required for alghoritm to work properly
+    /// </summary>
     public class Nurse
     {
         public string Id { get; set; }

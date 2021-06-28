@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
 {
+    /// <summary>
+    /// Contains data about number of employees required for each shift
+    /// </summary>
     public class AlgoritmSettings
     {
         public int CashRegistersToMan { get; set; }

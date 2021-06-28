@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
+    /// <summary>
+    /// Class used for displaying schedule in frontend
+    /// </summary>
     public class SimpleDisplayShifs
     {
         

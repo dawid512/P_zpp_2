@@ -11,6 +11,12 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 {
     public class NursesMain
     {        
+        /// <summary>
+        /// Retrieves schedule for 1 person
+        /// </summary>
+        /// <param name="User_id"></param>
+        /// <param name="ScheduleName"></param>
+        /// <returns></returns>
         public List<SimpleDisplayShifs> DisplayShiftOF (string User_id, string ScheduleName)
         {
             using(var db = new P_zpp_2DbContext())
@@ -42,6 +48,12 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
             }
         }
+        /// <summary>
+        /// Master Method of Nurse Scheduling Algoritm, does everything just run it
+        /// </summary>
+        /// <param name="CreateScheduleFromDate"></param>
+        /// <param name="NumberOfDaysToSchedule"></param>
+        /// <param name="NameOfSchedule"></param>
         public void RunNUrsesScheduler(DateTime CreateScheduleFromDate  ,int NumberOfDaysToSchedule, string NameOfSchedule)
         {
             using (var db = new P_zpp_2DbContext())
@@ -73,6 +85,12 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
             }
         }
+        /// <summary>
+        /// Prepares schedule to be saved into database
+        /// </summary>
+        /// <param name="wd"></param>
+        /// <param name="pl"></param>
+        /// <param name="NameOfSchedule"></param>
         private void PrepareDataForStorage(List<Workday> wd, List<Nurse> pl, string NameOfSchedule)
         {
             var serialized_workdays = JsonConvert.SerializeObject(wd);
@@ -84,6 +102,12 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             File.WriteAllText(Json_file_location_staff, serialized_personel_algoritm_info);
             SaveScheduleLocationToDatabase(NameOfSchedule, Json_file_location_schedule, Json_file_location_staff);
         }
+        /// <summary>
+        /// Saves Schedule to database
+        /// </summary>
+        /// <param name="Schedule_name"></param>
+        /// <param name="schedule_location"></param>
+        /// <param name="staff_data_location"></param>
         private void SaveScheduleLocationToDatabase( string Schedule_name, string schedule_location, string staff_data_location )
         {
             using (var db = new P_zpp_2DbContext())
@@ -99,7 +123,11 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
                 db.SaveChanges();
             }
         }
-
+        /// <summary>
+        /// Retrieves list of employees from database and converts them from ApplicationUser into Nurse class
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public List<Nurse> PrepareListOfNursesOutOfUsersFromDatabase(List<ApplicationUser> list)//run only once
         {
             List<Nurse> tmp = new List<Nurse>();
@@ -107,7 +135,13 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
                 tmp.Add(new Nurse(item.Id, item.LastName + " " + item.FirstName, 0, 0, 0, null));
             return tmp;
         }
-
+        /// <summary>
+        /// Method used to selefct staff for a sigle workday
+        /// </summary>
+        /// <param name="selectedDateTime"></param>
+        /// <param name="workdaysList"></param>
+        /// <param name="Personel"></param>
+        /// <param name="Nofdays"></param>
         public static void SelectStaff(DateTime selectedDateTime , List<Workday> workdaysList, List<Nurse> Personel, int Nofdays)
         {
             var today = selectedDateTime.Date.AddDays(Nofdays);
@@ -120,7 +154,11 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             workdaysList.Add(new Workday(today, day, night, off));
             var wd = new Workday(selectedDateTime.Date.AddDays(Nofdays), day, night, off);
         }
-
+        /// <summary>
+        /// selects employees for day shift
+        /// </summary>
+        /// <param name="Personel"></param>
+        /// <returns></returns>
         public static List<Nurse> SelectForDayShift(List<Nurse> Personel)
         {
             var tmp = Personel.Where(n => n.DayshiftsCompleted == Personel.Min(m => m.DayshiftsCompleted) && n.LastShift_night != true).Take(WardWorkInfo.Workers_RequiredforDayshift).ToList();
@@ -138,6 +176,12 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
 
             return tmp;
         }
+        /// <summary>
+        /// Selects employees for night shift, excluding employees working dayshit already
+        /// </summary>
+        /// <param name="Personel"></param>
+        /// <param name="CurrentlyOccupied"></param>
+        /// <returns></returns>
         public static List<Nurse> SelectForNightShift(List<Nurse> Personel, List<Nurse> CurrentlyOccupied)
         {
             var nonOcupied = Personel.Except(CurrentlyOccupied).ToList();
@@ -153,6 +197,13 @@ namespace P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items
             }
             return tmp;
         }
+        /// <summary>
+        /// Saves information of people who has day off
+        /// </summary>
+        /// <param name="Personel"></param>
+        /// <param name="CurrentlyOccupied_Day"></param>
+        /// <param name="CurrentlyOccupied_night"></param>
+        /// <returns></returns>
         public static List<Nurse> SetDayOff(List<Nurse> Personel, List<Nurse> CurrentlyOccupied_Day, List<Nurse> CurrentlyOccupied_night)
         {
             var tmp = Personel.Except(CurrentlyOccupied_Day).ToList();
