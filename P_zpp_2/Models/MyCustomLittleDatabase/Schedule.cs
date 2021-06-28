@@ -44,5 +44,13 @@ namespace P_zpp_2.Data
             this.LastScheduleDay = LastScheduleDay;
             this.ScheduleInJSON = ScheduleInJSON;
         }
+
+        public Schedule(string scheduleName, string scheduleInJSON, string scheduleInstructions, string coordinatorId)
+        {
+            CoordinatorId = coordinatorId;
+            this.CoordinatorId = coordinatorId;
+            this.ScheduleInstructions = scheduleInstructions;
+            this.ScheduleInJSON = scheduleInJSON;
+        }
     }
 }
