@@ -22,7 +22,7 @@ namespace P_zpp_2.ViewModels
         public string? endFour { get; set; }
         public string? startFive { get; set; }
         public string? endFive { get; set; }
-        
+        public string? ScheduleType { get; set; }
         public int? ShiftLengthInDays { get; set; }
 
         [Display(Name = "Ilość kas")]

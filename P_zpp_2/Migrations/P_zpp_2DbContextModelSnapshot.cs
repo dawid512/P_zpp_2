@@ -242,12 +242,16 @@ namespace P_zpp_2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ScheduleInJSON")
+                        .HasMaxLength(1000000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ScheduleInstructions")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ScheduleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScheduleType")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -512,17 +516,17 @@ namespace P_zpp_2.Migrations
 
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Leaves", b =>
                 {
-                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "IdDepartuers")
+                    b.HasOne("P_zpp_2.Models.MyCustomLittleDatabase.Departures", "Iddepartuers")
                         .WithMany()
                         .HasForeignKey("IddepartuersDeprtureId");
 
-                    b.HasOne("P_zpp_2.Models.ApplicationUser", "IdUser")
+                    b.HasOne("P_zpp_2.Models.ApplicationUser", "Idusera")
                         .WithMany()
                         .HasForeignKey("IduseraId");
 
-                    b.Navigation("IdDepartuers");
+                    b.Navigation("Iddepartuers");
 
-                    b.Navigation("IdUser");
+                    b.Navigation("Idusera");
                 });
 
             modelBuilder.Entity("P_zpp_2.Models.MyCustomLittleDatabase.Messages", b =>

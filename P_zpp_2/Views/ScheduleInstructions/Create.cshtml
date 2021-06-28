@@ -54,6 +54,8 @@
                         <input type="number" asp-for="@Model.ShiftLengthInDays" class="form-control" />
                         <span asp-validation-for="@Model.ShiftLengthInDays" class="text-danger"></span>
                     </div>
+
+
                     @if (@ViewBag.algorithmName == "RetailAlgorithm")
                     {
                         <div class="form-group">

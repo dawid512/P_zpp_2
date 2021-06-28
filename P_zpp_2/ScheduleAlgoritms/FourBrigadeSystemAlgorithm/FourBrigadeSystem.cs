@@ -123,7 +123,7 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
             var eee = schedule.Item1.Last().Value.Last().ShiftBegin.Date;
             var yyy = JsonConvert.SerializeObject(schedule.Item1);
             var uuu = coordinatorId;
-            Schedule sch = new(coordinatorId, "tes2t", schedule.Item1.Last().Value.Last().ShiftBegin.Date, JsonConvert.SerializeObject(schedule.Item1), null);
+            Schedule sch = new(coordinatorId, "tes2t", schedule.Item1.Last().Value.Last().ShiftBegin.Date, JsonConvert.SerializeObject(schedule.Item1), null, "fbs");
             
 
             db.schedules.Add(sch);
