@@ -27,10 +27,10 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
 
 
             var teams = GetTeamsToAlgorithm(departmentId, db);
-            //var shiftInfoFromUser = JsonConvert.DeserializeObject<List<ShiftInfoForScheduleGenerating>>(si.ListOfShistsInJSON);
-            var lastSchedule = GetLastSchedule(sifsg.First().ShiftSetBeginTime.Date, db);
-            var shifts = CreateShifts(sifsg, lastSchedule);
-            var ScheduleInDictionary = PutTeamsIntoShifts(shifts, teams, lastSchedule, sifsg);
+            var shiftInfoFromUser = JsonConvert.DeserializeObject<List<ShiftInfoForScheduleGenerating>>(si.ListOfShistsInJSON);
+            var lastSchedule = GetLastSchedule(shiftInfoFromUser.First().ShiftSetBeginTime.Date, db);
+            var shifts = CreateShifts(shiftInfoFromUser, lastSchedule);
+            var ScheduleInDictionary = PutTeamsIntoShifts(shifts, teams, lastSchedule, shiftInfoFromUser);
 
             var ScheduleWithoutLeaves = GenerateSchedule(ScheduleInDictionary, teams);
             _Schedule = AdjustScheduleForLeaves(ScheduleWithoutLeaves, si.CoordinatorId, db);
@@ -121,7 +121,7 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
                 }
             }
             Schedule sch = new(coordinatorId, "tes2t", schedule.Item1.Last().Value.Last().ShiftBegin.Date, JsonConvert.SerializeObject(schedule.Item1), null);
-
+            var eee = schedule.Item1.Last().Value.Last().ShiftBegin.Date;
 
             db.schedules.Add(sch);
             db.SaveChanges();
