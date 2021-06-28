@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CashierAlgorithm.Database
 {
+    /// <summary>
+    /// Class containing "special info" used in algorithms.
+    /// </summary>
     public class SpecialInfo
     {
         public int? TeamNumber { get; set; }

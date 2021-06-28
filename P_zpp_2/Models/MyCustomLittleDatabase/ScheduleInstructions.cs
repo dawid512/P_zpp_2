@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.Models.MyCustomLittleDatabase
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ScheduleInstructions
     {
         [Key]
