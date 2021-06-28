@@ -1,0 +1,141 @@
+﻿@model IEnumerable<P_zpp_2.Data.Schedule>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal fade" id="AddLeavesModal" tabindex="-1" role="dialog" aria-labelledby="AddLeadesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 752px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddLeavesModalLabel">Dodaj grafik</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Create">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a class="napis-label">
+                                        Od
+                                    </a>
+
+                                </th>
+                                <th>
+                                    <a class="napis-label">
+                                        Do
+                                    </a>
+
+                                </th>
+                                <th>
+                                    <a class="napis-label">
+                                        @Html.DisplayNameFor(model => model.scheduleInstructions)
+                                    </a>
+
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.scheduleInstructions)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="date" asp-for=@item.Name class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="date" asp-for=@item.Name class="form-control" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary" asp-action="GenerateSchedule" asp-controller="Departures" asp-route-Id="@item.Id">Generuj</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            @*<div class="form-group">
+                                    <label asp-for="departure" class="control-label"></label>
+                                    @Html.DropDownListFor(model => model.departure, Model.departure, new { @class = "form-control dropdown" })
+
+
+                                </div>*@
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                @*<label asp-for="Idusera" class="control-label"></label>*@
+                                @*<select asp-for="Idusera" asp-items="Model.Idusera" class="form-control dropdown">*@
+                                @*</select>*@
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    @*<input type="submit" value="Wygeneruj" class="login_btn btn napis-label" />*@
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h1>Index</h1>
+
+<a class="login_btn btn napis-label" data-toggle="modal" data-target="#AddLeavesModal">
+    Dodaj nowy grafik
+</a>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleName)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScheduleName)
+                </td>
+
+                <td>
+
+
+                    <a asp-area="Identity" asp-page="/Admin/GrafikAdmin" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

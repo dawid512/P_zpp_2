@@ -1,0 +1,62 @@
+﻿@model P_zpp_2.Data.Schedule
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Schedule</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ScheduleName" class="control-label"></label>
+                <input asp-for="ScheduleName" class="form-control" />
+                <span asp-validation-for="ScheduleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastScheduleDay" class="control-label"></label>
+                <input asp-for="LastScheduleDay" class="form-control" />
+                <span asp-validation-for="LastScheduleDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleInJSON" class="control-label"></label>
+                <input asp-for="ScheduleInJSON" class="form-control" />
+                <span asp-validation-for="ScheduleInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HangingDaysInJSON" class="control-label"></label>
+                <input asp-for="HangingDaysInJSON" class="form-control" />
+                <span asp-validation-for="HangingDaysInJSON" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleInstructions" class="control-label"></label>
+                <input asp-for="ScheduleInstructions" class="form-control" />
+                <span asp-validation-for="ScheduleInstructions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleType" class="control-label"></label>
+                <input asp-for="ScheduleType" class="form-control" />
+                <span asp-validation-for="ScheduleType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoordinatorId" class="control-label"></label>
+                <select asp-for="CoordinatorId" class="form-control" asp-items="ViewBag.CoordinatorId"></select>
+                <span asp-validation-for="CoordinatorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
