@@ -65,6 +65,7 @@ namespace P_zpp_2.Controllers
         // GET: ScheduleInstructions/Create
         public IActionResult Create(string? algorithmName)
         {
+            var dupadupadupa = 0;
             ViewBag.algorithmName = algorithmName;
             ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id");
             return View();

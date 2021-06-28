@@ -15,17 +15,20 @@ namespace P_zpp_2.Data
         public string ScheduleInJSON { get; set; }
         public string? HangingDaysInJSON { get; set; }
         public string ScheduleInstructions { get; set; }
+        public string ScheduleType { get; set; }
         public string CoordinatorId { get; set; }
         [ForeignKey("CoordinatorId")]
         public virtual ApplicationUser Coordinaor { get; set; }
 
-        public Schedule(string CoordinatorId, string ScheduleName, DateTime LastScheduleDay, string ScheduleInJSON, string? HangingDaysInJSON)
+        //FourBrigadeSystemConstructor
+        public Schedule(string CoordinatorId, string ScheduleName, DateTime LastScheduleDay, string ScheduleInJSON, string? HangingDaysInJSON, string ScheduleType)
         {
             this.ScheduleName = ScheduleName;
             this.LastScheduleDay = LastScheduleDay;
             this.ScheduleInJSON = ScheduleInJSON;
             this.HangingDaysInJSON = HangingDaysInJSON;
             this.CoordinatorId = CoordinatorId;
+            this.ScheduleType = ScheduleType;
         }
 
         public Schedule(string ScheduleName, string ScheduleInJSON, string ScheduleInstructions)
@@ -40,6 +43,14 @@ namespace P_zpp_2.Data
             this.CoordinatorId = CoordinatorId;
             this.LastScheduleDay = LastScheduleDay;
             this.ScheduleInJSON = ScheduleInJSON;
+        }
+
+        public Schedule(string scheduleName, string scheduleInJSON, string scheduleInstructions, string coordinatorId)
+        {
+            CoordinatorId = coordinatorId;
+            this.CoordinatorId = coordinatorId;
+            this.ScheduleInstructions = scheduleInstructions;
+            this.ScheduleInJSON = scheduleInJSON;
         }
     }
 }
