@@ -1,18 +1,20 @@
-﻿namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
+﻿using System;
+
+namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
 {
     public class ShiftInfo
     {
-        public int OpeningShift_BeginningTime { get; set; }
-        public int OpeningShift_EndingTime { get; set; }
-        public int MorningShift_BeginningTime { get; set; }
-        public int MorningShift_EndingTime { get; set; }
-        public int RushHourShift_BeginningTime { get; set; }
-        public int RushHourShift_EndingTime { get; set; }
-        public int EveningShift_BeginningTime { get; set; }
-        public int EveningShift_EndingTime { get; set; }
-        public int ClosingShift_BeginningTime { get; set; }
-        public int ClosingShift_EndingTime { get; set; }
-        public int RushShiftRotation_BeginningTime { get; set; }
-        public int RushShiftRotation_EndingTime { get; set; }
+        public DateTime OpeningShift_BeginningTime { get; set; }
+        public DateTime OpeningShift_EndingTime { get; set; }
+        public DateTime MorningShift_BeginningTime { get; set; }
+        public DateTime MorningShift_EndingTime { get; set; }
+        public DateTime RushHourShift_BeginningTime { get; set; }
+        public DateTime RushHourShift_EndingTime { get; set; }
+        public DateTime EveningShift_BeginningTime { get; set; }
+        public DateTime EveningShift_EndingTime { get; set; }
+        public DateTime ClosingShift_BeginningTime { get; set; }
+        public DateTime ClosingShift_EndingTime { get; set; }
+        public DateTime RushShiftRotation_BeginningTime { get; set; }
+        public DateTime RushShiftRotation_EndingTime { get; set; }
     }
 }
