@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
+namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
 {
     public class FourBrigadeSystem
     {
@@ -18,40 +18,45 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             set { _Schedule = value.ToDictionary(x => x.Key, x => x.Value); }
         }
 
-        public string Generate(string coordinatorId, ScheduleInstructions si)
+        public string Generate(string coordinatorId, ScheduleInstructions si, int departmentId, P_zpp_2DbContext db)
         {
-            var teams = GetTeamsToAlgorithm();
-            var shiftInfoFromUser = JsonConvert.DeserializeObject <List<ShiftInfoForScheduleGenerating>>(si.ListOfShistsInJSON);
-            var lastSchedule = GetLastSchedule(shiftInfoFromUser.First().ShiftSetBeginTime.Date);
+            List<ShiftInfoForScheduleGenerating> sifsg = new();
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 6, 0, 0), new DateTime(2020, 5, 31, 14, 0, 0),  4,  false)); // 6-14
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 14, 0, 0), new DateTime(2020, 5, 31, 22, 0, 0),  4,  false)); //14-22
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 22, 0, 0), new DateTime(2020, 5, 31, 6, 0, 0),  4,  true));//22-6
+
+
+            var teams = GetTeamsToAlgorithm(departmentId, db);
+            var shiftInfoFromUser = JsonConvert.DeserializeObject<List<ShiftInfoForScheduleGenerating>>(si.ListOfShistsInJSON);
+            var lastSchedule = GetLastSchedule(shiftInfoFromUser.First().ShiftSetBeginTime.Date, db);
             var shifts = CreateShifts(shiftInfoFromUser, lastSchedule);
             var ScheduleInDictionary = PutTeamsIntoShifts(shifts, teams, lastSchedule, shiftInfoFromUser);
 
             var ScheduleWithoutLeaves = GenerateSchedule(ScheduleInDictionary, teams);
-            _Schedule = AdjustScheduleForLeaves(ScheduleWithoutLeaves, si.CoordinatorId);
+            _Schedule = AdjustScheduleForLeaves(ScheduleWithoutLeaves, si.CoordinatorId, db);
             string json = JsonConvert.SerializeObject(SerializedSchedule, Formatting.Indented);
             return json;
         }
-        private CustomScheduleClass GetLastSchedule(DateTime StartingDay)
+        private CustomScheduleClass GetLastSchedule(DateTime StartingDay, P_zpp_2DbContext db)
         {
-            using (var db = new P_zpp_2DbContext())
-            {
-                var DayBeforeStartingDay = StartingDay.AddDays(-1);
-                var lastschedule = db.schedules
-                    .Where(x => x.LastScheduleDay == DayBeforeStartingDay.Date)
-                    .FirstOrDefault();
 
-                if (lastschedule != null)
-                {
-                    var ScheduleInDictionary = JsonConvert.DeserializeObject<Dictionary<ApplicationUser, List<SingleShift>>>(lastschedule.ScheduleInJSON);
-                    var HangingDays = JsonConvert.DeserializeObject<List<LastShiftInfo>>(lastschedule.HangingDaysInJSON);
-                    CustomScheduleClass scheduleToReturn = new CustomScheduleClass(ScheduleInDictionary, HangingDays);
-                    return scheduleToReturn;
-                }
-                else
-                {
-                    return null;
-                }
+            var DayBeforeStartingDay = StartingDay.AddDays(-1);
+            var lastschedule = db.schedules
+                .Where(x => x.LastScheduleDay == DayBeforeStartingDay.Date)
+                .FirstOrDefault();
+
+            if (lastschedule != null)
+            {
+                var ScheduleInDictionary = JsonConvert.DeserializeObject<Dictionary<ApplicationUser, List<SingleShift>>>(lastschedule.ScheduleInJSON);
+                var HangingDays = JsonConvert.DeserializeObject<List<LastShiftInfo>>(lastschedule.HangingDaysInJSON);
+                CustomScheduleClass scheduleToReturn = new CustomScheduleClass(ScheduleInDictionary, HangingDays);
+                return scheduleToReturn;
             }
+            else
+            {
+                return null;
+            }
+
         }
         private Tuple<Dictionary<ShiftGroup, Team>, List<LastShiftInfo>> PutTeamsIntoShifts(Tuple<List<ShiftGroup>, List<LastShiftInfo>> shifts, List<Team> teams, CustomScheduleClass lastSchedule, List<ShiftInfoForScheduleGenerating> shiftInfo)
         {
@@ -95,34 +100,36 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             }
             return Tuple.Create(ScheduleInDictionary, lastShiftInfos);
         }
-        private Dictionary<ApplicationUser, List<SingleShift>> AdjustScheduleForLeaves(Tuple<Dictionary<ApplicationUser, List<SingleShift>>, List<LastShiftInfo>> schedule, string coordinatorId)
+        private Dictionary<ApplicationUser, List<SingleShift>> AdjustScheduleForLeaves(Tuple<Dictionary<ApplicationUser, List<SingleShift>>, List<LastShiftInfo>> schedule, string coordinatorId, P_zpp_2DbContext db)
         {
             List<Leaves> leaves = new();
             var firstDay = schedule.Item1.First().Value.First().ShiftBegin;
-            using (var db = new P_zpp_2DbContext())
-            {
-                foreach (var item in schedule.Item1)
-                {
-                    leaves = db.leaves.Where(x => x.Idusera.Id == item.Key.Id && x.Status_zaakceptopwane == true && x.CheckOut > firstDay).ToList();
 
-                    foreach (var leave in leaves)
+            foreach (var item in schedule.Item1)
+            {
+                leaves = db.leaves.Where(x => x.Idusera.Id == item.Key.Id && x.Status_zaakceptopwane == true && x.CheckOut > firstDay).ToList();
+
+                foreach (var leave in leaves)
+                {
+                    foreach (var item2 in item.Value)
                     {
-                        foreach (var item2 in item.Value)
+                        if ((item2.ShiftBegin >= leave.CheckIn) && (item2.ShiftEnd <= leave.CheckOut))
                         {
-                            if ((item2.ShiftBegin >= leave.CheckIn) && (item2.ShiftEnd <= leave.CheckOut))
-                            {
-                                item.Value.Remove(item2);
-                            }
+                            item.Value.Remove(item2);
                         }
                     }
                 }
-                Schedule sch = new(coordinatorId, schedule.Item1.Last().Value.Last().ShiftBegin.Date, JsonConvert.SerializeObject(schedule.Item1), 0);
-
-
-                db.schedules.Add(sch);
-                //db.SaveChanges();
-                return schedule.Item1;
             }
+            var eee = schedule.Item1.Last().Value.Last().ShiftBegin.Date;
+            var yyy = JsonConvert.SerializeObject(schedule.Item1);
+            var uuu = coordinatorId;
+            Schedule sch = new(coordinatorId, "tes2t", schedule.Item1.Last().Value.Last().ShiftBegin.Date, JsonConvert.SerializeObject(schedule.Item1), null);
+            
+
+            db.schedules.Add(sch);
+            db.SaveChanges();
+            return schedule.Item1;
+
         }
         private Tuple<Dictionary<ApplicationUser, List<SingleShift>>, List<LastShiftInfo>> GenerateSchedule(Tuple<Dictionary<ShiftGroup, Team>, List<LastShiftInfo>> ScheduleInDictionary, List<Team> teams)
         {
@@ -154,34 +161,36 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
         {
             throw new NotImplementedException();
         }
-        private List<Team> GetTeamsToAlgorithm()
+        private List<Team> GetTeamsToAlgorithm(int departmentId, P_zpp_2DbContext db)
         {
 
             var workerlist = new List<ApplicationUser>();
 
-            using (var db = new P_zpp_2DbContext())
+
+            workerlist = db.Users
+                .Where(x => x.DeptId == departmentId)
+                .ToList();
+
+            List<ApplicationUser>? AssignedWorkers = workerlist
+                .Where(x => x.SpecialInfo != null)
+                .ToList();
+
+            List<ApplicationUser>? AssignedWorkers2 = AssignedWorkers
+                .Where(x => JsonConvert.DeserializeObject<SpecialInfo>(x.SpecialInfo).TeamNumber != null)
+                .ToList();
+
+
+            if (!AssignedWorkers2.Any() || AssignedWorkers2 == null) //workers have never been assigned
             {
-                workerlist = db.Users
-                    .Where(x => x.DeptId == 49)
-                    .ToList();
-
-                var AssignedWorkers = workerlist
-                    .Where(x => JsonConvert.DeserializeObject<SpecialInfo>(x.SpecialInfo).TeamNumber != null)
-                    .ToList();
-
-                if (!AssignedWorkers.Any()) //workers have never been assigned
-                {
-                    return AssignAllWorkersToTeams(workerlist);
-                }
-                else if (AssignedWorkers.Count != workerlist.Count) //new workers were added to database
-                {
-                    ;
-                    return AssignNewWorkersToAlreadyExistingTeams(workerlist);
-                }
-                else
-                {
-                    return GetTeams(workerlist);
-                }
+                return AssignAllWorkersToTeams(workerlist, db);
+            }
+            else if (AssignedWorkers2.Count != workerlist.Count) //new workers were added to database
+            {
+                return AssignNewWorkersToAlreadyExistingTeams(workerlist, db);
+            }
+            else
+            {
+                return GetTeams(workerlist);
             }
 
 
@@ -198,7 +207,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             }
             return Teams;
         }
-        private List<Team> AssignNewWorkersToAlreadyExistingTeams(List<ApplicationUser> workerlist)
+        private List<Team> AssignNewWorkersToAlreadyExistingTeams(List<ApplicationUser> workerlist, P_zpp_2DbContext db)
         {
             List<Team> Teams = new();
             for (int i = 0; i < 4; i++)
@@ -209,26 +218,24 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
                 Teams.Add(new Team(i + 1, team));
             }
             var unassignedworkers = workerlist.Where(x => JsonConvert.DeserializeObject<SpecialInfo>(x.SpecialInfo).TeamNumber == null);
-            using (var db = new P_zpp_2DbContext())
+
+            foreach (var item in unassignedworkers)
             {
-                foreach (var item in unassignedworkers)
-                {
-                    var TeamToAdd = Teams.OrderBy(x => x.TeamMembers.Count).First();
-                    item.SpecialInfo = JsonConvert.SerializeObject(new SpecialInfo { TeamNumber = TeamToAdd.TeamNumber });
-                    db.Update(item);
-                    Teams[Teams.IndexOf(TeamToAdd)].TeamMembers.Add(item);
-                }
-                db.SaveChanges();
+                var TeamToAdd = Teams.OrderBy(x => x.TeamMembers.Count).First();
+                item.SpecialInfo = JsonConvert.SerializeObject(new SpecialInfo { TeamNumber = TeamToAdd.TeamNumber });
+                db.Update(item);
+                Teams[Teams.IndexOf(TeamToAdd)].TeamMembers.Add(item);
             }
+            db.SaveChanges();
+
 
             return Teams;
         }
-        private List<Team> AssignAllWorkersToTeams(List<ApplicationUser> workerlist)
+        private List<Team> AssignAllWorkersToTeams(List<ApplicationUser> workerlist, P_zpp_2DbContext db)
         {
             List<Team> Teams = new();
             var WorkerAmount = workerlist.Count / 4;
-            using (var db = new P_zpp_2DbContext())
-            {
+           
                 for (int i = 0; i < 4; i++)
                 {
                     var team = workerlist.Skip(i * WorkerAmount).Take(WorkerAmount).ToList();
@@ -240,7 +247,7 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
                     Teams.Add(new Team(i + 1, team));
                 }
                 db.SaveChanges();
-            }
+            
             return Teams;
         }
         private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShifts(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule)
@@ -269,21 +276,21 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             {
                 for (int i = 1; i <= time; i++)
                 {
-                    var begin = new DateTime(DateTime.Now.Year, item.ScheduleMonth, i, item.ShiftSetBeginTime.Hour, item.ShiftSetBeginTime.Minute, item.ShiftSetBeginTime.Second);
+                    var begin = new DateTime(DateTime.Now.Year, 5, i, item.ShiftSetBeginTime.Hour, item.ShiftSetBeginTime.Minute, item.ShiftSetBeginTime.Second);
                     DateTime end;
                     if (item.IsOvernight == false)
                     {
-                        end = new DateTime(DateTime.Now.Year, item.ScheduleMonth, i, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
+                        end = new DateTime(DateTime.Now.Year, 5, i, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                     }
                     else
                     {
                         if (i == 31)
                         {
-                            end = new DateTime(DateTime.Now.Year, item.ScheduleMonth + 1, 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
+                            end = new DateTime(DateTime.Now.Year, 5 + 1, 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                         }
                         else
                         {
-                            end = new DateTime(DateTime.Now.Year, item.ScheduleMonth, i + 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
+                            end = new DateTime(DateTime.Now.Year, 5, i + 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                         }
                     }
 
@@ -330,21 +337,21 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
                 var shiftInfo = shiftInfoForScheduleGenerating[item.ShiftType];
                 for (int i = 1; i <= item.DaysToGenerate; i++)
                 {
-                    var begin = new DateTime(DateTime.Now.Year, shiftInfo.ScheduleMonth, i, shiftInfo.ShiftSetBeginTime.Hour, shiftInfo.ShiftSetBeginTime.Minute, shiftInfo.ShiftSetBeginTime.Second);
+                    var begin = new DateTime(DateTime.Now.Year, 5, i, shiftInfo.ShiftSetBeginTime.Hour, shiftInfo.ShiftSetBeginTime.Minute, shiftInfo.ShiftSetBeginTime.Second);
                     DateTime end;
                     if (shiftInfo.IsOvernight == false)
                     {
-                        end = new DateTime(DateTime.Now.Year, shiftInfo.ScheduleMonth, i, shiftInfo.ShiftSetEndTime.Hour, shiftInfo.ShiftSetEndTime.Minute, shiftInfo.ShiftSetEndTime.Second);
+                        end = new DateTime(DateTime.Now.Year, 5, i, shiftInfo.ShiftSetEndTime.Hour, shiftInfo.ShiftSetEndTime.Minute, shiftInfo.ShiftSetEndTime.Second);
                     }
                     else
                     {
                         if (i == 31)
                         {
-                            end = new DateTime(DateTime.Now.Year, shiftInfo.ScheduleMonth + 1, 1, shiftInfo.ShiftSetEndTime.Hour, shiftInfo.ShiftSetEndTime.Minute, shiftInfo.ShiftSetEndTime.Second);
+                            end = new DateTime(DateTime.Now.Year, 6, 1, shiftInfo.ShiftSetEndTime.Hour, shiftInfo.ShiftSetEndTime.Minute, shiftInfo.ShiftSetEndTime.Second);
                         }
                         else
                         {
-                            end = new DateTime(DateTime.Now.Year, shiftInfo.ScheduleMonth, i + 1, shiftInfo.ShiftSetEndTime.Hour, shiftInfo.ShiftSetEndTime.Minute, shiftInfo.ShiftSetEndTime.Second);
+                            end = new DateTime(DateTime.Now.Year, 5, i + 1, shiftInfo.ShiftSetEndTime.Hour, shiftInfo.ShiftSetEndTime.Minute, shiftInfo.ShiftSetEndTime.Second);
                         }
                     }
                     dateTimeList.Add(new SingleShift(begin, end));
@@ -367,21 +374,21 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
             {
                 for (int i = lastSchedule.HangingDays.First().DaysToGenerate + 1; i <= time; i++)
                 {
-                    var begin = new DateTime(DateTime.Now.Year, item.ScheduleMonth, i, item.ShiftSetBeginTime.Hour, item.ShiftSetBeginTime.Minute, item.ShiftSetBeginTime.Second);
+                    var begin = new DateTime(DateTime.Now.Year, 5, i, item.ShiftSetBeginTime.Hour, item.ShiftSetBeginTime.Minute, item.ShiftSetBeginTime.Second);
                     DateTime end;
                     if (item.IsOvernight == false)
                     {
-                        end = new DateTime(DateTime.Now.Year, item.ScheduleMonth, i, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
+                        end = new DateTime(DateTime.Now.Year, 5, i, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                     }
                     else
                     {
                         if (i == 31)
                         {
-                            end = new DateTime(DateTime.Now.Year, item.ScheduleMonth + 1, 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
+                            end = new DateTime(DateTime.Now.Year, 6, 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                         }
                         else
                         {
-                            end = new DateTime(DateTime.Now.Year, item.ScheduleMonth, i + 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
+                            end = new DateTime(DateTime.Now.Year, 5, i + 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                         }
                     }
 
@@ -420,9 +427,9 @@ namespace CashierAlgorithm.Algorithms.FourBrigadeSystem
         {
 
             List<ShiftInfoForScheduleGenerating> sifsg = new();
-            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 6, 0, 0), new DateTime(2020, 5, 31, 14, 0, 0), 8, 4, 1, false)); // 6-14
-            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 14, 0, 0), new DateTime(2020, 5, 31, 22, 0, 0), 8, 4, 1, false)); //14-22
-            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 22, 0, 0), new DateTime(2020, 5, 31, 6, 0, 0), 8, 4, 1, true));//22-6
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 6, 0, 0), new DateTime(2020, 5, 31, 14, 0, 0), 4, false)); // 6-14
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 14, 0, 0), new DateTime(2020, 5, 31, 22, 0, 0),  4,  false)); //14-22
+            sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 22, 0, 0), new DateTime(2020, 5, 31, 6, 0, 0),  4,  true));//22-6
 
             return sifsg;
         }

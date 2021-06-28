@@ -46,7 +46,7 @@
 </style>
 
 <a class="btn  login_btn " data-toggle="modal" data-target="#AddLeavesModal">
-   Dodaj nową prośbę o urlop
+    Dodaj nową prośbę o urlop
 </a>
 
 <!-- Modal -->
@@ -83,24 +83,7 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label asp-for="departure" class="control-label"></label>
-                             
                                 <input asp-for="@Model.singleDep.DepartureName" class="form-control" disabled />
-                                @*@Html.DropDownList("Departures", Model.departure)
-                                @Html.DropDownListFor(model => model.Iddepartuers, Model.departure, new { @class = "form-control dropdown" })*@
-
-                                @*<select asp-for="departure"  class="form-control dropdown">
-            @foreach (var row in Model.departure.ToList())
-            {
-        <option value="@row.Value">@row.Text</option>
-            }
-        </select>*@
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                @*<label asp-for="Idusera" class="control-label"></label>*@
-                                @*<select asp-for="Idusera" asp-items="Model.Idusera" class="form-control dropdown">*@
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -118,45 +101,11 @@
                                     <option value="Okolicznościowy">Okolicznościowy</option>
                                     <option value="Związany z rodzicielstwem">Związany z rodzicielstwem</option>
                                     <option value="Bezpłatny">Bezpłatny</option>
-                                   
+
 
                                 </select>
-                              
                             </div>
                         </div>
-                        <!--<div class="col-12 col-sm-4">
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>-->
-                        @*<input asp-for="Status" class="form-control" />*@
-                        <!--<span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-        </div>-->
-                        @*<div class="col-12 col-sm-4">
-                            <div class="form-group">
-                                <label asp-for="Status" class="control-label">Zaakceptowane</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" asp-for="Status_zaakceptopwane" aria-label=" @Html.DisplayNameFor(model => model.Status_zaakceptopwane)">
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="form-group">
-                                <label asp-for="Status" class="control-label">Odrzucone</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" asp-for="Status_odrzucone" aria-label=" @Html.DisplayNameFor(model => model.Status_odrzucone)">
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>*@
                     </div>
 
                 </div>
@@ -178,24 +127,23 @@
 <div class="row">
     @foreach (var item in Model.leaves)
     {
-@if (item.Status_odrzucone == true && item.Status_zaakceptopwane == false) { bg = "bg-danger"; }
-else if (item.Status_zaakceptopwane == true) { bg = "bg-success"; }
-else { bg = ""; }
+        @if (item.Status_odrzucone == true && item.Status_zaakceptopwane == false) { bg = "bg-danger"; }
+        else if (item.Status_zaakceptopwane == true) { bg = "bg-success"; }
+        else { bg = ""; }
 
-                <div class="col-12 col-md-3 py-2">
-                    <div class="card-pracownicy">
-                        <h5 class="card-text text-center m-0 p-2 @bg">@item.CheckIn.ToString("dd.MM ") - @item.CheckOut.ToString("dd.MM ")</h5>
-                        <div class="card-pracownicy rounded text-center">
-                            <a asp-action="Details" asp-route-id="@item.Id">
-                                @*<h2 class="card-title napis-label text-uppercase">@item.Iddepartuers.DepartureName</h2*@
-                                <p class="card-text napis-label">@item.Idusera.FirstName @item.Idusera.LastName</p>
-                                <p class="card-text napis-label mb-0">Status: @item.Status </p>
+        <div class="col-12 col-md-3 py-2">
+            <div class="card-pracownicy">
+                <h5 class="card-text text-center m-0 p-2 @bg">@item.CheckIn.ToString("dd.MM ") - @item.CheckOut.ToString("dd.MM ")</h5>
+                <div class="card-pracownicy rounded text-center">
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <p class="card-text napis-label">@item.Idusera.FirstName @item.Idusera.LastName</p>
+                        <p class="card-text napis-label mb-0">Status: @item.Status </p>
 
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">
-                                <button class="btn-danger btn-delete">X</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>}
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <button class="btn-danger btn-delete">X</button>
+                    </a>
+                </div>
+            </div>
+        </div>}
 </div>

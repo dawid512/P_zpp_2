@@ -12,7 +12,7 @@ namespace P_zpp_2.Models.MyCustomLittleDatabase
         public int DeprtureId { get; set; }
         public string Shifts { get; set; } //json, json, Json, JSON, JSON!
         public virtual IEnumerable<ApplicationUser> MyUsers { get; set; }
-        [Display(Name = "Nazwa placówki")]
+        [Display(Name = "Nazwa działu")]
         public string DepartureName { get; set; }
 
 

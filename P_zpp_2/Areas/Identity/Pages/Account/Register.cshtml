@@ -11,25 +11,17 @@
     <div class="card">
         <div class="card-header">
             <h3>Zarejestruj się</h3>
-            @*<div class="d-flex justify-content-end social_icon">
-                    <span><i class="fab fa-facebook-square"></i></span>
-                    <span><i class="fab fa-google-plus-square"></i></span>
-                    <span><i class="fab fa-twitter-square"></i></span>
-                </div>*@
         </div>
         <div class="card-body">
             <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                @*<h4>clever<b>worktime</b></h4>*@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label class="remember" asp-for="Input.Rola"></label>
-                    @*<input asp-for="Input.Rola" class="form-control" />*@
-                    <select asp-for="Input.Rola" class="form-control" >
+                    <select asp-for="Input.Rola" class="form-control">
                         <option value="Administrator">Administrator</option>
                         <option value="Koordynator">Koordynator</option>
                         <option value="Pracownik">Pracownik</option>
-                        
                     </select>
                     <span asp-validation-for="Input.Rola" class="text-danger"></span>
                 </div>
@@ -37,13 +29,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
 
-
-                            @*<span class="input-group-text"><i class="fas fa-user"></i></span>*@
-
-
                             <label class="remember" asp-for="Input.FirstName"></label>
-
-
 
                             <input asp-for="Input.FirstName" class="form-control" />
                             <span asp-validation-for="Input.FirstName" class="text-danger"></span>
@@ -57,9 +43,7 @@
                             <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </div>
                     </div>
-
                 </div>
-
                 <div class="form-group">
                     <label class="remember" asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
@@ -84,12 +68,12 @@
                 </div>
                 <button type="submit" class="btn float-right login_btn">Zarejestruj</button>
             </form>
-            </div>
         </div>
     </div>
+</div>
 
 
 
-            @section Scripts {
-                <partial name="_ValidationScriptsPartial" />
-            }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

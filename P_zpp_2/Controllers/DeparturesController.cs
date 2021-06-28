@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
+using P_zpp_2.Models;
 using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm;
 using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
@@ -14,10 +17,12 @@ namespace P_zpp_2.Controllers
     public class DeparturesController : Controller
     {
         private readonly P_zpp_2DbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeparturesController(P_zpp_2DbContext context)
+        public DeparturesController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Departures
@@ -63,8 +68,6 @@ namespace P_zpp_2.Controllers
         }
 
         // POST: Departures/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DeprtureId,CompanyID,DepartureName")] Departures departures)
@@ -83,16 +86,6 @@ namespace P_zpp_2.Controllers
         // GET: Departures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            /*if (id == null)
-            {
-                return NotFound();
-            }
-
-            var departures = await _context.departures.FindAsync(id);
-            if (departures == null)
-            {
-                return NotFound();
-            }*/
             var deps = await _context.departures.FindAsync(id);
             var comps = _context.company.Select(x => x);
             var model = new CompanyDepartuersListViewModel();
@@ -103,8 +96,6 @@ namespace P_zpp_2.Controllers
         }
 
         // POST: Departures/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DeprtureId,CompanyID,DepartureName")]  CompanyDepartuersListViewModel deps)
@@ -140,6 +131,17 @@ namespace P_zpp_2.Controllers
             return View(deps);
         }
 
+        public async Task<IActionResult> GenerateSchedule(int id)
+        {
+            var Instruction = _context.ScheduleInstructions.Where(x => x.Id == id).FirstOrDefault();
+            FourBrigadeSystem fbs = new();
+            var user = await _userManager.GetUserAsync(User);
+            var userId = _userManager.GetUserId(User);
+            var depId = await _context.Users.Where(x => x.DeptId == user.DeptId).FirstOrDefaultAsync();
+            var context = _context;
+            var xxx = fbs.Generate(userId, Instruction, (int)depId.DeptId, context);
+            return View();
+        }
 
         // GET: Departures/Delete/5
         public async Task<IActionResult> Delete(int? id)

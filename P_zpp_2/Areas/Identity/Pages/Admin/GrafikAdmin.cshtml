@@ -5,7 +5,7 @@
 }
 
 
-<a  class="login_btn btn napis-label" data-toggle="modal" data-target="#AddLeavesModal">
+<a class="login_btn btn napis-label" data-toggle="modal" data-target="#AddLeavesModal">
     Dodaj nowy grafik
 </a>
 <div id="calendar" style="
@@ -65,7 +65,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="AddLeavesModalLabel">Dodaj urlop</h5>
+                <h5 class="modal-title" id="AddLeavesModalLabel">Dodaj grafik</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -73,22 +73,34 @@
             <form asp-action="Create">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @*<div class="row">
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label asp-for=@Model. class="control-label"></label>
-                                    <input asp-for="CheckIn" class="form-control" required />
-                                    <span asp-validation-for="CheckIn" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label asp-for=@Model.CheckOut class="control-label"></label>
-                                    <input asp-for="CheckOut" class="form-control" />
-                                    <span asp-validation-for="CheckOut" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>*@
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a class="napis-label">
+                                        @Html.DisplayNameFor(model => model.scheduleInstructions)
+                                    </a>
+
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.scheduleInstructions)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary" asp-action="GenerateSchedule" asp-controller="Departures" asp-route-Id="@item.Id">Generuj</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
 
                     <div class="row">
                         <div class="col-12 col-sm-6">
@@ -116,7 +128,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <input type="submit" value="Dodaj" class="login_btn btn napis-label" />
+                    @*<input type="submit" value="Wygeneruj" class="login_btn btn napis-label" />*@
                 </div>
             </form>
         </div>

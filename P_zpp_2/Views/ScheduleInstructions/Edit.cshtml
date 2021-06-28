@@ -1,67 +1,92 @@
-﻿@model P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions
+﻿@model P_zpp_2.ViewModels.ScheduleInstructionViewModel
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="card-pracownicy">
+    <div class="card-header">
+        <h2>Edit</h2>
 
-<h4>ScheduleInstructions</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+        <h4>Instrukcje</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="scheduleInstructions.Name" class="control-label napis-label"></label>
+                        <input asp-for="scheduleInstructions.Name" class="form-control" />
+                        <span asp-validation-for="scheduleInstructions.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="startOne" class="control-label napis-label">Data rozpoczęcia 1 zmiany</label>
+                        <input type="time" asp-for="startOne" class="form-control" />
+                        <span asp-validation-for="startOne" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="endOne" class="control-label napis-label">Data zakończenia 1 zmiany</label>
+                        <input type="time" asp-for="endOne" class="form-control" />
+                        <span asp-validation-for="endOne" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="startTwo" class="control-label napis-label">Data rozpoczęcia 2 zmiany</label>
+                        <input type="time" asp-for="startTwo" class="form-control" />
+                        <span asp-validation-for="startTwo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="endTwo" class="control-label napis-label">Data zakończenia 2 zmiany</label>
+                        <input type="time" asp-for="endTwo" class="form-control" />
+                        <span asp-validation-for="endTwo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="startThree" class="control-label napis-label">Data rozpoczęcia 3 zmiany</label>
+                        <input type="time" asp-for="startThree" class="form-control" />
+                        <span asp-validation-for="startThree" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="endThree" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                        <input type="time" asp-for="endThree" class="form-control" />
+                        <span asp-validation-for="endThree" class="text-danger"></span>
+                    </div>
+                    @if (@ViewBag.algorithmName == "RetailAlgorithm")
+                    {
+                        <div class="form-group">
+                            <label asp-for="@Model.startFour" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.startFour" class="form-control" />
+                            <span asp-validation-for="@Model.startFour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.endFour" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.endFour" class="form-control" />
+                            <span asp-validation-for="@Model.endFour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.startFive" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.startFive" class="form-control" />
+                            <span asp-validation-for="@Model.startFive" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.endFive" class="control-label napis-label">Data zakończenia 3 zmiany</label>
+                            <input type="time" asp-for="@Model.endFive" class="form-control" />
+                            <span asp-validation-for="@Model.endFive" class="text-danger"></span>
+                        </div>
+                    }
+                    <div class="form-group" hidden>
+                        <label asp-for="CoordinatorId" class="control-label"></label>
+                        <select asp-for="CoordinatorId" class="form-control" asp-items="ViewBag.CoordinatorId"></select>
+                        <span asp-validation-for="CoordinatorId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class=" btn float-md-right  login_btn napis-label" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 1 zmiany</label>
-                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 1 zmiany</label>
-                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 2 zmiany</label>
-                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 2 zmiany</label>
-                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data rozpoczęcia 3 zmiany</label>
-                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ListOfShistsInJSON" class="control-label">Data zakończenia 3 zmiany</label>
-                <input type="datetime-local" asp-for="ListOfShistsInJSON" class="form-control" />
-                <span asp-validation-for="ListOfShistsInJSON" class="text-danger"></span>
-            </div>
-            <div class="form-group" hidden>
-                <label asp-for="CoordinatorId" class="control-label"></label>
-                <select asp-for="CoordinatorId" class="form-control" asp-items="ViewBag.CoordinatorId"></select>
-                <span asp-validation-for="CoordinatorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div>
+            <a class=" btn float-md-right  login_btn napis-label" asp-action="Index">Wróć do Listy</a>
+        </div>
 

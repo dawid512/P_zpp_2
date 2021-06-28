@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using P_zpp_2.Data;
 using P_zpp_2.Models;
@@ -20,26 +21,31 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
     {
         private readonly P_zpp_2DbContext _context;
         private readonly IConfiguration Configuration;
-        
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration)
+
+        public GrafikAdminModel(P_zpp_2DbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
+            _userManager = userManager;
         }
 
         public List<EventModel> _ScheduleDaysList { get; set; }
         public string _callMeJson { get; set; }
 
-        
+        public List<ScheduleInstructions> scheduleInstructions { get; set; } 
 
-        public void OnGet()
+        public async void OnGetAsync(ApplicationUser user)
         {
             GenerateSchedule();
 
-            //var tmp = DisplayShiftOF(User.Identity.GetUserId(), string ScheduleName);
+           // var deps = _context.company.Select(x => x);
+            var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
+            
+            scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();
+           // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
 
-            //_ScheduleDaysList = 
 
 
             _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);

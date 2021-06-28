@@ -1,48 +1,52 @@
-﻿@model IEnumerable<P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions>
-
+﻿@{
+    @model Tuple<List< P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions >, string>
+}
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="card-pracownicy  ">
+    <div class="card-header">
+        <h2>Instrukcje</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ListOfShistsInJSON)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coordinator)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ListOfShistsInJSON)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coordinator.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <p>
+            <a class="login_btn btn napis-label"  asp-action="Create" asp-route-algorithmName="@Model.Item2">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="napis-label">
+                        Name
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.ListOfShistsInJSON)
+                        </th>*@
+                    <th class="napis-label">
+                        Coordinator
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item1)
+                {
+                    <tr class="card-header card-pracownicy ">
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.ListOfShistsInJSON)
+                            </td>*@
+                        <td class="napis-label">
+                            @Html.DisplayFor(modelItem => item.CoordinatorId)
+                        </td>
+                        <td>
+                            <a  class="login_btn btn napis-label" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a  class="login_btn btn napis-label" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a   class="login_btn btn napis-label" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>

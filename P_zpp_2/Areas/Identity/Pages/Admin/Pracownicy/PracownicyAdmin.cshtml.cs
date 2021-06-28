@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +22,13 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
     {
         private readonly P_zpp_2DbContext _context;
         private readonly IConfiguration Configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PracownicyAdminModel(P_zpp_2DbContext context, IConfiguration configuration)
+        public PracownicyAdminModel(P_zpp_2DbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
+            _userManager = userManager;
         }
 
         public string NameSort { get; set; }
@@ -51,38 +54,86 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
             {
                 searchString = currentFilter;
             }
-            
+
 
             CurrentFilter = searchString;
 
-            IQueryable<ApplicationUser> pracownikIQ = from s in _context.Users
-                                             select s;
+            var actualCoordinator = await _userManager.GetUserAsync(User);
 
-            if (!String.IsNullOrEmpty(searchString))
+
+            if (actualCoordinator.Rola == "Koordynator")
             {
-                pracownikIQ = pracownikIQ.Where(s => s.LastName.Contains(searchString)
-                                       || s.FirstName.Contains(searchString));
-            }
 
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    pracownikIQ = pracownikIQ.OrderByDescending(s => s.LastName);
-                    break;
-                case "Imie":
-                    pracownikIQ = pracownikIQ.OrderBy(s => s.FirstName);
-                    break;
-                case "username":
-                    pracownikIQ = pracownikIQ.OrderByDescending(s => s.UserName);
-                    break;
-                default:
-                    pracownikIQ = pracownikIQ.OrderBy(s => s.LastName);
-                    break;
-            }
 
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            Users = await PaginatedList<ApplicationUser>.CreateAsync(
-                pracownikIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+                IQueryable<ApplicationUser> pracownikIQ = from s in _context.Users where s.DeptId == null && s.Rola != "Administrator" || s.DeptId == actualCoordinator.DeptId && s.Rola != "Administrator"
+                                                          select s
+                                                          ;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+
+                    pracownikIQ = pracownikIQ.Where(s => s.LastName.Contains(searchString)
+                                           || s.FirstName.Contains(searchString));
+                }
+
+
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        pracownikIQ = pracownikIQ.OrderByDescending(s => s.LastName);
+                        break;
+                    case "Imie":
+                        pracownikIQ = pracownikIQ.OrderBy(s => s.FirstName);
+                        break;
+                    case "username":
+                        pracownikIQ = pracownikIQ.OrderByDescending(s => s.UserName);
+                        break;
+                    default:
+                        pracownikIQ = pracownikIQ.OrderBy(s => s.LastName);
+                        break;
+                }
+
+
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                Users = await PaginatedList<ApplicationUser>.CreateAsync(
+                    pracownikIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            }else {
+                IQueryable<ApplicationUser> pracownikIQ = from s in _context.Users
+                                                          
+                                                          select s
+                                                      ;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+
+                    pracownikIQ = pracownikIQ.Where(s => s.LastName.Contains(searchString)
+                                           || s.FirstName.Contains(searchString));
+                }
+
+
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        pracownikIQ = pracownikIQ.OrderByDescending(s => s.LastName);
+                        break;
+                    case "Imie":
+                        pracownikIQ = pracownikIQ.OrderBy(s => s.FirstName);
+                        break;
+                    case "username":
+                        pracownikIQ = pracownikIQ.OrderByDescending(s => s.UserName);
+                        break;
+                    default:
+                        pracownikIQ = pracownikIQ.OrderBy(s => s.LastName);
+                        break;
+                }
+
+
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                Users = await PaginatedList<ApplicationUser>.CreateAsync(
+                    pracownikIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            }
         }
     }
 }

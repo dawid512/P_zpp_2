@@ -4,60 +4,75 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="card-pracownicy  ">
+    <div class="card-header">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="napis-label">
+                        Nazwa Algorytmu
+                    </th>
+                    <th class="napis-label">
+                        Szczegóły
+                    </th>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Nazwa Algorytmu
-            </th>
-            <th>
-                Szczegóły
-            </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+                <tr class="card-header card-pracownicy ">
+                    <td class="napis-label">
+                        Dwuzmianowy
+                    </td>
+                    <td class="napis-label">
+                        Dzień/nocka
+                    </td>
 
-        <tr>
-            <td>
-                Dwuzmianowy
-            </td>
-            <td>
-                Dzień/nocka
-            </td>
+                    <td>
+                        @*<a asp-action="Index">Wybierz</a>*@
+                    </td>
+                </tr>
+                <tr class="card-header card-pracownicy ">
+                    <td class="napis-label">
+                        Czterozmianowy
+                    </td>
+                    <td class="napis-label">
+                        Czterobrygadówka  3x zmiany
+                    </td>
 
-            <td>
-                <a asp-action="Index">Wybierz</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Czterozmianowy
-            </td>
-            <td>
-                Czterobrygadówka
-            </td>
+                    <td>
+                        <a  class="login_btn btn napis-label" asp-action="Index" asp-route-algorithmName="Czterozmianowy">Wybierz</a>
+                    </td>
+                </tr>
 
-            <td>
-                <a asp-action="Index">Wybierz</a>
-            </td>
-        </tr>
+                @*<tr>
+                        <td>
+                            Dwuzmianowy
+                        </td>
+                        <td>
+                            2x 12h
+                        </td>
 
-        <tr>
-            <td>
-                Dwuzmianowy
-            </td>
-            <td>
-                2x 12h
-            </td>
+                        <td>
+                            <a asp-action="Index">Wybierz</a>
 
-            <td>
-                <a asp-action="Index">Wybierz</a>
+                        </td>
+                    </tr>*@
 
-            </td>
-        </tr>
+                <tr class="card-header card-pracownicy ">
+                    <td class="napis-label">
+                        RetailAlgorithm
+                    </td>
+                    <td class="napis-label">
+                        5x zmiany + dodatkowe pole STRING SETTINGSJSON
+                    </td>
 
-    </tbody>
-</table>
+                    <td>
+                        <a  class="login_btn btn napis-label" asp-action="Index" asp-route-algorithmName="RetailAlgorithm">Wybierz</a>
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>

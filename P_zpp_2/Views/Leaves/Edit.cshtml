@@ -24,15 +24,16 @@
                         <input asp-for="CheckOut.Date" class="form-control" />
                         <span asp-validation-for="CheckOut.Date" class="text-danger"></span>
                     </div>
-
                 </form>
             </div>
         </div>
+    </div>
+</div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-        @section Scripts {
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
