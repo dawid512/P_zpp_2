@@ -11,7 +11,7 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm
     {
         private static void RetailMain(int numberOfays, DateTime generateFromDate, string scheduleName)//wszystko z tej funkcji leci do widoku
         {
-            
+            /*
             int tmpVariable_MustBeDeletedBeforeImplementationsOfFInalAlgoritm = 4; //to będzie pobierane z View do tworzenia
             string algoritmConfigJson = Get_Config_From_Database(scheduleName);
 
@@ -34,7 +34,7 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm
                                                     );
             currentSchedule.AddRange(newSchedule);
             Save_Complete_Schedule_To_Database(currentSchedule);
-            Save_New_AlgoritmData_To_Database(config);
+            Save_New_AlgoritmData_To_Database(config);*/
         }
         //----------------rquires database---------------------------------------------------------------------------------------------------
         private static List<RetailWorker> UpdateLegacyPersonel_RemoveFired_AddNew(List<RetailWorker> retailWorkers, List<RetailWorker> legacyWorkers, AlgoritmData AD)
