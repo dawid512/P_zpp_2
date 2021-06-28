@@ -26,8 +26,8 @@ namespace P_zpp_2.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var x = _context.schedules.Where(x => x.Id == 4).FirstOrDefault();
-            return View(x.ScheduleInJSON);
+            //var x = _context.schedules.Where(x => x.Id == 4).FirstOrDefault();
+            return View();
         }
 
         public IActionResult Privacy()

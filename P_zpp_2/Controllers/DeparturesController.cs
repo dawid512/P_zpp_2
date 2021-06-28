@@ -131,8 +131,9 @@ namespace P_zpp_2.Controllers
             return View(deps);
         }
 
-        public async Task<IActionResult> GenerateSchedule(ScheduleInstructions Instruction)
+        public async Task<IActionResult> GenerateSchedule(int id)
         {
+            var Instruction = _context.ScheduleInstructions.Where(x => x.Id == id).FirstOrDefault();
             FourBrigadeSystem fbs = new();
             var user = await _userManager.GetUserAsync(User);
             var userId = _userManager.GetUserId(User);
