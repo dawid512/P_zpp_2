@@ -2,27 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
+using P_zpp_2.Models;
+using P_zpp_2.Models.MyCustomLittleDatabase;
 
 namespace P_zpp_2.Controllers
 {
     public class SchedulesController : Controller
     {
         private readonly P_zpp_2DbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SchedulesController(P_zpp_2DbContext context)
+        public SchedulesController(P_zpp_2DbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+     
 
         // GET: Schedules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ApplicationUser user)
         {
-            var p_zpp_2DbContext = _context.schedules.Include(s => s.Coordinaor);
-            return View(await p_zpp_2DbContext.ToListAsync());
+            var querry = await _context.schedules.ToListAsync();
+
+            var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
+
+            var ScheduleInstructions = await _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToListAsync();
+
+            
+            return View( Tuple.Create( querry, ScheduleInstructions));
         }
 
         // GET: Schedules/Details/5

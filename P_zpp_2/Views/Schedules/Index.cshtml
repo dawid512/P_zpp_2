@@ -1,4 +1,5 @@
-﻿@model IEnumerable<P_zpp_2.Data.Schedule>
+﻿@model Tuple<IEnumerable<P_zpp_2.Data.Schedule>, List<P_zpp_2.Models.MyCustomLittleDatabase.ScheduleInstructions>>
+    
 
 @{
     ViewData["Title"] = "Index";
@@ -34,7 +35,7 @@
                                 </th>
                                 <th>
                                     <a class="napis-label">
-                                        @Html.DisplayNameFor(model => model.scheduleInstructions)
+                                        scheduleInstructions 
                                     </a>
 
                                 </th>
@@ -42,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.scheduleInstructions)
+                            @foreach (var item in Model.Item2)
                             {
                                 <tr>
                                     <td>
@@ -109,17 +110,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+               ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ScheduleName)
+               Name
             </th>
 
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Item1)
         {
             <tr>
                 <td>
