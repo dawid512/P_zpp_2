@@ -18,7 +18,7 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
             set { _Schedule = value.ToDictionary(x => x.Key, x => x.Value); }
         }
 
-        public string Generate(string coordinatorId, ScheduleInstructions si, int departmentId, P_zpp_2DbContext db)
+        public string Generate(string coordinatorId, ScheduleInstructions si, int departmentId, P_zpp_2DbContext db, DateTime d1, DateTime d2)
         {
             //List<ShiftInfoForScheduleGenerating> sifsg = new();
             //sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 6, 0, 0), new DateTime(2020, 5, 31, 14, 0, 0),  4,  false)); // 6-14

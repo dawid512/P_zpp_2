@@ -41,13 +41,14 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public async void OnGetAsync(ApplicationUser user, int ScheduleId)
         {
-            GenerateSchedule();
+           
 
            // var deps = _context.company.Select(x => x);
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
             var schedule = _context.schedules.Where(x => x.Id == 4).First();
             //scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();
             // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
+            GenerateSchedule(schedule);
             switch (schedule.ScheduleName)
             {
                 case "fbs":
@@ -65,13 +66,21 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
         {
             List<EventModel> EventModelList = new();
             
-            var deserializedSchedule = JsonConvert.DeserializeObject<Dictionary<ApplicationUser, List<SingleShift>>>(scheduleInJSON);
+            var deserializedSchedule1 = JsonConvert.DeserializeObject<Dictionary<string, List<SingleShift>>>(scheduleInJSON);
+            var deserializedSchedule = new Dictionary<ApplicationUser, List<SingleShift>>();
+
+            foreach (var item in deserializedSchedule1)
+            {
+                var user = _context.Users.Where(x => x.UserName == item.Key).First();
+                deserializedSchedule.Add(user, item.Value);
+            }
+
             var listOfKeys = deserializedSchedule.Keys.ToList();
             foreach (var item in deserializedSchedule)
             {
                 foreach (var item2 in item.Value)
                 {
-                    EventModelList.Add(new EventModel(listOfKeys.IndexOf(item.Key), item.Key.FirstName + " " + item.Key.LastName, item2.ShiftBegin.ToString()));
+                    EventModelList.Add(new EventModel(listOfKeys.IndexOf(item.Key), item2.ShiftBegin.Hour+":"+item2.ShiftBegin.Minute+"0 -"+item2.ShiftEnd.Hour + ":" + item2.ShiftEnd.Minute+"0, " + item.Key.FirstName + " " + item.Key.LastName, item2.ShiftBegin.Date.ToString("yyyy-MM-dd")));
                 }
             }
             return EventModelList;
@@ -83,34 +92,9 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
             
             return null;
         }
-        public void GenerateSchedule()
+        public void GenerateSchedule(Schedule schedule)
         {
-            _ScheduleDaysList = new List<EventModel>{
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(1, "2 zmiana", "2021-05-10"),
-                 new EventModel(2, "1 zmiane", "2021-05-12"),
-                 new EventModel(1, "2 zmiana", "2021-05-13"),
-                 new EventModel(2, "1 zmiane", "2021-05-15"),
-                 new EventModel(1, "2 zmiana", "2021-05-16"),
-                 new EventModel(2, "1 zmiane", "2021-05-18"),
-                 new EventModel(2, "2 zmiane", "2021-05-19"),
-                 new EventModel(2, "1 zmiane", "2021-05-21"),
-                 new EventModel(2, "2 zmiane", "2021-05-22"),
-                 new EventModel(2, "1 zmiane", "2021-05-24"),
-                 new EventModel(2, "2 zmiane", "2021-05-25"),
-                 new EventModel(2, "1 zmiane", "2021-05-27"),
-                 new EventModel(2, "2 zmiane", "2021-05-28")
-            };
+            _ScheduleDaysList = DeserializeFourBrigadeSystemScheduleToEventModelList(schedule.ScheduleInJSON);
         }
     }
 }
