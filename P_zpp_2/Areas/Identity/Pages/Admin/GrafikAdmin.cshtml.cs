@@ -34,7 +34,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
         public List<EventModel> _ScheduleDaysList { get; set; }
         public string _callMeJson { get; set; }
 
-        public List<ScheduleInstructions> scheduleInstructions { get; set; } 
+        
 
         public async void OnGetAsync(ApplicationUser user)
         {
@@ -43,8 +43,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
            // var deps = _context.company.Select(x => x);
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
             
-            scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();
-           // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
+           
 
 
 
