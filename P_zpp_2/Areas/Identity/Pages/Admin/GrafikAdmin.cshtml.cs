@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using P_zpp_2.Data;
 using P_zpp_2.Models;
 using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm;
 using P_zpp_2.ScheduleAlgoritms.NursesAlgoritm.Items;
 using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
 
@@ -36,24 +39,48 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public List<ScheduleInstructions> scheduleInstructions { get; set; } 
 
-        public async void OnGetAsync(ApplicationUser user)
+        public async void OnGetAsync(ApplicationUser user, int ScheduleId)
         {
             GenerateSchedule();
 
            // var deps = _context.company.Select(x => x);
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
-            
+            var schedule = await _context.schedules.Where(x => x.Id == ScheduleId).FirstAsync();
             scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();
-           // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
+            // scheduleInstructions = new SelectList(coordinators, "UserId", "LastName");
+            switch (schedule.ScheduleName)
+            {
+                case "fbs":
+                    DeserializeFourBrigadeSystemScheduleToEventModelList(schedule.ScheduleInJSON);
+                    break;
+            }
 
 
-
-            _callMeJson = JsonSerializer.Serialize(_ScheduleDaysList);
+            _callMeJson = JsonConvert.SerializeObject(_ScheduleDaysList);
 
 
         }
+
+        private List<EventModel> DeserializeFourBrigadeSystemScheduleToEventModelList(string scheduleInJSON)
+        {
+            List<EventModel> EventModelList = new();
+            
+            var deserializedSchedule = JsonConvert.DeserializeObject<Dictionary<ApplicationUser, List<SingleShift>>>(scheduleInJSON);
+            var listOfKeys = deserializedSchedule.Keys.ToList();
+            foreach (var item in deserializedSchedule)
+            {
+                foreach (var item2 in item.Value)
+                {
+                    EventModelList.Add(new EventModel(listOfKeys.IndexOf(item.Key), item.Key.FirstName + " " + item.Key.LastName, item2.ShiftBegin.ToString()));
+                }
+            }
+            return EventModelList;
+        }
+
         public List<EventModel> converter(List<SimpleDisplayShifs> toConvertList)
         {
+            
+            
             return null;
         }
         public void GenerateSchedule()
