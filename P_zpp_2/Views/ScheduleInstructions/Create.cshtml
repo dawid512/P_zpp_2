@@ -49,6 +49,11 @@
                         <input type="time" asp-for="@Model.endThree" class="form-control" />
                         <span asp-validation-for="@Model.endThree" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ShiftLengthInDays" class="control-label napis-label">Długość zmiany w dniach</label>
+                        <input type="number" asp-for="@Model.ShiftLengthInDays" class="form-control" />
+                        <span asp-validation-for="@Model.ShiftLengthInDays" class="text-danger"></span>
+                    </div>
                     @if (@ViewBag.algorithmName == "RetailAlgorithm")
                     {
                         <div class="form-group">

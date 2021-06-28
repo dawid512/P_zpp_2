@@ -23,8 +23,7 @@ namespace P_zpp_2.ViewModels
         public string? startFive { get; set; }
         public string? endFive { get; set; }
         
-        [Display(Name = "długość zmiany w dniach")]
-        public int? długość_zmiany_w_dniach { get; set; }
+        public int? ShiftLengthInDays { get; set; }
 
         [Display(Name = "Ilość kas")]
         public int? ilość_kas { get; set; }

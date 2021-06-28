@@ -81,12 +81,9 @@ namespace P_zpp_2.Controllers
             shiftTwo.ShiftSetEndTime = DateTime.ParseExact(tuple.endTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
             shiftThree.ShiftSetBeginTime = DateTime.ParseExact(tuple.startThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
             shiftThree.ShiftSetEndTime = DateTime.ParseExact(tuple.endThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            if(tuple.długość_zmiany_w_dniach != null)
-            {
-                shiftOne.ShiftLengthInDays = (int)tuple.długość_zmiany_w_dniach;
-                shiftTwo.ShiftLengthInDays = (int)tuple.długość_zmiany_w_dniach;
-                shiftThree.ShiftLengthInDays = (int)tuple.długość_zmiany_w_dniach;
-            }
+            shiftOne.ShiftLengthInDays = (int)tuple.ShiftLengthInDays;
+            shiftTwo.ShiftLengthInDays = (int)tuple.ShiftLengthInDays;
+            shiftThree.ShiftLengthInDays = (int)tuple.ShiftLengthInDays;
             List<ShiftInfoForScheduleGenerating> listOfShifts = new List<ShiftInfoForScheduleGenerating>();
             listOfShifts.Add(shiftOne);
             listOfShifts.Add(shiftTwo);
@@ -95,7 +92,7 @@ namespace P_zpp_2.Controllers
             scheduleInstructions.CoordinatorId = coordinator.Id;
             foreach(var item in listOfShifts)
             {
-                if (item.ShiftSetBeginTime < item.ShiftSetEndTime)
+                if (item.ShiftSetBeginTime > item.ShiftSetEndTime)
                 {
                     item.IsOvernight = true;
                 }
