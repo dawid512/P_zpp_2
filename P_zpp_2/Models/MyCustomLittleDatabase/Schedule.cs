@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace P_zpp_2.Data
 {
+    /// <summary>
+    /// Table for schedule from database.
+    /// </summary>
     public class Schedule
     {
         [Key]
@@ -20,7 +23,7 @@ namespace P_zpp_2.Data
         [ForeignKey("CoordinatorId")]
         public virtual ApplicationUser Coordinaor { get; set; }
 
-        //FourBrigadeSystemConstructor
+
         public Schedule(string CoordinatorId, string ScheduleName, DateTime LastScheduleDay, string ScheduleInJSON, string? HangingDaysInJSON, string ScheduleType)
         {
             this.ScheduleName = ScheduleName;
