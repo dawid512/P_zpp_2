@@ -25,11 +25,13 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
             //sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 14, 0, 0), new DateTime(2020, 5, 31, 22, 0, 0),  4,  false)); //14-22
             //sifsg.Add(new ShiftInfoForScheduleGenerating(new DateTime(2020, 5, 1, 22, 0, 0), new DateTime(2020, 5, 31, 6, 0, 0),  4,  true));//22-6
 
+            d1 = new DateTime(2021, 6, 1);
+            d2 = new DateTime(2021, 6, 30);
 
             var teams = GetTeamsToAlgorithm(departmentId, db);
             var shiftInfoFromUser = JsonConvert.DeserializeObject<List<ShiftInfoForScheduleGenerating>>(si.ListOfShistsInJSON);
             var lastSchedule = GetLastSchedule(shiftInfoFromUser.First().ShiftSetBeginTime.Date, db);
-            var shifts = CreateShifts(shiftInfoFromUser, lastSchedule);
+            var shifts = CreateShifts(shiftInfoFromUser, lastSchedule, d1, d2);
             var ScheduleInDictionary = PutTeamsIntoShifts(shifts, teams, lastSchedule, shiftInfoFromUser);
 
             var ScheduleWithoutLeaves = GenerateSchedule(ScheduleInDictionary, teams);
@@ -120,6 +122,7 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
                     }
                 }
             }
+            var x = "";
             var eee = schedule.Item1.Last().Value.Last().ShiftBegin.Date;
             var yyy = JsonConvert.SerializeObject(schedule.Item1);
             var uuu = coordinatorId;
@@ -250,31 +253,31 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
             
             return Teams;
         }
-        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShifts(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule)
+        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShifts(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule, DateTime d1, DateTime d2)
         {
             List<LastShiftInfo> ListOfLastShiftInfos = new();
             List<ShiftGroup> GroupedShifts = new();
             if (lastSchedule == null)
             {
-                var tuple = CreateShiftsWithoutHangingDays(shiftInfoForScheduleGenerating, ListOfLastShiftInfos, GroupedShifts);
+                var tuple = CreateShiftsWithoutHangingDays(shiftInfoForScheduleGenerating, ListOfLastShiftInfos, GroupedShifts, d1, d2);
                 return tuple;
             }
             else
             {
-                var tuple = CreateShiftsWithHangingDays(shiftInfoForScheduleGenerating, lastSchedule, ListOfLastShiftInfos, GroupedShifts);
+                var tuple = CreateShiftsWithHangingDays(shiftInfoForScheduleGenerating, lastSchedule, ListOfLastShiftInfos, GroupedShifts, d1, d2);
                 return tuple;
             }
         }
-        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShiftsWithoutHangingDays(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, List<LastShiftInfo> ListOfLastShiftInfos, List<ShiftGroup> GroupedShifts)
+        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShiftsWithoutHangingDays(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, List<LastShiftInfo> ListOfLastShiftInfos, List<ShiftGroup> GroupedShifts, DateTime d1, DateTime d2)
         {
             var dateTimeList = new List<SingleShift>();
             var dateTimeListToAdd = new List<SingleShift>();
             bool isFirstShiftOfItsType = false;
             int ShiftNumber = 0;
-            var time = DateTime.DaysInMonth(2020, 8);
+            var time = (d2 - d1).Days;
             foreach (var item in shiftInfoForScheduleGenerating)
             {
-                for (int i = 1; i <= time; i++)
+                for (int i = d1.Date.Day; i <= time; i++)
                 {
                     var begin = new DateTime(DateTime.Now.Year, 5, i, item.ShiftSetBeginTime.Hour, item.ShiftSetBeginTime.Minute, item.ShiftSetBeginTime.Second);
                     DateTime end;
@@ -284,7 +287,7 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
                     }
                     else
                     {
-                        if (i == 31)
+                        if (i == d2.Day)
                         {
                             end = new DateTime(DateTime.Now.Year, 5 + 1, 1, item.ShiftSetEndTime.Hour, item.ShiftSetEndTime.Minute, item.ShiftSetEndTime.Second);
                         }
@@ -325,13 +328,13 @@ namespace P_zpp_2.ScheduleAlgoritms.FourBrigadeSystemAlgorithm
             return Tuple.Create(GroupedShifts, ListOfLastShiftInfos);
 
         }
-        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShiftsWithHangingDays(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule, List<LastShiftInfo> ListOfLastShiftInfos, List<ShiftGroup> GroupedShifts)
+        private Tuple<List<ShiftGroup>, List<LastShiftInfo>> CreateShiftsWithHangingDays(List<ShiftInfoForScheduleGenerating> shiftInfoForScheduleGenerating, CustomScheduleClass lastSchedule, List<LastShiftInfo> ListOfLastShiftInfos, List<ShiftGroup> GroupedShifts, DateTime d1, DateTime d2)
         {
             var dateTimeList = new List<SingleShift>();
             var dateTimeListToAdd = new List<SingleShift>();
             bool isFirstShiftOfItsType = false;
             int ShiftNumber = 0;
-            var time = DateTime.DaysInMonth(2020, 8);
+            var time = (d2 - d1).Days;
             foreach (var item in lastSchedule.HangingDays)
             {
                 var shiftInfo = shiftInfoForScheduleGenerating[item.ShiftType];

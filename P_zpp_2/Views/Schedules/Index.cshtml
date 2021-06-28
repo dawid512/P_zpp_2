@@ -56,7 +56,7 @@
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-secondary" asp-action="GenerateSchedule" asp-controller="Departures" asp-route-Id="@item.Id", asp-route-date1="@item.Id">Generuj</button>
+                                        <button type="submit" class="btn btn-secondary" asp-action="GenerateSchedule" asp-controller="Departures" asp-route-Id="@item.Id", asp-route-d1="@item.d1", asp-route-d2="@item.d2">Generuj</button>
                                     </td>
                                 </tr>
                             }
