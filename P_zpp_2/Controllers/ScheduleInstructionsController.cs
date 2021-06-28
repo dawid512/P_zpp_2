@@ -47,6 +47,13 @@ namespace P_zpp_2.Controllers
             var scheduleInstructions = await _context.ScheduleInstructions
                 .Include(s => s.Coordinator)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var shiftInfo = JsonSerializer.Deserialize<List<ShiftInfoForScheduleGenerating>>(scheduleInstructions.ListOfShistsInJSON);
+            scheduleInstructions.ListOfShistsInJSON = "";
+            foreach(var item in shiftInfo)
+            {
+                scheduleInstructions.ListOfShistsInJSON += String.Format("{0} - {1}\n",item.ShiftSetBeginTime.TimeOfDay.ToString(), item.ShiftSetEndTime.TimeOfDay.ToString());
+            }
+
             if (scheduleInstructions == null)
             {
                 return NotFound();
