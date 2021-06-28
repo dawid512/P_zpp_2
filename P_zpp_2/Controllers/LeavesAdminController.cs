@@ -29,6 +29,10 @@ namespace P_zpp_2.Controllers
 
         }
 
+        /// <summary>
+        /// Allows for presentation of all leaves of workers under particular coordinator
+        /// </summary>
+        /// <returns></returns>
         // GET: LeavesAdmin
         public async Task<IActionResult> Index()
         {
@@ -71,6 +75,13 @@ namespace P_zpp_2.Controllers
             }
             return View(leaves);
         }
+
+        /// <summary>
+        /// Allows for change of state for leave and showing of details regarding a leave
+        /// </summary>
+        /// <param name="id">Id of chosen leave</param>
+        /// <param name="leaves">Object representing leave</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details(int? id, [Bind("Id,CheckIn,CheckOut,Leavesname,Status,Status_zaakceptopwane,Status_odrzucone")] Leaves leaves)
@@ -124,6 +135,11 @@ namespace P_zpp_2.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Responsible for creation of leave
+        /// </summary>
+        /// <param name="leaves">Object representing leave</param>
+        /// <returns></returns>
         // POST: LeavesAdmin/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -153,6 +169,13 @@ namespace P_zpp_2.Controllers
             }
             return View(leaves);
         }
+
+        /// <summary>
+        /// Responsible for edition of existing leave
+        /// </summary>
+        /// <param name="id">Id of chosen leave</param>
+        /// <param name="leaves">Object representing leave</param>
+        /// <returns></returns>
 
         // POST: LeavesAdmin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -189,6 +212,11 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
+        /// <summary>
+        /// Shows data of leave before deletion and confirmation button
+        /// </summary>
+        /// <param name="id">Id of leave for deletion</param>
+        /// <returns></returns>
         // GET: LeavesAdmin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -207,6 +235,11 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
+        /// <summary>
+        /// Removes chosen leave
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // POST: LeavesAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

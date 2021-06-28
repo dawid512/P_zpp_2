@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ViewModels
 {
+    /// <summary>
+    /// Contains data needed for assigning companies with departments
+    /// </summary>
     public class CompanyDepartuersListViewModel : Departures
     {
         [Display(Name = "Firma")]

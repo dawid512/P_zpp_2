@@ -36,6 +36,11 @@ namespace P_zpp_2.Controllers
             return View(Tuple.Create( scheduleInstructions, algorithmName));
         }
 
+        /// <summary>
+        /// Shows details of selected instruction for algoritm
+        /// </summary>
+        /// <param name="id">Id of selected instruction</param>
+        /// <returns></returns>
         // GET: ScheduleInstructions/Details/5
         public async Task<IActionResult> Details(int? id )
         {
@@ -62,6 +67,11 @@ namespace P_zpp_2.Controllers
             return View(scheduleInstructions);
         }
 
+        /// <summary>
+        /// Creates view for creating instruction for algorithm
+        /// </summary>
+        /// <param name="algorithmName">Name of algorithm</param>
+        /// <returns></returns>
         // GET: ScheduleInstructions/Create
         public IActionResult Create(string? algorithmName)
         {
@@ -70,6 +80,11 @@ namespace P_zpp_2.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Creates algorithm instructions with ScheduleInstructionViewModel with json info
+        /// </summary>
+        /// <param name="tuple">Contains scheduleInstructions, shift length and days for this shift</param>
+        /// <returns></returns>
         // POST: ScheduleInstructions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -119,6 +134,12 @@ namespace P_zpp_2.Controllers
             return View(scheduleInstructions);
         }
 
+        /// <summary>
+        /// Creates view for edition of instructions
+        /// </summary>
+        /// <param name="id">Id of chosen instructions</param>
+        /// <param name="algorithmName">Algorithm name</param>
+        /// <returns></returns>
         // GET: ScheduleInstructions/Edit/5
         public async Task<IActionResult> Edit(int? id, string? algorithmName)
         {
@@ -137,6 +158,13 @@ namespace P_zpp_2.Controllers
             return View(schedule);
         }
 
+        /// <summary>
+        /// Updates chosen instructions for schedule
+        /// </summary>
+        /// <param name="id">Id of chosen instructions</param>
+        /// <param name="scheduleInstr">Contains scheduleInstructions, shift length and days for this shift</param>
+        /// <param name="algorithmName">Name of instructions for schedule</param>
+        /// <returns></returns>
         // POST: ScheduleInstructions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -208,6 +236,11 @@ namespace P_zpp_2.Controllers
             return View( scheduleInstr);
         }
 
+        /// <summary>
+        /// Shows details of instruction set to be deleted and confirmation button
+        /// </summary>
+        /// <param name="id">Id of instruction set</param>
+        /// <returns></returns>
         // GET: ScheduleInstructions/Delete/5
         public async Task<IActionResult> Delete(int? id )
         {
@@ -227,6 +260,11 @@ namespace P_zpp_2.Controllers
             return View(scheduleInstructions);
         }
 
+        /// <summary>
+        /// Deletes chosen instruction set
+        /// </summary>
+        /// <param name="id">Id of removed instruction set</param>
+        /// <returns></returns>
         // POST: ScheduleInstructions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

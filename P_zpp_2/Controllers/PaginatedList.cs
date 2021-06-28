@@ -35,6 +35,13 @@ namespace P_zpp_2.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates list with pagination
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="pageIndex">Current shown page</param>
+        /// <param name="pageSize">Number of pages</param>
+        /// <returns></returns>
         public static async Task<PaginatedList<T>> CreateAsync(
             IQueryable<T> source, int pageIndex, int pageSize)
         {

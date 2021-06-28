@@ -8,6 +8,9 @@ using System.Xml.Linq;
 
 namespace P_zpp_2.ViewModels
 {
+    /// <summary>
+    /// Represents viewmodel for scheduleInstructions, contains time of start and finish for shifts and datetime for shifts
+    /// </summary>
     public class ScheduleInstructionViewModel : ScheduleInstructions
     {
         public ScheduleInstructions scheduleInstructions { get; set; }

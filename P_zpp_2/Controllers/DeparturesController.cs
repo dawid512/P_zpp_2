@@ -26,13 +26,21 @@ namespace P_zpp_2.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Shows list of all existing departments
+        /// </summary>
+        /// <returns></returns>
         // GET: Departures
         public async Task<IActionResult> Index()
         {
-
             return View(await _context.departures.Include("CompanyID").ToListAsync());
         }
 
+        /// <summary>
+        /// Shows information about chosen departments with company assigned to it
+        /// </summary>
+        /// <param name="id">Id of chosen department</param>
+        /// <returns></returns>
         // GET: Departures/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -54,6 +62,10 @@ namespace P_zpp_2.Controllers
             return View(departures);
         }
 
+        /// <summary>
+        /// Allows to choose company for department during the process of creation
+        /// </summary>
+        /// <returns></returns>
         // GET: Departures/Create
         public IActionResult Create()
         {
@@ -62,12 +74,14 @@ namespace P_zpp_2.Controllers
 
             model.companyList = new SelectList(deps, "CompanyId", "CompanyName");
 
-
-
             return View(model);
-
         }
 
+        /// <summary>
+        /// Creates department with chosen name and company assigned to it
+        /// </summary>
+        /// <param name="departures">Department to create</param>
+        /// <returns></returns>
         // POST: Departures/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,6 +98,11 @@ namespace P_zpp_2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Allows for editing existing department and company assigned to it from view
+        /// </summary>
+        /// <param name="id">Id of department chosen for edition</param>
+        /// <returns></returns>
         // GET: Departures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,6 +115,12 @@ namespace P_zpp_2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Edition of chosen department with possible change of company assigned to it
+        /// </summary>
+        /// <param name="id">Id of chosen department</param>
+        /// <param name="deps">Represents whole model used in view</param>
+        /// <returns></returns>
         // POST: Departures/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -132,6 +157,13 @@ namespace P_zpp_2.Controllers
             return View(deps);
         }
 
+        /// <summary>
+        /// Generating new schedule for department
+        /// </summary>
+        /// <param name="id">Id of department</param>
+        /// <param name="d1">First day of shift</param>
+        /// <param name="d2">Last day of shift</param>
+        /// <returns></returns>
         public async Task<IActionResult> GenerateSchedule(int id, DateTime d1, DateTime d2)
         {
             var Instruction = _context.ScheduleInstructions.Where(x => x.Id == id).FirstOrDefault();
@@ -144,6 +176,11 @@ namespace P_zpp_2.Controllers
             return View(xxx);
         }
 
+        /// <summary>
+        /// Shows information and confirmation button before deletion
+        /// </summary>
+        /// <param name="id">Id of department to be deleted</param>
+        /// <returns></returns>
         // GET: Departures/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -162,6 +199,11 @@ namespace P_zpp_2.Controllers
             return View(departures);
         }
 
+        /// <summary>
+        /// Removes department from database
+        /// </summary>
+        /// <param name="id">Id of removed department</param>
+        /// <returns></returns>
         // POST: Departures/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

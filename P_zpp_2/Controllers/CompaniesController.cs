@@ -20,12 +20,21 @@ namespace P_zpp_2.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Shows list of all existing companies
+        /// </summary>
+        /// <returns></returns>
         // GET: Companies
         public async Task<IActionResult> Index()
         {
             return View(await _context.company.ToListAsync());
         }
 
+        /// <summary>
+        /// Shows parameters of company
+        /// </summary>
+        /// <param name="id">Id of chosen company</param>
+        /// <returns></returns>
         // GET: Companies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -55,6 +64,11 @@ namespace P_zpp_2.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Creates new company
+        /// </summary>
+        /// <param name="company">Object representing company</param>
+        /// <returns></returns>
         // POST: Companies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,6 +99,12 @@ namespace P_zpp_2.Controllers
             return View(company);
         }
 
+        /// <summary>
+        /// Edits chosen company, basing on its id and object
+        /// </summary>
+        /// <param name="id">Id of chosen company</param>
+        /// <param name="company">Object representing company</param>
+        /// <returns></returns>
         // POST: Companies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -118,7 +138,11 @@ namespace P_zpp_2.Controllers
             return View(company);
         }
 
-
+        /// <summary>
+        /// Shows current data of chosen company
+        /// </summary>
+        /// <param name="id">Id of chosen company</param>
+        /// <returns></returns>
         // GET: Companies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,6 +161,11 @@ namespace P_zpp_2.Controllers
             return View(company);
         }
 
+        /// <summary>
+        /// After pressing delete button, removes company object from database
+        /// </summary>
+        /// <param name="id">Id of chosen company</param>
+        /// <returns></returns>
         // POST: Companies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

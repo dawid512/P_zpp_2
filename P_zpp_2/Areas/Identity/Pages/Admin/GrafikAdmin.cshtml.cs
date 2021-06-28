@@ -41,9 +41,7 @@ namespace P_zpp_2.Areas.Identity.Pages.Admin
 
         public async void OnGetAsync(ApplicationUser user, int ScheduleId)
         {
-           
-
-           // var deps = _context.company.Select(x => x);
+            //var deps = _context.company.Select(x => x);
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
             var schedule = _context.schedules.Where(x => x.Id == 4).First();
             //scheduleInstructions = _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToList();

@@ -29,7 +29,10 @@ namespace P_zpp_2.Controllers
         }
 
       
-
+        /// <summary>
+        /// Presents leaves for workers after login
+        /// </summary>
+        /// <returns></returns>
         // GET: Leaves
         public async Task<IActionResult> Index()
         {
@@ -51,6 +54,11 @@ namespace P_zpp_2.Controllers
             return View(leavesPracownicyListViewModel);
         }
 
+        /// <summary>
+        /// Shows details for selected leave
+        /// </summary>
+        /// <param name="id">Id of selected leave</param>
+        /// <returns></returns>
         // GET: Leaves/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -76,6 +84,11 @@ namespace P_zpp_2.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Creates leave with selected reason and time
+        /// </summary>
+        /// <param name="leavesPracownicyListViewModel">ViewModel representing department, worker and leaves</param>
+        /// <returns></returns>
         // POST: Leaves/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -128,6 +141,12 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
+        /// <summary>
+        /// Edition of existing leave
+        /// </summary>
+        /// <param name="id">Id of leave to edit</param>
+        /// <param name="leaves">Object representing a leave</param>
+        /// <returns></returns>
         // POST: Leaves/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -161,6 +180,11 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
+        /// <summary>
+        /// Shows details of leave to delete and confirmation button
+        /// </summary>
+        /// <param name="id">Id of leave to delete</param>
+        /// <returns></returns>
         // GET: Leaves/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -179,6 +203,12 @@ namespace P_zpp_2.Controllers
             return View(leaves);
         }
 
+
+        /// <summary>
+        /// Removes selected leave
+        /// </summary>
+        /// <param name="id">Id of removed leave</param>
+        /// <returns></returns>
         // POST: Leaves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -190,6 +220,11 @@ namespace P_zpp_2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Checks if leave exists
+        /// </summary>
+        /// <param name="id">Id of leave to check</param>
+        /// <returns></returns>
         private bool LeavesExists(int id)
         {
             return _context.leaves.Any(e => e.Id == id);

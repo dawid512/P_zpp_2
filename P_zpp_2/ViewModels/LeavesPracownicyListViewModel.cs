@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace P_zpp_2.ViewModels
 {
+    /// <summary>
+    /// Contains information about leaves and departures, needed for leave management
+    /// </summary>
     public class LeavesPracownicyListViewModel : Leaves
     {
         public ICollection<Leaves> leaves { get; set; }
