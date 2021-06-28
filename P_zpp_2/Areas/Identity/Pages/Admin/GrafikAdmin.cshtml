@@ -36,7 +36,7 @@
         color: black;
     }
 
-    .btn-delete {
+ /*   .btn-delete {
         position: absolute;
         border-radius: 50%;
         top: 0px;
@@ -54,7 +54,7 @@
         border: 0px;
         font-size: 11px;
         color: black;
-        font-weight: 700;
+        font-weight: 700;*/
     }
 </style>
 
@@ -63,7 +63,7 @@
 <!-- Modal -->
 <div class="modal fade" id="AddLeavesModal" tabindex="-1" role="dialog" aria-labelledby="AddLeadesModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 752px">
             <div class="modal-header">
                 <h5 class="modal-title" id="AddLeavesModalLabel">Dodaj grafik</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -78,6 +78,18 @@
                             <tr>
                                 <th>
                                     <a class="napis-label">
+                                       Od
+                                    </a>
+
+                                </th>
+                                <th>
+                                    <a class="napis-label">
+                                        Do
+                                    </a>
+
+                                </th>
+                                <th>
+                                    <a class="napis-label">
                                         @Html.DisplayNameFor(model => model.scheduleInstructions)
                                     </a>
 
@@ -88,14 +100,20 @@
                         <tbody>
                             @foreach (var item in Model.scheduleInstructions)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        <button type="submit" class="btn btn-secondary" asp-action="GenerateSchedule" asp-controller="Departures" asp-route-Id="@item.Id">Generuj</button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <input type="date" asp-for=@item.Name  class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="date" asp-for=@item.Name  class="form-control" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-secondary" asp-action="GenerateSchedule" asp-controller="Departures" asp-route-Id="@item.Id">Generuj</button>
+                                </td>
+                            </tr>
                             }
                         </tbody>
 

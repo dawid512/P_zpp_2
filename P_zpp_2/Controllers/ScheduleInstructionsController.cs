@@ -159,11 +159,11 @@ namespace P_zpp_2.Controllers
             shiftTwo.ShiftSetEndTime = DateTime.ParseExact(scheduleInstr.endTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
             shiftThree.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstr.startThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
             shiftThree.ShiftSetEndTime = DateTime.ParseExact(scheduleInstr.endThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
-            if (scheduleInstr.długość_zmiany_w_dniach != null)
+            if (scheduleInstr.ShiftLengthInDays != null)
             {
-                shiftOne.ShiftLengthInDays = (int)scheduleInstr.długość_zmiany_w_dniach;
-                shiftTwo.ShiftLengthInDays = (int)scheduleInstr.długość_zmiany_w_dniach;
-                shiftThree.ShiftLengthInDays = (int)scheduleInstr.długość_zmiany_w_dniach;
+                shiftOne.ShiftLengthInDays = (int)scheduleInstr.ShiftLengthInDays;
+                shiftTwo.ShiftLengthInDays = (int)scheduleInstr.ShiftLengthInDays;
+                shiftThree.ShiftLengthInDays = (int)scheduleInstr.ShiftLengthInDays;
             }
             List<ShiftInfoForScheduleGenerating> listOfShifts = new List<ShiftInfoForScheduleGenerating>();
             listOfShifts.Add(shiftOne);
