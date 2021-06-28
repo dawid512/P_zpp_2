@@ -16,5 +16,9 @@ namespace P_zpp_2.ScheduleAlgoritms.RetailAlgoritm.Structures
         public DateTime ClosingShift_EndingTime { get; set; }
         public DateTime RushShiftRotation_BeginningTime { get; set; }
         public DateTime RushShiftRotation_EndingTime { get; set; }
+
+        public ShiftInfo()
+        {
+        }
     }
 }

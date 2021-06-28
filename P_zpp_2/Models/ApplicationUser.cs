@@ -32,5 +32,7 @@ namespace P_zpp_2.Models
         public string SpecialInfo { get; set; }
         public int? DeptId { get; set; }
         public virtual Departures departure { get; set; }
+
+        
     }
 }
