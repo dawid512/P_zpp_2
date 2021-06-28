@@ -142,23 +142,58 @@ namespace P_zpp_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ScheduleInstructions scheduleInstructions, string? algorithmName)
+        public async Task<IActionResult> Edit(int id, /*[Bind("Id,Name")]*/ ScheduleInstructionViewModel scheduleInstr, string? algorithmName)
         {
-            if (id != scheduleInstructions.Id)
+            if (id != scheduleInstr.Id)
             {
                 return NotFound();
             }
+
+            scheduleInstr.Name = scheduleInstr.scheduleInstructions.Name;
+            ShiftInfoForScheduleGenerating shiftOne = new ShiftInfoForScheduleGenerating();
+            ShiftInfoForScheduleGenerating shiftTwo = new ShiftInfoForScheduleGenerating();
+            ShiftInfoForScheduleGenerating shiftThree = new ShiftInfoForScheduleGenerating();
+            shiftOne.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstr.startOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftOne.ShiftSetEndTime = DateTime.ParseExact(scheduleInstr.endOne, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftTwo.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstr.startTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftTwo.ShiftSetEndTime = DateTime.ParseExact(scheduleInstr.endTwo, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftThree.ShiftSetBeginTime = DateTime.ParseExact(scheduleInstr.startThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            shiftThree.ShiftSetEndTime = DateTime.ParseExact(scheduleInstr.endThree, "H:mm", null, System.Globalization.DateTimeStyles.None);
+            if (scheduleInstr.długość_zmiany_w_dniach != null)
+            {
+                shiftOne.ShiftLengthInDays = (int)scheduleInstr.długość_zmiany_w_dniach;
+                shiftTwo.ShiftLengthInDays = (int)scheduleInstr.długość_zmiany_w_dniach;
+                shiftThree.ShiftLengthInDays = (int)scheduleInstr.długość_zmiany_w_dniach;
+            }
+            List<ShiftInfoForScheduleGenerating> listOfShifts = new List<ShiftInfoForScheduleGenerating>();
+            listOfShifts.Add(shiftOne);
+            listOfShifts.Add(shiftTwo);
+            listOfShifts.Add(shiftThree);
+            var coordinator = await _userManager.GetUserAsync(User);
+            scheduleInstr.CoordinatorId = coordinator.Id;
+            foreach (var item in listOfShifts)
+            {
+                if (item.ShiftSetBeginTime > item.ShiftSetEndTime)
+                {
+                    item.IsOvernight = true;
+                }
+                else
+                {
+                    item.IsOvernight = false;
+                }
+            }
+            scheduleInstr.ListOfShistsInJSON = JsonSerializer.Serialize(listOfShifts);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(scheduleInstructions);
+                    _context.Update(scheduleInstr);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ScheduleInstructionsExists(scheduleInstructions.Id))
+                    if (!ScheduleInstructionsExists(scheduleInstr.Id))
                     {
                         return NotFound();
                     }
@@ -169,8 +204,8 @@ namespace P_zpp_2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", scheduleInstructions.CoordinatorId);
-            return View( algorithmName);
+            ViewData["CoordinatorId"] = new SelectList(_context.Users, "Id", "Id", scheduleInstr.CoordinatorId);
+            return View( scheduleInstr);
         }
 
         // GET: ScheduleInstructions/Delete/5
