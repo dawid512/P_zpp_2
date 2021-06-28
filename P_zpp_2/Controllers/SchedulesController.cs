@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using P_zpp_2.Data;
 using P_zpp_2.Models;
 using P_zpp_2.Models.MyCustomLittleDatabase;
+using P_zpp_2.ViewModels;
 
 namespace P_zpp_2.Controllers
 {
@@ -22,7 +23,7 @@ namespace P_zpp_2.Controllers
             _context = context;
             _userManager = userManager;
         }
-     
+
 
         // GET: Schedules
         public async Task<IActionResult> Index(ApplicationUser user)
@@ -30,11 +31,24 @@ namespace P_zpp_2.Controllers
             var querry = await _context.schedules.ToListAsync();
 
             var actualCoordinatorID = await _userManager.GetUserIdAsync(user);
+            List<ScheduleInstructionViewModel> sivm = new();
+            var ScheduleInstructionss = await _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToListAsync();
+            var count = ScheduleInstructionss.Count;
+            foreach (var item in ScheduleInstructionss)
+            {
+                ScheduleInstructionViewModel ssss = new();
+                ssss.Id = item.Id;
+                ssss.Name = item.Name;
+                ssss.ListOfShistsInJSON = item.ListOfShistsInJSON;
+                ssss.CoordinatorId = item.CoordinatorId;
+                ssss.startOne = "";
+                ssss.endOne = "";
+                ssss.startTwo = "";
+                ssss.endTwo = "";
+                sivm.Add(ssss);
+            }
 
-            var ScheduleInstructions = await _context.ScheduleInstructions/*.Where(x => x.CoordinatorId == actualCoordinatorID)*/.ToListAsync();
-
-            
-            return View( Tuple.Create( querry, ScheduleInstructions));
+            return View(Tuple.Create(querry, sivm));
         }
 
         // GET: Schedules/Details/5

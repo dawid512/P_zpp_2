@@ -24,6 +24,8 @@ namespace P_zpp_2.ViewModels
         public string? endFive { get; set; }
         public string? ScheduleType { get; set; }
         public int? ShiftLengthInDays { get; set; }
+        public DateTime? d1 { get; set; }
+        public DateTime? d2 { get; set; }
 
         [Display(Name = "Ilość kas")]
         public int? ilość_kas { get; set; }

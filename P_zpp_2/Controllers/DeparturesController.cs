@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -131,7 +132,7 @@ namespace P_zpp_2.Controllers
             return View(deps);
         }
 
-        public async Task<IActionResult> GenerateSchedule(int id)
+        public async Task<IActionResult> GenerateSchedule(int id, DateTime d1, DateTime d2)
         {
             var Instruction = _context.ScheduleInstructions.Where(x => x.Id == id).FirstOrDefault();
             FourBrigadeSystem fbs = new();
@@ -139,8 +140,8 @@ namespace P_zpp_2.Controllers
             var userId = _userManager.GetUserId(User);
             var depId = await _context.Users.Where(x => x.DeptId == user.DeptId).FirstOrDefaultAsync();
             var context = _context;
-            var xxx = fbs.Generate(userId, Instruction, (int)depId.DeptId, context);
-            return View();
+            var xxx = fbs.Generate(userId, Instruction, (int)depId.DeptId, context, d1, d2);
+            return View(xxx);
         }
 
         // GET: Departures/Delete/5
